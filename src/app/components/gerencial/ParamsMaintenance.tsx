@@ -39,19 +39,231 @@ const categories = [
   { id: "protocolos", name: "Protocolos",            icon: ScrollText,  color: "rose" },
 ];
 
+const estadoCatalogoOptions = ["DISPONIBLE", "NO DISPONIBLE"];
+
+const vehiculosSelects = {
+  claseVehiculo: ["Minibús", "Autobús", "Automóvil", "SUV 4x4", "Camión Frigorífico"],
+  tipoInsumo: ["95 Octanos", "Electricidad", "Gas", "Diésel", "Petróleo"],
+  terrenoSoportado: ["Plano", "Montañoso", "Trocha", "Asfaltado"],
+  nivelBlindaje: ["NA", "RB nivel 3", "RB nivel 4", "RB nivel 5", "RB nivel 6", "RB nivel 7"],
+};
+
+const operariosSelects = {
+  rolFuncion: ["Conductor", "Cargador/Descargador", "Copiloto", "Ayudante", "Terrazoza"],
+  tipoAsignacion: ["Transporte V.", "Pesado", "Troncal", "Ligero", "Apoyo logístico"],
+  especialidad: ["Manejo", "Cargador", "Atención al Pasajero"],
+  categoriaContractual: ["Contratado", "Temporal", "Autónomo", "Tercerizado"],
+  licenciaRequerida: ["NA", "A-IIIA", "A-IIIB", "A-IIIC"],
+  alcanceRuta: ["Urbano", "Ruta Nacional", "Ruta Internacional"],
+  modalidadCosteo: ["Sueldo Fijo", "Pago por Viaje", "Pago por Km", "Pago por Horas"],
+};
+
+const sedesSelects = {
+  claseSede: ["Terminal Terrestre", "Almacén Logístico", "Agencia Mixta", "Punto de Venta"],
+  categoriaPlaza: ["Sede Principal (Hub)", "Sede Regional", "Agencia de Paso", "Sucursal Fronteriza"],
+  paisOperacion: ["Perú", "Chile", "Argentina", "Bolivia", "Ecuador", "Colombia"],
+  regionCiudad: ["Lima", "Arequipa", "Santiago", "Buenos Aires", "La Paz", "Zaguayquil"],
+  nivelSeguridadAduana: ["Básico", "Alta Seguridad (Bóveda)", "Control Aduanero"],
+};
+
+const contenedoresSelects = {
+  claseContenedor: ["Bodega Estándar (Bus)", "Tolva", "Contenedor Frigorífico", "Cisterna", "Jaula (Carga Viva)"],
+  nivelPeligrosidadSoportada: [
+    "NULO",
+    "Carga General",
+    "041-CRYO (Criogénico)",
+    "000-BIO (Biológico)",
+    "322-W (Químico/Inflamable)",
+  ],
+  materialRevestimiento: ["Aluminio Estándar", "Acero inoxidable", "Poliuretano Aislante"],
+};
+
+const bienesSelects = {
+  claseBienNaturaleza: ["Carga General", "Perecible", "Frágil", "Carga Viva", "Valorada", "Peligrosa"],
+  unidadMedidaBase: ["KG", "M3", "TN", "LIBRAS", "UNIDAD"],
+  nivelPeligrosidad: ["NULO", "041-CRYO", "000-BIO", "322-W", "EXPLOSIVO"],
+};
+
+const unidadesSelects = {
+  magnitudFisica: ["Peso/Masa", "Volumen", "Longitud/Distancia", "Tiempo", "Cantidad/Unidad"],
+};
+
+const clientesSelects = {
+  categoriaPerfil: ["VIP", "Normal", "Corporativo", "Potencial", "Deficiente"],
+  origenAfiliacion: ["Campaña A", "Campaña B", "Orgánico", "Convenio"],
+  segmentoSocioeconomico: ["A", "B", "C", "D", "E"],
+  lugarResidencia: ["Nacional", "Extranjero"],
+  limiteCreditoMax: ["0", "1000", "5000", "50000"],
+  rangoMontoComprasMin: ["0", "10000", "50000"],
+  rangoAntiguedadMesesMin: ["0", "12", "24", "60"],
+};
+
 const vehiculosData = [
-  { id: 1, placa: "ABC-123", modelo: "Mercedes-Benz Sprinter", capacidad: 20, estado: "Activo",       ultimoMant: "10/04/2026" },
-  { id: 2, placa: "XYZ-789", modelo: "Volvo 9700",             capacidad: 45, estado: "Activo",       ultimoMant: "05/04/2026" },
-  { id: 3, placa: "DEF-456", modelo: "Scania K410",            capacidad: 52, estado: "Mantenimiento",ultimoMant: "01/04/2026" },
-  { id: 4, placa: "GHI-321", modelo: "Mercedes-Benz O500",     capacidad: 48, estado: "Activo",       ultimoMant: "12/04/2026" },
-  { id: 5, placa: "JKL-654", modelo: "Iveco Daily",            capacidad: 18, estado: "Activo",       ultimoMant: "08/04/2026" },
+  {
+    id: 1,
+    idTipoVehiculo: "T-VE-001",
+    claseVehiculo: "Autobús",
+    marca: "Volvo",
+    modelo: "Volvo 9700",
+    capacidadPasajeros: 45,
+    pesoMaxCargaKg: 2000,
+    volumenMaxBodegaM3: 20,
+    tipoInsumo: "Diésel",
+    capacidadTanque: 70,
+    rendimientoConsumo: "4 L/100km",
+    terrenoSoportado: "Asfaltado",
+    tieneRefrigeracion: "No",
+    temperaturaMinima: "",
+    nivelBlindaje: "NA",
+    estadoCatalogo: "DISPONIBLE",
+  },
+  {
+    id: 2,
+    idTipoVehiculo: "T-VE-002",
+    claseVehiculo: "Minibús",
+    marca: "Mercedes-Benz",
+    modelo: "Sprinter",
+    capacidadPasajeros: 20,
+    pesoMaxCargaKg: 1000,
+    volumenMaxBodegaM3: 15,
+    tipoInsumo: "95 Octanos",
+    capacidadTanque: 70,
+    rendimientoConsumo: "10 Km/L",
+    terrenoSoportado: "Plano",
+    tieneRefrigeracion: "No",
+    temperaturaMinima: "",
+    nivelBlindaje: "NA",
+    estadoCatalogo: "DISPONIBLE",
+  },
+  {
+    id: 3,
+    idTipoVehiculo: "T-VE-003",
+    claseVehiculo: "Camión Frigorífico",
+    marca: "Iveco",
+    modelo: "Daily",
+    capacidadPasajeros: 2,
+    pesoMaxCargaKg: 10000,
+    volumenMaxBodegaM3: 30,
+    tipoInsumo: "Diésel",
+    capacidadTanque: 70,
+    rendimientoConsumo: "4 L/100km",
+    terrenoSoportado: "Trocha",
+    tieneRefrigeracion: "Sí",
+    temperaturaMinima: -18,
+    nivelBlindaje: "NA",
+    estadoCatalogo: "NO DISPONIBLE",
+  },
 ];
 
 const operariosData = [
-  { id: 1, nombre: "Carlos Mendoza",  dni: "12345678", cargo: "Conductor",  licencia: "A-IIIc", estado: "Activo"    },
-  { id: 2, nombre: "Ana García",      dni: "87654321", cargo: "Copiloto",   licencia: "A-I",    estado: "Activo"    },
-  { id: 3, nombre: "Luis Torres",     dni: "45678912", cargo: "Conductor",  licencia: "A-IIIb", estado: "Vacaciones"},
-  { id: 4, nombre: "María Santos",    dni: "78912345", cargo: "Supervisor", licencia: "-",      estado: "Activo"    },
+  {
+    id: 1,
+    idTipoOperario: "T-OP-001",
+    rolFuncion: "Conductor",
+    tipoAsignacion: "Pesado",
+    especialidad: "Manejo",
+    categoriaContractual: "Contratado",
+    licenciaRequerida: "A-IIIC",
+    habilitadoCargaPeligrosa: "Sí",
+    habilitadoCargaValorada: "Sí",
+    alcanceRuta: "Ruta Nacional",
+    modalidadCosteo: "Sueldo Fijo",
+    estadoCatalogo: "DISPONIBLE",
+  },
+  {
+    id: 2,
+    idTipoOperario: "T-OP-002",
+    rolFuncion: "Copiloto",
+    tipoAsignacion: "Ligero",
+    especialidad: "Atención al Pasajero",
+    categoriaContractual: "Temporal",
+    licenciaRequerida: "NA",
+    habilitadoCargaPeligrosa: "No",
+    habilitadoCargaValorada: "No",
+    alcanceRuta: "Urbano",
+    modalidadCosteo: "Pago por Viaje",
+    estadoCatalogo: "DISPONIBLE",
+  },
+  {
+    id: 3,
+    idTipoOperario: "T-OP-003",
+    rolFuncion: "Cargador/Descargador",
+    tipoAsignacion: "Troncal",
+    especialidad: "Cargador",
+    categoriaContractual: "Tercerizado",
+    licenciaRequerida: "NA",
+    habilitadoCargaPeligrosa: "Sí",
+    habilitadoCargaValorada: "No",
+    alcanceRuta: "Ruta Internacional",
+    modalidadCosteo: "Pago por Horas",
+    estadoCatalogo: "NO DISPONIBLE",
+  },
+];
+
+const sedesData = [
+  { id: 1, idTipoSede: "T-SE-001", claseSede: "Terminal Terrestre", categoriaPlaza: "Sede Principal (Hub)", paisOperacion: "Perú", regionCiudad: "Lima", estadoCatalogo: "DISPONIBLE" },
+  { id: 2, idTipoSede: "T-SE-002", claseSede: "Agencia Mixta", categoriaPlaza: "Sede Regional", paisOperacion: "Perú", regionCiudad: "Arequipa", estadoCatalogo: "DISPONIBLE" },
+  { id: 3, idTipoSede: "T-SE-003", claseSede: "Almacén Logístico", categoriaPlaza: "Agencia de Paso", paisOperacion: "Chile", regionCiudad: "Santiago", estadoCatalogo: "NO DISPONIBLE" },
+];
+
+const contenedoresData = [
+  { id: 1, idTipoContenedor: "T-CO-001", claseContenedor: "Bodega Estándar (Bus)", capacidadVolumenMaxM3: 10.2, capacidadPesoMaxTon: 2.5, nivelPeligrosidadSoportada: "Carga General", nivelRefrigeracion: "No", estadoCatalogo: "DISPONIBLE" },
+  { id: 2, idTipoContenedor: "T-CO-002", claseContenedor: "Contenedor Frigorífico", capacidadVolumenMaxM3: 8.5, capacidadPesoMaxTon: 1.8, nivelPeligrosidadSoportada: "000-BIO (Biológico)", nivelRefrigeracion: "Sí", estadoCatalogo: "DISPONIBLE" },
+  { id: 3, idTipoContenedor: "T-CO-003", claseContenedor: "Cisterna", capacidadVolumenMaxM3: 12.0, capacidadPesoMaxTon: 3.0, nivelPeligrosidadSoportada: "322-W (Químico/Inflamable)", nivelRefrigeracion: "No", estadoCatalogo: "NO DISPONIBLE" },
+];
+
+const bienesData = [
+  { id: 1, idTipoBien: "T-BI-001", claseBienNaturaleza: "Carga General", unidadMedidaBase: "KG", nivelPeligrosidad: "NULO", requiereCadenaFrio: "No", estadoCatalogo: "DISPONIBLE" },
+  { id: 2, idTipoBien: "T-BI-002", claseBienNaturaleza: "Perecible", unidadMedidaBase: "KG", nivelPeligrosidad: "NULO", requiereCadenaFrio: "Sí", estadoCatalogo: "DISPONIBLE" },
+  { id: 3, idTipoBien: "T-BI-003", claseBienNaturaleza: "Peligrosa", unidadMedidaBase: "UNIDAD", nivelPeligrosidad: "322-W", requiereCadenaFrio: "No", estadoCatalogo: "NO DISPONIBLE" },
+];
+
+const unidadesData = [
+  { id: 1, idUnidadMedida: "T-UM-001", magnitudFisica: "Peso/Masa", nombreUnidad: "Gramo", abreviatura: "G", esUnidadBase: "No", factorConversionBase: 0.001, estadoCatalogo: "DISPONIBLE" },
+  { id: 2, idUnidadMedida: "T-UM-013", magnitudFisica: "Peso/Masa", nombreUnidad: "Kilogramo", abreviatura: "KG", esUnidadBase: "Sí", factorConversionBase: 1, estadoCatalogo: "DISPONIBLE" },
+  { id: 3, idUnidadMedida: "T-UM-043", magnitudFisica: "Volumen", nombreUnidad: "Metro Cúbico", abreviatura: "M3", esUnidadBase: "Sí", factorConversionBase: 1, estadoCatalogo: "DISPONIBLE" },
+];
+
+const clientesData = [
+  {
+    id: 1,
+    idTipoCliente: "T-CL-001",
+    categoriaPerfil: "VIP",
+    origenAfiliacion: "Campaña A",
+    segmentoSocioeconomico: "A",
+    lugarResidencia: "Nacional",
+    aplicaLineaCredito: "Sí",
+    limiteCreditoMax: 50000,
+    rangoMontoComprasMin: 50000,
+    rangoAntiguedadMesesMin: 24,
+    estadoCatalogo: "DISPONIBLE",
+  },
+  {
+    id: 2,
+    idTipoCliente: "T-CL-002",
+    categoriaPerfil: "Normal",
+    origenAfiliacion: "Orgánico",
+    segmentoSocioeconomico: "C",
+    lugarResidencia: "Nacional",
+    aplicaLineaCredito: "No",
+    limiteCreditoMax: 0,
+    rangoMontoComprasMin: 0,
+    rangoAntiguedadMesesMin: 0,
+    estadoCatalogo: "DISPONIBLE",
+  },
+  {
+    id: 3,
+    idTipoCliente: "T-CL-003",
+    categoriaPerfil: "Corporativo",
+    origenAfiliacion: "Convenio",
+    segmentoSocioeconomico: "B",
+    lugarResidencia: "Extranjero",
+    aplicaLineaCredito: "Sí",
+    limiteCreditoMax: 5000,
+    rangoMontoComprasMin: 10000,
+    rangoAntiguedadMesesMin: 60,
+    estadoCatalogo: "NO DISPONIBLE",
+  },
 ];
 
 const serviciosData = [
@@ -152,6 +364,7 @@ interface FormField {
   label: string;
   type: "text" | "select" | "number" | "textarea";
   options?: string[];
+  allowCustom?: boolean;
   optional?: boolean;
   placeholder?: string;
 }
@@ -162,19 +375,81 @@ function getCategoryColumns(cat: string): any[] {
   switch (cat) {
     case "vehiculos":
       return [
-        { key: "placa",      label: "Placa",    sortable: true },
-        { key: "modelo",     label: "Modelo",   sortable: true },
-        { key: "capacidad",  label: "Capacidad" },
-        { key: "estado",     label: "Estado",   render: (i: any) => estadoBadge(i.estado) },
-        { key: "ultimoMant", label: "Último Mantenimiento" },
+        { key: "idTipoVehiculo",     label: "Código", sortable: true },
+        { key: "claseVehiculo",      label: "Clase" },
+        { key: "marca",              label: "Marca" },
+        { key: "modelo",             label: "Modelo", sortable: true },
+        { key: "capacidadPasajeros", label: "Cap. Pasajeros", sortable: true },
+        { key: "pesoMaxCargaKg",     label: "Peso Máx (Kg)", sortable: true },
+        { key: "volumenMaxBodegaM3", label: "Volumen Máx (m³)", sortable: true },
+        { key: "tipoInsumo",         label: "Tipo Insumo" },
+        { key: "terrenoSoportado",   label: "Terreno" },
+        { key: "tieneRefrigeracion", label: "Refrigeración", render: (i: any) => siNoBadge(i.tieneRefrigeracion) },
+        { key: "estadoCatalogo",     label: "Estado", render: (i: any) => <span className="font-medium">{i.estadoCatalogo}</span> },
       ];
     case "operarios":
       return [
-        { key: "nombre",   label: "Nombre",   sortable: true },
-        { key: "dni",      label: "DNI" },
-        { key: "cargo",    label: "Cargo" },
-        { key: "licencia", label: "Licencia" },
-        { key: "estado",   label: "Estado",   render: (i: any) => estadoBadge(i.estado) },
+        { key: "idTipoOperario",           label: "Código", sortable: true },
+        { key: "rolFuncion",              label: "Rol/Función", sortable: true },
+        { key: "tipoAsignacion",          label: "Asignación" },
+        { key: "categoriaContractual",    label: "Contrato" },
+        { key: "licenciaRequerida",       label: "Licencia" },
+        { key: "habilitadoCargaPeligrosa",label: "Carga Peligrosa", render: (i: any) => siNoBadge(i.habilitadoCargaPeligrosa) },
+        { key: "habilitadoCargaValorada", label: "Carga Valorada", render: (i: any) => siNoBadge(i.habilitadoCargaValorada) },
+        { key: "alcanceRuta",             label: "Alcance" },
+        { key: "modalidadCosteo",         label: "Costeo" },
+        { key: "estadoCatalogo",          label: "Estado", render: (i: any) => <span className="font-medium">{i.estadoCatalogo}</span> },
+      ];
+    case "sedes":
+      return [
+        { key: "idTipoSede",     label: "Código", sortable: true },
+        { key: "claseSede",      label: "Clase" },
+        { key: "categoriaPlaza", label: "Categoría" },
+        { key: "paisOperacion",  label: "País" },
+        { key: "regionCiudad",   label: "Región/Ciudad" },
+        { key: "estadoCatalogo", label: "Estado", render: (i: any) => <span className="font-medium">{i.estadoCatalogo}</span> },
+      ];
+    case "contenedores":
+      return [
+        { key: "idTipoContenedor",          label: "Código", sortable: true },
+        { key: "claseContenedor",          label: "Clase" },
+        { key: "capacidadVolumenMaxM3",    label: "Volumen Máx (m³)", sortable: true },
+        { key: "capacidadPesoMaxTon",      label: "Peso Máx (Ton)", sortable: true },
+        { key: "nivelPeligrosidadSoportada",label: "Peligrosidad" },
+        { key: "nivelRefrigeracion",       label: "Refrigeración", render: (i: any) => siNoBadge(i.nivelRefrigeracion) },
+        { key: "estadoCatalogo",           label: "Estado", render: (i: any) => <span className="font-medium">{i.estadoCatalogo}</span> },
+      ];
+    case "bienes":
+      return [
+        { key: "idTipoBien",        label: "Código", sortable: true },
+        { key: "claseBienNaturaleza",label: "Clase" },
+        { key: "unidadMedidaBase",  label: "UM Base" },
+        { key: "nivelPeligrosidad", label: "Peligrosidad" },
+        { key: "requiereCadenaFrio",label: "Cadena Frío", render: (i: any) => siNoBadge(i.requiereCadenaFrio) },
+        { key: "estadoCatalogo",    label: "Estado", render: (i: any) => <span className="font-medium">{i.estadoCatalogo}</span> },
+      ];
+    case "unidades":
+      return [
+        { key: "idUnidadMedida",      label: "Código", sortable: true },
+        { key: "magnitudFisica",      label: "Magnitud" },
+        { key: "nombreUnidad",        label: "Nombre" },
+        { key: "abreviatura",         label: "Abrev." },
+        { key: "esUnidadBase",        label: "Unidad Base", render: (i: any) => siNoBadge(i.esUnidadBase) },
+        { key: "factorConversionBase",label: "Factor", sortable: true },
+        { key: "estadoCatalogo",      label: "Estado", render: (i: any) => <span className="font-medium">{i.estadoCatalogo}</span> },
+      ];
+    case "clientes":
+      return [
+        { key: "idTipoCliente",           label: "Código", sortable: true },
+        { key: "categoriaPerfil",         label: "Perfil", sortable: true },
+        { key: "origenAfiliacion",        label: "Origen Afiliación" },
+        { key: "segmentoSocioeconomico",  label: "Segmento" },
+        { key: "lugarResidencia",         label: "Residencia" },
+        { key: "aplicaLineaCredito",      label: "Línea Crédito", render: (i: any) => siNoBadge(i.aplicaLineaCredito) },
+        { key: "limiteCreditoMax",        label: "Límite Crédito Máx", sortable: true },
+        { key: "rangoMontoComprasMin",    label: "Monto Compras Min", sortable: true },
+        { key: "rangoAntiguedadMesesMin", label: "Antigüedad Min (meses)", sortable: true },
+        { key: "estadoCatalogo",          label: "Estado", render: (i: any) => <span className="font-medium">{i.estadoCatalogo}</span> },
       ];
     case "servicios":
       return [
@@ -257,6 +532,11 @@ function getCategoryData(cat: string): any[] {
   switch (cat) {
     case "vehiculos":   return vehiculosData;
     case "operarios":   return operariosData;
+    case "sedes":       return sedesData;
+    case "contenedores":return contenedoresData;
+    case "bienes":      return bienesData;
+    case "unidades":    return unidadesData;
+    case "clientes":    return clientesData;
     case "servicios":   return serviciosData;
     case "rutas":       return rutasData;
     case "horarios":    return horariosData;
@@ -270,6 +550,100 @@ function getCategoryData(cat: string): any[] {
 
 function getCategoryFormFields(cat: string): FormField[] {
   switch (cat) {
+    case "vehiculos":
+      return [
+        { key: "idTipoVehiculo",      label: "ID Tipo Vehículo",         type: "text",   placeholder: "Ej: T-VE-001" },
+        { key: "claseVehiculo",       label: "Clase Vehículo",           type: "select", options: vehiculosSelects.claseVehiculo, allowCustom: true },
+        { key: "marca",               label: "Marca",                    type: "text",   placeholder: "Ej: Volvo" },
+        { key: "modelo",              label: "Modelo",                   type: "text",   placeholder: "Ej: Scania 1800" },
+        { key: "capacidadPasajeros",  label: "Capacidad Pasajeros",      type: "number", placeholder: "Ej: 40" },
+        { key: "pesoMaxCargaKg",      label: "Peso Máx. Carga (Kg)",     type: "number", placeholder: "Ej: 1000" },
+        { key: "volumenMaxBodegaM3",  label: "Volumen Máx. Bodega (m³)", type: "number", placeholder: "Ej: 15" },
+        { key: "tipoInsumo",          label: "Tipo Insumo",              type: "select", options: vehiculosSelects.tipoInsumo, allowCustom: true },
+        { key: "capacidadTanque",     label: "Capacidad Tanque",         type: "number", placeholder: "Ej: 70" },
+        { key: "rendimientoConsumo",  label: "Rendimiento Consumo",      type: "text",   placeholder: "Ej: 4 L/100km" },
+        { key: "terrenoSoportado",    label: "Terreno Soportado",        type: "select", options: vehiculosSelects.terrenoSoportado, allowCustom: true },
+        { key: "tieneRefrigeracion",  label: "Tiene Refrigeración",      type: "select", options: ["Sí","No"] },
+        { key: "temperaturaMinima",   label: "Temperatura Mínima (°C)",  type: "number", optional: true, placeholder: "Ej: -18" },
+        { key: "nivelBlindaje",       label: "Nivel Blindaje",           type: "select", options: vehiculosSelects.nivelBlindaje, optional: true },
+        { key: "estadoCatalogo",      label: "Estado Catálogo",          type: "select", options: estadoCatalogoOptions },
+      ];
+    case "operarios":
+      return [
+        { key: "idTipoOperario",           label: "ID Tipo Operario",            type: "text",   placeholder: "Ej: T-OP-001" },
+        { key: "rolFuncion",              label: "Rol/Función",                  type: "select", options: operariosSelects.rolFuncion, allowCustom: true },
+        { key: "tipoAsignacion",          label: "Tipo Asignación",              type: "select", options: operariosSelects.tipoAsignacion, allowCustom: true },
+        { key: "especialidad",            label: "Especialidad",                 type: "select", options: operariosSelects.especialidad, allowCustom: true, optional: true },
+        { key: "categoriaContractual",    label: "Categoría Contractual",        type: "select", options: operariosSelects.categoriaContractual, allowCustom: true },
+        { key: "licenciaRequerida",       label: "Licencia Requerida",           type: "select", options: operariosSelects.licenciaRequerida },
+        { key: "habilitadoCargaPeligrosa",label: "Habilitado Carga Peligrosa",   type: "select", options: ["Sí","No"] },
+        { key: "habilitadoCargaValorada", label: "Habilitado Carga Valorada",    type: "select", options: ["Sí","No"] },
+        { key: "alcanceRuta",             label: "Alcance Ruta",                 type: "select", options: operariosSelects.alcanceRuta, allowCustom: true },
+        { key: "modalidadCosteo",         label: "Modalidad Costeo",             type: "select", options: operariosSelects.modalidadCosteo, allowCustom: true },
+        { key: "estadoCatalogo",          label: "Estado Catálogo",              type: "select", options: estadoCatalogoOptions },
+      ];
+    case "sedes":
+      return [
+        { key: "idTipoSede",             label: "ID Tipo Sede",                 type: "text",   placeholder: "Ej: T-SE-001" },
+        { key: "claseSede",              label: "Clase Sede",                   type: "select", options: sedesSelects.claseSede, allowCustom: true },
+        { key: "categoriaPlaza",         label: "Categoría Plaza",              type: "select", options: sedesSelects.categoriaPlaza, allowCustom: true },
+        { key: "paisOperacion",          label: "País Operación",               type: "select", options: sedesSelects.paisOperacion, allowCustom: true },
+        { key: "regionCiudad",           label: "Región/Ciudad",                type: "select", options: sedesSelects.regionCiudad, allowCustom: true },
+        { key: "tieneEmbarquePasajeros", label: "Tiene Embarque Pasajeros",     type: "select", options: ["Sí","No"] },
+        { key: "tienePatioCarga",        label: "Tiene Patio Carga",            type: "select", options: ["Sí","No"] },
+        { key: "tieneAlmacenFrio",       label: "Tiene Almacén Frío",           type: "select", options: ["Sí","No"] },
+        { key: "nivelSeguridadAduana",   label: "Nivel Seguridad Aduana",       type: "select", options: sedesSelects.nivelSeguridadAduana, allowCustom: true },
+        { key: "capacidadFlotaVehicular",label: "Capacidad Flota Vehicular",    type: "number", placeholder: "Ej: 15" },
+        { key: "estadoCatalogo",         label: "Estado Catálogo",              type: "select", options: estadoCatalogoOptions },
+      ];
+    case "contenedores":
+      return [
+        { key: "idTipoContenedor",           label: "ID Tipo Contenedor",           type: "text",   placeholder: "Ej: T-CO-001" },
+        { key: "claseContenedor",           label: "Clase Contenedor",             type: "select", options: contenedoresSelects.claseContenedor, allowCustom: true },
+        { key: "capacidadVolumenMaxM3",     label: "Capacidad Volumen Máx (m³)",   type: "number", placeholder: "Ej: 10.2" },
+        { key: "capacidadPesoMaxTon",       label: "Capacidad Peso Máx (Ton)",     type: "number", placeholder: "Ej: 2.5" },
+        { key: "nivelPeligrosidadSoportada",label: "Nivel Peligrosidad Soportada", type: "select", options: contenedoresSelects.nivelPeligrosidadSoportada, allowCustom: true },
+        { key: "nivelRefrigeracion",        label: "Nivel Refrigeración",          type: "select", options: ["Sí","No"] },
+        { key: "temperaturaMinima",         label: "Temperatura Mínima (°C)",      type: "number", optional: true, placeholder: "Ej: -10" },
+        { key: "materialRevestimiento",     label: "Material Revestimiento",      type: "select", options: contenedoresSelects.materialRevestimiento, allowCustom: true },
+        { key: "estadoCatalogo",            label: "Estado Catálogo",              type: "select", options: estadoCatalogoOptions },
+      ];
+    case "bienes":
+      return [
+        { key: "idTipoBien",             label: "ID Tipo Bien",             type: "text",   placeholder: "Ej: T-BI-001" },
+        { key: "claseBienNaturaleza",    label: "Clase Bien / Naturaleza",  type: "select", options: bienesSelects.claseBienNaturaleza, allowCustom: true },
+        { key: "unidadMedidaBase",       label: "Unidad Medida Base",       type: "select", options: bienesSelects.unidadMedidaBase, allowCustom: true },
+        { key: "nivelPeligrosidad",      label: "Nivel Peligrosidad",       type: "select", options: bienesSelects.nivelPeligrosidad, allowCustom: true },
+        { key: "requiereCadenaFrio",     label: "Requiere Cadena Frío",     type: "select", options: ["Sí","No"] },
+        { key: "temperaturaExigida",     label: "Temperatura Exigida (°C)", type: "number", optional: true, placeholder: "Ej: -18" },
+        { key: "esCargaValorada",        label: "Es Carga Valorada",        type: "select", options: ["Sí","No"] },
+        { key: "requiereEstibaEspecial", label: "Requiere Estiba Especial", type: "select", options: ["Sí","No"] },
+        { key: "aplicaSeguroObligatorio",label: "Aplica Seguro Obligatorio",type: "select", options: ["Sí","No"] },
+        { key: "estadoCatalogo",         label: "Estado Catálogo",          type: "select", options: estadoCatalogoOptions },
+      ];
+    case "unidades":
+      return [
+        { key: "idUnidadMedida",        label: "ID Unidad Medida",       type: "text",   placeholder: "Ej: T-UM-001" },
+        { key: "magnitudFisica",        label: "Magnitud Física",        type: "select", options: unidadesSelects.magnitudFisica, allowCustom: true },
+        { key: "nombreUnidad",          label: "Nombre Unidad",          type: "text",   placeholder: "Ej: Kilogramo" },
+        { key: "abreviatura",           label: "Abreviatura",            type: "text",   placeholder: "Ej: KG" },
+        { key: "esUnidadBase",          label: "Es Unidad Base",         type: "select", options: ["Sí","No"] },
+        { key: "factorConversionBase",  label: "Factor Conversión Base", type: "number", placeholder: "Ej: 1" },
+        { key: "estadoCatalogo",        label: "Estado Catálogo",        type: "select", options: estadoCatalogoOptions },
+      ];
+    case "clientes":
+      return [
+        { key: "idTipoCliente",           label: "ID Tipo Cliente",           type: "text",   placeholder: "Ej: T-CL-001" },
+        { key: "categoriaPerfil",         label: "Categoría Perfil",         type: "select", options: clientesSelects.categoriaPerfil, allowCustom: true },
+        { key: "origenAfiliacion",        label: "Origen Afiliación",        type: "select", options: clientesSelects.origenAfiliacion, allowCustom: true },
+        { key: "segmentoSocioeconomico",  label: "Segmento Socioeconómico",  type: "select", options: clientesSelects.segmentoSocioeconomico },
+        { key: "lugarResidencia",         label: "Lugar Residencia",         type: "select", options: clientesSelects.lugarResidencia, allowCustom: true },
+        { key: "aplicaLineaCredito",      label: "Aplica Línea Crédito",     type: "select", options: ["Sí","No"] },
+        { key: "limiteCreditoMax",        label: "Límite Crédito Máx",       type: "select", options: clientesSelects.limiteCreditoMax },
+        { key: "rangoMontoComprasMin",    label: "Rango Monto Compras Min",  type: "select", options: clientesSelects.rangoMontoComprasMin },
+        { key: "rangoAntiguedadMesesMin", label: "Rango Antigüedad Min (meses)", type: "select", options: clientesSelects.rangoAntiguedadMesesMin },
+        { key: "estadoCatalogo",          label: "Estado Catálogo",          type: "select", options: estadoCatalogoOptions },
+      ];
     case "servicios":
       return [
         { key: "codigo",                label: "Código de Servicio",           type: "text",   optional: true,  placeholder: "Ej: SRV-006" },
@@ -406,15 +780,32 @@ function CatalogModal({ category, editingItem, onClose, onSave }: ModalProps) {
               </label>
 
               {field.type === "select" ? (
-                <select
-                  value={form[field.key] ?? ""}
-                  onChange={(e) => handleChange(field.key, e.target.value)}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                >
-                  {field.options?.map((opt) => (
-                    <option key={opt} value={opt}>{opt}</option>
-                  ))}
-                </select>
+                field.allowCustom ? (
+                  <>
+                    <input
+                      list={`${category}-${field.key}-list`}
+                      value={form[field.key] ?? ""}
+                      onChange={(e) => handleChange(field.key, e.target.value)}
+                      placeholder={field.placeholder}
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                    <datalist id={`${category}-${field.key}-list`}>
+                      {field.options?.map((opt) => (
+                        <option key={opt} value={opt} />
+                      ))}
+                    </datalist>
+                  </>
+                ) : (
+                  <select
+                    value={form[field.key] ?? ""}
+                    onChange={(e) => handleChange(field.key, e.target.value)}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  >
+                    {field.options?.map((opt) => (
+                      <option key={opt} value={opt}>{opt}</option>
+                    ))}
+                  </select>
+                )
               ) : field.type === "textarea" ? (
                 <textarea
                   value={form[field.key] ?? ""}
