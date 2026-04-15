@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router";
 import { PageHeader } from "../../shared/PageHeader";
 import { AlertTriangle, CheckCircle2, QrCode, ShieldCheck, User } from "lucide-react";
 import { getCatalog, getCotizaciones, getTickets, getViajes } from "../../../store/localDb";
@@ -108,10 +109,10 @@ export function CheckInEmbarque() {
         <div className="grid grid-cols-3 gap-6">
           {/* Scanner */}
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4">Terminal de escaneo (solo catálogo)</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">Terminal de escaneo</h3>
             <div className="mb-4">
-              <div className="w-full aspect-square bg-slate-100 rounded-lg flex items-center justify-center mb-4">
-                <QrCode className="w-24 h-24 text-slate-400" />
+              <div className="w-full h-56 bg-slate-100 rounded-lg flex items-center justify-center mb-4">
+                <QrCode className="w-16 h-16 text-slate-400" />
               </div>
               <p className="text-sm text-slate-600 text-center mb-4">
                 Seleccione un ticket emitido para simular el escaneo
@@ -159,9 +160,17 @@ export function CheckInEmbarque() {
 
           {/* Passenger List */}
           <div className="col-span-2 bg-white rounded-xl shadow-sm border border-slate-200">
-            <div className="p-6 border-b border-slate-200">
-              <h3 className="text-lg font-semibold text-slate-900">Lista de Pasajeros</h3>
-              <p className="text-sm text-slate-600">{v ? `Viaje ${v.codigo}: ${v.ruta} | ${v.fechaISO} ${v.horaSalida}` : "-"}</p>
+            <div className="p-6 border-b border-slate-200 flex items-start justify-between gap-4">
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900">Lista de Pasajeros</h3>
+                <p className="text-sm text-slate-600">{v ? `Viaje ${v.codigo}: ${v.ruta} | ${v.fechaISO} ${v.horaSalida}` : "-"}</p>
+              </div>
+              <Link
+                to={`/operativo/reportes/manifiesto-viaje/${v?.codigo || "MAN-000"}`}
+                className="shrink-0 rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+              >
+                Ver manifiesto de viaje
+              </Link>
             </div>
 
             <div className="p-6 border-b border-slate-200">

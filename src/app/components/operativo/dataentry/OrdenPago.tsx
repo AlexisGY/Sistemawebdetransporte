@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router";
 import { PageHeader } from "../../shared/PageHeader";
 import { CheckCircle2, CreditCard, DollarSign, ShieldCheck, AlertTriangle } from "lucide-react";
 import {
@@ -13,6 +14,7 @@ import {
 } from "../../../store/localDb";
 
 export function OrdenPago() {
+  const navigate = useNavigate();
   const cotizaciones = useMemo(() => getCotizaciones(), []);
   const clientes = useMemo(() => getCatalog<any>("clientes", []), []);
   const [ordenes, setOrdenes] = useState<OrdenPagoTx[]>(() => getOrdenesPago());
@@ -200,6 +202,7 @@ export function OrdenPago() {
                 setOrdenesPago(next);
                 setOrdenes(next);
                 upsertCotizacion({ ...cot, estado: "Convertido" });
+                navigate(`/operativo/reportes/comprobante-pago/${op.codigo}`);
               }}
               className="w-full mt-6 flex items-center justify-center gap-2 px-4 py-3 text-white bg-slate-700 rounded-lg font-semibold hover:bg-slate-800 transition-colors disabled:bg-slate-400"
               disabled={!cot || (metodoPago === "Credito" && (!creditoHabilitado || !creditoOk))}

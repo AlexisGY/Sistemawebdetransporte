@@ -23,7 +23,7 @@ export function EmisionTicket() {
 
       <div className="p-8 max-w-4xl mx-auto">
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">Selección de Ticket (Solo catálogo)</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Selección de Ticket </h3>
           <div className="grid grid-cols-3 gap-4 items-end">
             <div className="col-span-2">
               <label className="block text-xs font-semibold text-slate-600 uppercase mb-2">Ticket emitible</label>
@@ -164,12 +164,20 @@ export function EmisionTicket() {
 
           <div className="bg-slate-50 border-t border-slate-200 px-8 py-4 flex items-center justify-between">
             <p className="text-xs text-slate-500">Emitido: {new Date(t?.emitidoAt || Date.now()).toLocaleString()}</p>
-            <Link
-              to={`/operativo/reportes/ticket-viaje/${t?.codigo || "TKT-000"}`}
-              className="text-xs text-slate-600 hover:text-slate-700 font-medium"
-            >
-              Ver reporte completo →
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link
+                to={`/operativo/reportes/ticket-viaje/${t?.codigo || "TKT-000"}`}
+                className="text-xs text-slate-600 hover:text-slate-700 font-medium"
+              >
+                Ver ticket de viaje →
+              </Link>
+              <Link
+                to={`/operativo/reportes/manifiesto-viaje/${v?.codigo || "MAN-000"}`}
+                className="text-xs text-slate-700 hover:text-slate-900 font-semibold"
+              >
+                Ver manifiesto de viaje →
+              </Link>
+            </div>
           </div>
         </div>
 
