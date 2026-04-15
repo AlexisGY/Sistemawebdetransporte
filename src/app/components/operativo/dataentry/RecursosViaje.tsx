@@ -62,28 +62,28 @@ export function RecursosViaje() {
 
   const automata = (() => {
     if (!selectedVehiculo || !selectedContenedor) {
-      return { status: "warn" as const, title: "Pendiente de configuración", detail: "Seleccione Vehículo y Contenedor para validar el protocolo." };
+      return { status: "warn" as const, title: "Pendiente de configuración", detail: "Selecciona vehículo y contenedor para validar la asignación." };
     }
     if (contenedorRefrig && !vehiculoRefrig) {
       return {
         status: "error" as const,
         title: "Bloqueo del Autómata",
-        detail: "Error: Contenedor requiere refrigeración, pero el vehículo seleccionado no soporta refrigeración.",
+        detail: "El contenedor requiere refrigeración, pero el vehículo seleccionado no la soporta.",
       };
     }
     if (contenedorRefrig && vehiculoRefrig && Number.isFinite(contenedorTempMin) && Number.isFinite(vehiculoTempMin) && vehiculoTempMin > contenedorTempMin) {
       return {
         status: "error" as const,
         title: "Bloqueo del Autómata",
-        detail: `Error: Temperatura mínima del vehículo (${vehiculoTempMin}°C) no cubre la del contenedor (${contenedorTempMin}°C).`,
+        detail: `La temperatura mínima del vehículo (${vehiculoTempMin}°C) no cubre la del contenedor (${contenedorTempMin}°C).`,
       };
     }
     return {
       status: "ok" as const,
-      title: "Validación Exitosa",
+      title: "Asignación válida",
       detail: contenedorRefrig
-        ? `Match exitoso: Vehículo soporta refrigeración y cubre temperatura mínima del contenedor (${contenedorTempMin}°C).`
-        : "Match exitoso: Contenedor sin refrigeración. Protocolo de asignación aprobado.",
+        ? `Combinación válida: el vehículo soporta refrigeración y cubre la temperatura mínima del contenedor (${contenedorTempMin}°C).`
+        : "La combinación de vehículo y contenedor es compatible.",
     };
   })();
 
@@ -118,14 +118,14 @@ export function RecursosViaje() {
     <div className="min-h-full bg-slate-50">
       <PageHeader
         title="Recursos de Viaje"
-        subtitle="Asignación operativa (invoca catálogos, hereda características)"
+        subtitle="Asigna vehículo, contenedor y personal por viaje"
         actions={
           <button
             onClick={() => setShowModal(true)}
             className="flex items-center gap-2 px-4 py-2 bg-slate-700 text-white rounded-lg font-medium hover:bg-slate-800 transition-colors"
           >
             <Plus className="w-4 h-4" />
-            Programar Nuevo Viaje
+            Programar nuevo viaje
           </button>
         }
       />
@@ -134,15 +134,15 @@ export function RecursosViaje() {
         {/* Panel institucional de herencia */}
         <div className="grid grid-cols-3 gap-6 mb-6">
           <div className="col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-sm font-semibold text-slate-900 mb-4">Herencia de Catálogos (Solo lectura)</h3>
+            <h3 className="text-sm font-semibold text-slate-900 mb-4">Datos de referencia del viaje</h3>
             <div className="grid grid-cols-3 gap-4 text-sm">
               <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
                 <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Vehículo</p>
                 <p className="mt-1 font-semibold text-slate-900">{selectedVehiculo ? `${selectedVehiculo.idTipoVehiculo} — ${selectedVehiculo.marca} ${selectedVehiculo.modelo}` : "-"}</p>
                 <div className="mt-3 space-y-1 text-xs text-slate-700">
-                  <p><span className="text-slate-500">Cap. Pasajeros:</span> {selectedVehiculo?.capacidadPasajeros ?? "-"}</p>
-                  <p><span className="text-slate-500">Peso Máx (Kg):</span> {selectedVehiculo?.pesoMaxCargaKg ?? "-"}</p>
-                  <p><span className="text-slate-500">Volumen Máx (m³):</span> {selectedVehiculo?.volumenMaxBodegaM3 ?? "-"}</p>
+                  <p><span className="text-slate-500">Capacidad de pasajeros:</span> {selectedVehiculo?.capacidadPasajeros ?? "-"}</p>
+                  <p><span className="text-slate-500">Peso máximo (kg):</span> {selectedVehiculo?.pesoMaxCargaKg ?? "-"}</p>
+                  <p><span className="text-slate-500">Volumen máximo (m³):</span> {selectedVehiculo?.volumenMaxBodegaM3 ?? "-"}</p>
                   <p className="flex items-center gap-2">
                     <span className="text-slate-500">Refrigeración:</span>
                     <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 border text-[11px] font-semibold ${vehiculoRefrig ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-slate-100 text-slate-600 border-slate-200"}`}>
@@ -180,7 +180,7 @@ export function RecursosViaje() {
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-sm font-semibold text-slate-900 mb-4">Validación del Autómata</h3>
+            <h3 className="text-sm font-semibold text-slate-900 mb-4">Validación de asignación</h3>
             <div className={`rounded-xl border p-4 ${automata.status === "ok" ? "bg-emerald-50 border-emerald-200" : automata.status === "error" ? "bg-rose-50 border-rose-200" : "bg-amber-50 border-amber-200"}`}>
               <div className="flex items-start gap-3">
                 {automata.status === "ok" ? (
@@ -454,7 +454,7 @@ export function RecursosViaje() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Motivo / Observación Operativa (Catálogo interno)
+                  Observación operativa
                 </label>
                 <select
                   value={form.observacion}

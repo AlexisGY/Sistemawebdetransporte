@@ -121,11 +121,6 @@ const menuItems: MenuItem[] = [
             path: "/operativo/recursos",
           },
           {
-            title: "Lotes de tickets",
-            icon: <Ticket className="size-4" />,
-            path: "/operativo/lotes",
-          },
-          {
             title: "Reserva de tickets",
             icon: <Ticket className="size-4" />,
             path: "/operativo/reserva-tickets",

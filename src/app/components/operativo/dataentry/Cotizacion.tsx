@@ -55,31 +55,31 @@ export function Cotizacion() {
 
   const automata = (() => {
     if (!selectedBien || !selectedContenedor || !selectedVehiculo) {
-      return { ok: false, type: "warn" as const, title: "Pendiente", detail: "Seleccione Bien, Contenedor y Viaje para validar." };
+      return { ok: false, type: "warn" as const, title: "Pendiente", detail: "Selecciona bien, contenedor y viaje para validar." };
     }
     if (coldRequired && (!contRefrig || !vehRefrig)) {
       return {
         ok: false,
         type: "error" as const,
-        title: "Bloqueo del Autómata",
-        detail: "Error: La carga exige cadena de frío y la asignación no garantiza refrigeración (contenedor/vehículo).",
+        title: "Bloqueo de asignación",
+        detail: "La carga exige cadena de frío y la asignación no garantiza refrigeración (contenedor/vehículo).",
       };
     }
     if (coldRequired && Number.isFinite(cargaTemp) && Number.isFinite(contTempMin) && contTempMin > cargaTemp) {
       return {
         ok: false,
         type: "error" as const,
-        title: "Bloqueo del Autómata",
-        detail: `Error: El contenedor no cubre la temperatura exigida (${cargaTemp}°C). Mínimo del contenedor: ${contTempMin}°C.`,
+        title: "Bloqueo de asignación",
+        detail: `El contenedor no cubre la temperatura exigida (${cargaTemp}°C). Mínimo del contenedor: ${contTempMin}°C.`,
       };
     }
     return {
       ok: true,
       type: "ok" as const,
-      title: "Validación Exitosa",
+      title: "Asignación válida",
       detail: coldRequired
-        ? `Match exitoso: Carga ${cargaTemp}°C y contenedor ${contTempMin}°C. Refrigeración aprobada.`
-        : "Match exitoso: Carga sin cadena de frío. Protocolo aprobado.",
+        ? `Combinación válida: Carga ${cargaTemp}°C y contenedor ${contTempMin}°C. Refrigeración aprobada.`
+        : "Combinación válida: Carga sin cadena de frío. Protocolo aprobado.",
     };
   })();
 
@@ -111,14 +111,14 @@ export function Cotizacion() {
     <div className="min-h-full bg-slate-50">
       <PageHeader
         title="Cotización"
-        subtitle="Nacimiento de la venta (invoca catálogos, hereda características)"
+        subtitle="Registra la cotización con datos del viaje y la carga"
       />
 
-      <div className="p-8 max-w-6xl mx-auto space-y-6">
-        <div className="grid grid-cols-3 gap-6">
-          <div className="col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-sm font-semibold text-slate-900 mb-4">Formulario de Cotización (Solo selects)</h3>
-            <div className="grid grid-cols-3 gap-4">
+      <div className="p-8 w-full max-w-[1480px] mx-auto space-y-6">
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+          <div className="xl:col-span-9 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <h3 className="text-sm font-semibold text-slate-900 mb-4">Formulario de cotización</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               <div>
                 <label className="block text-xs font-semibold text-slate-600 uppercase mb-2">Viaje</label>
                 <select
@@ -148,7 +148,7 @@ export function Cotizacion() {
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-600 uppercase mb-2">Tipo de Servicio</label>
+                <label className="block text-xs font-semibold text-slate-600 uppercase mb-2">Servicio</label>
                 <select
                   value={form.servicioCodigo}
                   onChange={(e) => setForm((p) => ({ ...p, servicioCodigo: e.target.value }))}
@@ -221,8 +221,8 @@ export function Cotizacion() {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-sm font-semibold text-slate-900 mb-4">Características de la Carga (Readonly)</h3>
+          <div className="xl:col-span-3 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <h3 className="text-sm font-semibold text-slate-900 mb-4">Datos de la carga</h3>
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm space-y-2">
               <p className="font-semibold text-slate-900">
                 {selectedBien ? `${selectedBien.idTipoBien} — ${selectedBien.nombreComercial || selectedBien.claseBienNaturaleza}` : "-"}
@@ -237,12 +237,12 @@ export function Cotizacion() {
                   {coldRequired ? "Sí" : "No"}
                 </span>
               </p>
-              <p><span className="text-slate-500">Temp. exigida:</span> <span className="font-semibold">{Number.isFinite(cargaTemp) ? `${cargaTemp}°C` : "-"}</span></p>
-              <p><span className="text-slate-500">UM Base:</span> <span className="font-semibold">{unidad}</span></p>
+              <p><span className="text-slate-500">Temperatura exigida:</span> <span className="font-semibold">{Number.isFinite(cargaTemp) ? `${cargaTemp}°C` : "-"}</span></p>
+              <p><span className="text-slate-500">Unidad base:</span> <span className="font-semibold">{unidad}</span></p>
             </div>
 
             <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm space-y-2">
-              <p className="font-semibold text-slate-900">Asignación heredada</p>
+              <p className="font-semibold text-slate-900">Asignación sugerida</p>
               <p><span className="text-slate-500">Vehículo:</span> {selectedVehiculo ? `${selectedVehiculo.idTipoVehiculo} — ${selectedVehiculo.marca} ${selectedVehiculo.modelo}` : "-"}</p>
               <p><span className="text-slate-500">Contenedor:</span> {selectedContenedor ? `${selectedContenedor.idTipoContenedor} — ${selectedContenedor.claseContenedor}` : "-"}</p>
               <p><span className="text-slate-500">Temp. contenedor:</span> <span className="font-semibold">{Number.isFinite(contTempMin) ? `${contTempMin}°C` : "-"}</span></p>
@@ -269,7 +269,7 @@ export function Cotizacion() {
         </div>
 
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <h3 className="text-sm font-semibold text-slate-900 mb-4">Cálculo del Servicio</h3>
+          <h3 className="text-sm font-semibold text-slate-900 mb-4">Cálculo del servicio</h3>
           <div className="grid grid-cols-4 gap-4">
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
               <p className="text-xs font-semibold uppercase text-slate-500">Precio Unit.</p>

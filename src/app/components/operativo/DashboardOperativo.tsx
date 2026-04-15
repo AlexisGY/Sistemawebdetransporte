@@ -20,7 +20,7 @@ export function DashboardOperativo() {
   return (
     <div className="min-h-full bg-slate-50">
       <PageHeader
-        title="Dashboard Operativo"
+        title="Panel operativo"
         subtitle="Control de operaciones diarias"
       />
 
@@ -107,7 +107,7 @@ export function DashboardOperativo() {
                 to="/operativo/recursos-viaje"
                 className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
               >
-                Ver Todos
+                Ver todos
               </Link>
             </div>
           </div>
@@ -179,7 +179,7 @@ export function DashboardOperativo() {
               <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
                 <Clock className="w-6 h-6 text-slate-600" />
               </div>
-              <h4 className="font-semibold text-slate-900">Próxima Salida</h4>
+              <h4 className="font-semibold text-slate-900">Próxima salida</h4>
             </div>
             <p className="text-2xl font-bold text-slate-900 mb-1">08:00</p>
             <p className="text-sm text-slate-600">Lima - Arequipa (VJ-001)</p>
@@ -190,7 +190,7 @@ export function DashboardOperativo() {
               <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
                 <CreditCard className="w-6 h-6 text-slate-600" />
               </div>
-              <h4 className="font-semibold text-slate-900">Ingresos Hoy</h4>
+              <h4 className="font-semibold text-slate-900">Ingresos hoy</h4>
             </div>
             <p className="text-2xl font-bold text-slate-900 mb-1">S/ 7,395</p>
             <p className="text-sm text-slate-600">87 tickets vendidos</p>
@@ -201,7 +201,7 @@ export function DashboardOperativo() {
               <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
                 <Truck className="w-6 h-6 text-slate-600" />
               </div>
-              <h4 className="font-semibold text-slate-900">Flota Disponible</h4>
+              <h4 className="font-semibold text-slate-900">Flota disponible</h4>
             </div>
             <p className="text-2xl font-bold text-slate-900 mb-1">38</p>
             <p className="text-sm text-slate-600">De 50 vehículos totales</p>

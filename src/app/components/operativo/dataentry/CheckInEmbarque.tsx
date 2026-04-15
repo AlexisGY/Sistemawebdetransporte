@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router";
 import { PageHeader } from "../../shared/PageHeader";
 import { AlertTriangle, CheckCircle2, QrCode, ShieldCheck, User } from "lucide-react";
 import { getCatalog, getCotizaciones, getTickets, getViajes } from "../../../store/localDb";
@@ -32,15 +33,15 @@ export function CheckInEmbarque() {
     if (scenario === "error") {
       return {
         type: "error" as const,
-        title: "Error de Regla de Negocio",
+        title: "Asignación no válida",
         detail:
-          "Vehículo no soporta refrigeración requerida por el bien. Protocolo bloquea embarque (autómata).",
+          "El vehículo no cumple la refrigeración requerida para esta carga. Reasigne recursos antes de embarcar.",
       };
     }
     return {
       type: "ok" as const,
-      title: "Match Exitoso",
-      detail: `Temperatura de carga (${Number.isFinite(cargaTemp) ? `${cargaTemp}°C` : "-"}) coincide con contenedor (${Number.isFinite(contTemp) ? `${contTemp}°C` : "-"}) — Abordaje Autorizado.`,
+      title: "Validación correcta",
+      detail: `La temperatura de la carga (${Number.isFinite(cargaTemp) ? `${cargaTemp}°C` : "-"}) es compatible con el contenedor (${Number.isFinite(contTemp) ? `${contTemp}°C` : "-"}).`,
     };
   })();
 
@@ -66,7 +67,7 @@ export function CheckInEmbarque() {
     <div className="min-h-full bg-slate-50">
       <PageHeader
         title="Check-in y Embarque"
-        subtitle="Match del autómata y control operativo (simulación en vivo)"
+        subtitle="Control de embarque y validación operativa en tiempo real"
       />
 
       <div className="p-8">
@@ -77,7 +78,7 @@ export function CheckInEmbarque() {
               <User className="w-8 h-8 text-slate-600" />
               <span className="text-2xl font-bold text-slate-700">{stats.total}</span>
             </div>
-            <p className="text-sm font-medium text-slate-600">Total Pasajeros</p>
+            <p className="text-sm font-medium text-slate-600">Total de pasajeros</p>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
@@ -85,7 +86,7 @@ export function CheckInEmbarque() {
               <CheckCircle2 className="w-8 h-8 text-slate-600" />
               <span className="text-2xl font-bold text-slate-700">{stats.checkIn}</span>
             </div>
-            <p className="text-sm font-medium text-slate-600">Check-in Realizado</p>
+            <p className="text-sm font-medium text-slate-600">Check-in realizado</p>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
@@ -108,10 +109,10 @@ export function CheckInEmbarque() {
         <div className="grid grid-cols-3 gap-6">
           {/* Scanner */}
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4">Terminal de Escaneo (Catálogo)</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">Terminal de escaneo</h3>
             <div className="mb-4">
-              <div className="w-full aspect-square bg-slate-100 rounded-lg flex items-center justify-center mb-4">
-                <QrCode className="w-24 h-24 text-slate-400" />
+              <div className="w-full h-56 bg-slate-100 rounded-lg flex items-center justify-center mb-4">
+                <QrCode className="w-16 h-16 text-slate-400" />
               </div>
               <p className="text-sm text-slate-600 text-center mb-4">
                 Seleccione un ticket emitido para simular el escaneo
@@ -136,7 +137,7 @@ export function CheckInEmbarque() {
                   scenario === "ok" ? "bg-emerald-50 border-emerald-200 text-emerald-800" : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50"
                 }`}
               >
-                Caso Verde
+                Caso válido
               </button>
               <button
                 onClick={() => setScenario("error")}
@@ -144,12 +145,12 @@ export function CheckInEmbarque() {
                   scenario === "error" ? "bg-rose-50 border-rose-200 text-rose-800" : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50"
                 }`}
               >
-                Caso Rojo
+                Caso con error
               </button>
             </div>
 
             <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm">
-              <p className="font-semibold text-slate-900 mb-2">Contexto (Readonly)</p>
+              <p className="font-semibold text-slate-900 mb-2">Contexto (solo lectura)</p>
               <p><span className="text-slate-500">Viaje:</span> {v ? `${v.codigo} — ${v.ruta} — ${v.fechaISO} ${v.horaSalida}` : "-"}</p>
               <p><span className="text-slate-500">Vehículo:</span> {veh ? `${veh.idTipoVehiculo} — ${veh.marca} ${veh.modelo}` : "-"}</p>
               <p><span className="text-slate-500">Carga (Guía):</span> {bien ? `${bien.idTipoBien} — ${bien.nombreComercial || bien.claseBienNaturaleza}` : "-"}</p>
@@ -159,13 +160,21 @@ export function CheckInEmbarque() {
 
           {/* Passenger List */}
           <div className="col-span-2 bg-white rounded-xl shadow-sm border border-slate-200">
-            <div className="p-6 border-b border-slate-200">
-              <h3 className="text-lg font-semibold text-slate-900">Lista de Pasajeros</h3>
-              <p className="text-sm text-slate-600">{v ? `Viaje ${v.codigo}: ${v.ruta} | ${v.fechaISO} ${v.horaSalida}` : "-"}</p>
+            <div className="p-6 border-b border-slate-200 flex items-start justify-between gap-4">
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900">Lista de Pasajeros</h3>
+                <p className="text-sm text-slate-600">{v ? `Viaje ${v.codigo}: ${v.ruta} | ${v.fechaISO} ${v.horaSalida}` : "-"}</p>
+              </div>
+              <Link
+                to={`/operativo/reportes/manifiesto-viaje/${v?.codigo || "MAN-000"}`}
+                className="shrink-0 rounded-lg border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+              >
+                Ver manifiesto de viaje
+              </Link>
             </div>
 
             <div className="p-6 border-b border-slate-200">
-              <h3 className="text-lg font-semibold text-slate-900">Validación de Protocolo (Autómata)</h3>
+              <h3 className="text-lg font-semibold text-slate-900">Validación de condiciones de embarque</h3>
               <div
                 className={`mt-3 rounded-xl border p-4 ${
                   validation.type === "ok" ? "bg-emerald-50 border-emerald-200" : "bg-rose-50 border-rose-200"
@@ -181,21 +190,21 @@ export function CheckInEmbarque() {
                     <p className={`font-semibold ${validation.type === "ok" ? "text-emerald-900" : "text-rose-900"}`}>{validation.title}</p>
                     <p className={`text-sm mt-1 ${validation.type === "ok" ? "text-emerald-800" : "text-rose-800"}`}>{validation.detail}</p>
                     {validation.type === "ok" ? (
-                      <p className="text-xs text-emerald-700 mt-2 font-medium">Abordaje Autorizado.</p>
+                      <p className="text-xs text-emerald-700 mt-2 font-medium">Embarque autorizado.</p>
                     ) : (
-                      <p className="text-xs text-rose-700 mt-2 font-medium">Proceso Bloqueado. Reasigne recursos en “Recursos de Viaje”.</p>
+                      <p className="text-xs text-rose-700 mt-2 font-medium">Proceso bloqueado. Reasigne recursos en Recursos de viaje.</p>
                     )}
                     <div className="mt-3 grid grid-cols-3 gap-3 text-xs">
                       <div className="rounded-lg border border-slate-200 bg-white/60 p-3">
-                        <p className="text-slate-500">Temp. carga</p>
+                        <p className="text-slate-500">Temperatura de carga</p>
                         <p className="font-semibold">{Number.isFinite(cargaTemp) ? `${cargaTemp}°C` : "-"}</p>
                       </div>
                       <div className="rounded-lg border border-slate-200 bg-white/60 p-3">
-                        <p className="text-slate-500">Temp. contenedor</p>
+                        <p className="text-slate-500">Temperatura de contenedor</p>
                         <p className="font-semibold">{Number.isFinite(contTemp) ? `${contTemp}°C` : "-"}</p>
                       </div>
                       <div className="rounded-lg border border-slate-200 bg-white/60 p-3">
-                        <p className="text-slate-500">Refrigeración veh.</p>
+                        <p className="text-slate-500">Refrigeración del vehículo</p>
                         <p className="font-semibold">{vehRefrig ? "Sí" : "No"}</p>
                       </div>
                     </div>
@@ -239,7 +248,7 @@ export function CheckInEmbarque() {
                             : "bg-slate-700 text-white hover:bg-slate-800"
                         }`}
                       >
-                        {pasajero.estado === "Pendiente" ? "Check-in" : pasajero.estado === "Check-in" ? "Embarcar" : "OK"}
+                        {pasajero.estado === "Pendiente" ? "Check-in" : pasajero.estado === "Check-in" ? "Embarcar" : "Listo"}
                       </button>
                     </div>
                   </div>

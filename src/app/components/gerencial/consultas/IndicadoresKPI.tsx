@@ -60,9 +60,6 @@ export function IndicadoresKPI() {
               <option>Vista Trimestral</option>
               <option>Vista Anual</option>
             </select>
-            <button className="rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background transition-colors hover:bg-foreground/90">
-              Generar Dashboard
-            </button>
           </div>
         }
       />
