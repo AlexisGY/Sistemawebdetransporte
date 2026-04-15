@@ -36,8 +36,8 @@ const ingresosData = [
 ];
 
 const ocupacionData = [
-  { name: "Ocupado", value: 78, color: "hsl(var(--primary))" },
-  { name: "Disponible", value: 22, color: "hsl(var(--border))" },
+  { name: "Ocupado", value: 78, color: "var(--primary)" },
+  { name: "Disponible", value: 22, color: "var(--border)" },
 ];
 
 const rutasData = [
@@ -108,23 +108,46 @@ export function DashboardGerencial() {
               </select>
             </div>
             <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={ingresosData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="mes" tick={{ fill: "hsl(var(--muted-foreground))" }} />
-                <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "hsl(var(--card))",
-                    border: "1px solid hsl(var(--border))",
-                    borderRadius: "8px",
-                    color: "hsl(var(--foreground))",
-                  }}
-                />
-                <Legend />
-                <Bar dataKey="ingresos" fill="hsl(var(--primary))" name="Ingresos" radius={[8, 8, 0, 0]} />
-                <Bar dataKey="gastos" fill="hsl(var(--accent))" name="Gastos" radius={[8, 8, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+            <BarChart data={ingresosData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+              <XAxis dataKey="mes" tick={{ fill: "var(--muted-foreground)" }} />
+              <YAxis tick={{ fill: "var(--muted-foreground)" }} />
+              <Tooltip
+                formatter={(value, name) => [
+                  `S/ ${Number(value).toLocaleString()}`,
+                  typeof name === "string" ? name : "",
+                ]}
+                labelStyle={{
+                  color: "var(--foreground)",
+                  fontWeight: 600,
+                }}
+                itemStyle={{
+                  color: "var(--foreground)",
+                }}
+                contentStyle={{
+                  backgroundColor: "var(--card)",
+                  border: "1px solid var(--border)",
+                  borderRadius: "12px",
+                  boxShadow: "0 8px 24px rgba(15, 23, 42, 0.08)",
+                  color: "var(--foreground)",
+                }}
+                cursor={{ fill: "var(--muted)" }}
+              />
+              <Legend />
+              <Bar
+                dataKey="ingresos"
+                fill="var(--primary)"
+                name="Ingresos"
+                radius={[8, 8, 0, 0]}
+              />
+              <Bar
+                dataKey="gastos"
+                fill="var(--muted-foreground)"
+                name="Gastos"
+                radius={[8, 8, 0, 0]}
+              />
+            </BarChart>
+          </ResponsiveContainer>
           </div>
 
           {/* Ocupación */}
