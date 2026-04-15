@@ -1,221 +1,215 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { Truck, QrCode, Fingerprint, Eye, EyeOff, Scan } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  Fingerprint,
+  KeyRound,
+  QrCode,
+  Scan,
+  ShieldCheck,
+} from "lucide-react";
+
+import { AuthShell } from "./AuthShell";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
+import { Checkbox } from "../ui/checkbox";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+
+type LoginMethod = "password" | "qr" | "biometric";
 
 export function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const [loginMethod, setLoginMethod] = useState<"password" | "qr" | "biometric">("password");
+  const [loginMethod, setLoginMethod] = useState<LoginMethod>("password");
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleLogin = (event?: React.FormEvent) => {
+    event?.preventDefault();
     navigate("/seleccionar-rol");
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-emerald-50 flex items-center justify-center p-6">
-      <div className="w-full max-w-5xl grid grid-cols-2 gap-8 items-center">
-        {/* Left Side - Branding */}
-        <div className="space-y-6">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-indigo-600 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <Truck className="w-9 h-9 text-white" />
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold text-slate-900">TransporteSaaS</h1>
-              <p className="text-slate-600">Sistema Empresarial de Gestión</p>
-            </div>
-          </div>
-
-          <div className="space-y-4 pt-8">
-            <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                <svg className="w-5 h-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="font-semibold text-slate-900">Gestión Integral</h3>
-                <p className="text-sm text-slate-600">Control completo de flotas, rutas y operarios</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                <svg className="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="font-semibold text-slate-900">Analytics en Tiempo Real</h3>
-                <p className="text-sm text-slate-600">KPIs e indicadores de desempeño actualizados</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                <svg className="w-5 h-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="font-semibold text-slate-900">Seguridad Avanzada</h3>
-                <p className="text-sm text-slate-600">Autenticación multifactor y cifrado de datos</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Side - Login Form */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-slate-900">Iniciar Sesión</h2>
-            <p className="text-slate-600 mt-1">Accede a tu cuenta empresarial</p>
-          </div>
-
-          {/* Login Method Selector */}
-          <div className="flex gap-2 mb-6">
-            <button
-              onClick={() => setLoginMethod("password")}
-              className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-colors ${
-                loginMethod === "password"
-                  ? "bg-indigo-600 text-white"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
+    <AuthShell>
+      <Card className="w-full max-w-[460px] border-border/70 bg-card/95 shadow-[0_24px_80px_rgba(15,23,42,0.14)] backdrop-blur-sm">
+        <CardHeader className="space-y-4 border-b border-border/60">
+          <div>
+            <Badge
+              variant="outline"
+              className="rounded-full border-border/80 bg-muted/40 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em]"
             >
-              Contraseña
-            </button>
-            <button
-              onClick={() => setLoginMethod("qr")}
-              className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 ${
-                loginMethod === "qr"
-                  ? "bg-indigo-600 text-white"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
-            >
-              <QrCode className="w-4 h-4" />
-              QR
-            </button>
-            <button
-              onClick={() => setLoginMethod("biometric")}
-              className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 ${
-                loginMethod === "biometric"
-                  ? "bg-indigo-600 text-white"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
-            >
-              <Fingerprint className="w-4 h-4" />
-              Biométrico
-            </button>
+              Acceso seguro
+            </Badge>
+            <CardTitle className="mt-4 text-3xl font-semibold">Iniciar sesion</CardTitle>
+            <CardDescription className="mt-2 text-sm leading-6">
+              Pantalla de acceso orientada a prototipado visual, con una estetica mas seria y
+              consistente con el resto del sistema.
+            </CardDescription>
           </div>
+        </CardHeader>
 
-          {/* Password Login */}
-          {loginMethod === "password" && (
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Usuario o Email
-                </label>
-                <input
-                  type="text"
-                  placeholder="usuario@empresa.com"
-                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  defaultValue="admin@transportesaas.com"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Contraseña
-                </label>
-                <div className="relative">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
-                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    defaultValue="admin123"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                  >
-                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <label className="flex items-center gap-2">
-                  <input type="checkbox" className="w-4 h-4 text-indigo-600 rounded" />
-                  <span className="text-sm text-slate-600">Recordar sesión</span>
-                </label>
-                <Link to="/recuperar" className="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
-                  ¿Olvidaste tu contraseña?
-                </Link>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-gradient-to-r from-indigo-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-emerald-700 transition-all shadow-lg hover:shadow-xl"
+        <CardContent className="pt-6">
+          <Tabs
+            value={loginMethod}
+            onValueChange={(value) => setLoginMethod(value as LoginMethod)}
+            className="gap-5"
+          >
+            <TabsList className="grid h-auto w-full grid-cols-3 rounded-2xl bg-muted/80 p-1">
+              <TabsTrigger
+                value="password"
+                className="h-11 rounded-xl text-[11px] font-semibold uppercase tracking-[0.18em]"
               >
-                Iniciar Sesión
-              </button>
-            </form>
-          )}
+                <KeyRound className="size-4" />
+                Clave
+              </TabsTrigger>
+              <TabsTrigger
+                value="qr"
+                className="h-11 rounded-xl text-[11px] font-semibold uppercase tracking-[0.18em]"
+              >
+                <QrCode className="size-4" />
+                QR
+              </TabsTrigger>
+              <TabsTrigger
+                value="biometric"
+                className="h-11 rounded-xl text-[11px] font-semibold uppercase tracking-[0.18em]"
+              >
+                <Fingerprint className="size-4" />
+                Biometrico
+              </TabsTrigger>
+            </TabsList>
 
-          {/* QR Login */}
-          {loginMethod === "qr" && (
-            <div className="space-y-4">
-              <div className="bg-slate-50 rounded-lg p-8 flex flex-col items-center justify-center">
-                <div className="w-48 h-48 bg-white border-4 border-indigo-600 rounded-lg flex items-center justify-center mb-4">
-                  <QrCode className="w-32 h-32 text-slate-300" />
+            <TabsContent value="password" className="space-y-5">
+              <Alert className="border-border/70 bg-muted/30">
+                <ShieldCheck className="size-4" />
+                <AlertTitle>Credenciales de prototipo</AlertTitle>
+                <AlertDescription>
+                  Usa <strong>admin@transportesaas.com</strong> y <strong>admin123</strong> para
+                  navegar el mockup.
+                </AlertDescription>
+              </Alert>
+
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="login-identity">Usuario o correo</Label>
+                  <Input
+                    id="login-identity"
+                    type="text"
+                    defaultValue="admin@transportesaas.com"
+                    placeholder="usuario@empresa.com"
+                    className="h-11 rounded-xl border-border/80 bg-background px-4"
+                  />
                 </div>
-                <p className="text-sm text-slate-600 text-center mb-2">
-                  Escanea el código QR con tu dispositivo móvil
-                </p>
-                <button
-                  onClick={handleLogin}
-                  className="text-sm text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2"
-                >
-                  <Scan className="w-4 h-4" />
-                  Simular escaneo
-                </button>
-              </div>
-            </div>
-          )}
 
-          {/* Biometric Login */}
-          {loginMethod === "biometric" && (
-            <div className="space-y-4">
-              <div className="bg-gradient-to-br from-indigo-50 to-emerald-50 rounded-lg p-8 flex flex-col items-center justify-center">
-                <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mb-4 shadow-lg">
-                  <Fingerprint className="w-16 h-16 text-indigo-600" />
+                <div className="grid gap-2">
+                  <Label htmlFor="login-password">Contrasena</Label>
+                  <div className="relative">
+                    <Input
+                      id="login-password"
+                      type={showPassword ? "text" : "password"}
+                      defaultValue="admin123"
+                      placeholder="••••••••"
+                      className="h-11 rounded-xl border-border/80 bg-background px-4 pr-11"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((current) => !current)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
+                      aria-label={showPassword ? "Ocultar contrasena" : "Mostrar contrasena"}
+                    >
+                      {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                    </button>
+                  </div>
                 </div>
-                <h3 className="font-semibold text-slate-900 mb-2">Autenticación Biométrica</h3>
-                <p className="text-sm text-slate-600 text-center mb-4">
-                  Coloca tu dedo en el sensor o mira a la cámara
-                </p>
-                <button
-                  onClick={handleLogin}
-                  className="bg-indigo-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-indigo-700 transition-colors"
-                >
-                  Iniciar Escaneo
-                </button>
-              </div>
-            </div>
-          )}
 
-          <div className="mt-6 pt-6 border-t border-slate-200 text-center">
-            <p className="text-sm text-slate-600">
-              ¿Necesitas ayuda?{" "}
-              <a href="#" className="text-indigo-600 hover:text-indigo-700 font-medium">
-                Contacta soporte técnico
-              </a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <Checkbox id="remember-session" />
+                    <Label
+                      htmlFor="remember-session"
+                      className="text-sm font-medium text-muted-foreground"
+                    >
+                      Recordar sesion
+                    </Label>
+                  </div>
+                  <Link
+                    to="/recuperar"
+                    className="text-sm font-semibold text-foreground transition-colors hover:text-primary/80"
+                  >
+                    Recuperar acceso
+                  </Link>
+                </div>
+
+                <Button type="submit" size="lg" className="h-11 w-full rounded-xl">
+                  Ingresar al sistema
+                </Button>
+              </form>
+            </TabsContent>
+
+            <TabsContent value="qr" className="space-y-5">
+              <div className="rounded-[24px] border border-dashed border-border/80 bg-muted/25 p-6">
+                <div className="flex flex-col items-center text-center">
+                  <div className="flex size-48 items-center justify-center rounded-[28px] border border-border/80 bg-background shadow-inner">
+                    <QrCode className="size-28 text-muted-foreground/70" />
+                  </div>
+                  <h3 className="mt-5 text-lg font-semibold">Acceso por QR</h3>
+                  <p className="mt-2 max-w-sm text-sm leading-6 text-muted-foreground">
+                    Variante visual para mostrar un flujo de autenticacion sin recargar la
+                    interfaz con colores innecesarios.
+                  </p>
+                  <div className="mt-6 flex w-full gap-3">
+                    <Button className="flex-1 rounded-xl" onClick={() => handleLogin()}>
+                      <Scan className="size-4" />
+                      Simular escaneo
+                    </Button>
+                    <Button variant="outline" className="flex-1 rounded-xl">
+                      Regenerar
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="biometric" className="space-y-5">
+              <div className="rounded-[24px] border border-border/70 bg-muted/25 p-6">
+                <div className="flex flex-col items-center text-center">
+                  <div className="flex size-28 items-center justify-center rounded-full border border-border/80 bg-background shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
+                    <Fingerprint className="size-14 text-foreground" />
+                  </div>
+                  <h3 className="mt-5 text-lg font-semibold">Acceso biometrico</h3>
+                  <p className="mt-2 max-w-sm text-sm leading-6 text-muted-foreground">
+                    Otra variante de prototipo para demostrar metodos de entrada con el mismo
+                    lenguaje visual.
+                  </p>
+                  <Button
+                    size="lg"
+                    className="mt-6 h-11 w-full rounded-xl"
+                    onClick={() => handleLogin()}
+                  >
+                    Iniciar validacion
+                  </Button>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+
+        <CardFooter className="flex-col items-start gap-3 border-t border-border/60 text-sm text-muted-foreground">
+          <span>Prototipo visual basado en componentes de shadcn/ui.</span>
+          <Link className="font-semibold text-foreground hover:text-primary/80" to="/recuperar">
+            Necesitas otra vista de acceso
+          </Link>
+        </CardFooter>
+      </Card>
+    </AuthShell>
   );
 }

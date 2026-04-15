@@ -1,111 +1,105 @@
 import { Link } from "react-router";
-import { BarChart3, Truck, ArrowRight, TrendingUp, Users } from "lucide-react";
+import { ArrowRight, BarChart3, ShieldCheck, Truck, Users } from "lucide-react";
+
+import { AuthShell } from "./AuthShell";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
+import { cn } from "../ui/utils";
+
+const moduleCards = [
+  {
+    title: "Modulo gerencial",
+    description: "Reportes, seguimiento de KPIs, analisis de ingresos y mantenimiento.",
+    to: "/gerencial/dashboard",
+    icon: BarChart3,
+    points: ["Consultas ejecutivas", "Indicadores consolidados", "Control parametrico"],
+  },
+  {
+    title: "Modulo operativo",
+    description: "Viajes, tickets, pagos y control diario de la operacion en campo.",
+    to: "/operativo/dashboard",
+    icon: Truck,
+    points: ["Transacciones criticas", "Cierres y embarque", "Visibilidad del turno"],
+  },
+];
 
 export function RoleSelection() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-emerald-50 flex items-center justify-center p-6">
-      <div className="w-full max-w-4xl">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-slate-900 mb-3">Bienvenido al Sistema</h1>
-          <p className="text-lg text-slate-600">Selecciona el módulo para comenzar</p>
-        </div>
-
-        <div className="grid grid-cols-2 gap-6">
-          {/* Gerencial */}
-          <Link
-            to="/gerencial/dashboard"
-            className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all p-8 border-2 border-transparent hover:border-indigo-600"
+    <AuthShell>
+      <Card className="w-full max-w-[540px] border-border/70 bg-card/95 shadow-[0_24px_80px_rgba(15,23,42,0.14)] backdrop-blur-sm">
+        <CardHeader className="space-y-4 border-b border-border/60">
+          <Badge
+            variant="outline"
+            className="w-fit rounded-full border-border/80 bg-muted/40 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em]"
           >
-            <div className="flex items-center justify-between mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                <BarChart3 className="w-9 h-9 text-white" />
-              </div>
-              <ArrowRight className="w-6 h-6 text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-            </div>
+            Acceso por modulo
+          </Badge>
+          <div>
+            <CardTitle className="text-3xl font-semibold">Selecciona tu area</CardTitle>
+            <CardDescription className="mt-2 text-sm leading-6">
+              Esta vista esta pensada solo para prototipado, pero ya sigue la misma logica
+              visual sobria del shell principal.
+            </CardDescription>
+          </div>
+        </CardHeader>
 
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">Módulo Gerencial</h2>
-            <p className="text-slate-600 mb-6">
-              Accede a reportes, análisis de desempeño y configuración del sistema
-            </p>
+        <CardContent className="space-y-4 pt-6">
+          {moduleCards.map(({ title, description, to, icon: Icon, points }) => (
+            <Link
+              key={title}
+              to={to}
+              className={cn(
+                "group block rounded-[28px] border border-border/80 bg-muted/25 p-5 transition-all",
+                "hover:-translate-y-0.5 hover:border-foreground/25 hover:bg-background",
+                "hover:shadow-[0_18px_50px_rgba(15,23,42,0.08)]",
+              )}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex size-14 items-center justify-center rounded-2xl border border-border/80 bg-background shadow-inner">
+                  <Icon className="size-7 text-foreground" />
+                </div>
+                <ArrowRight className="mt-1 size-5 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-foreground" />
+              </div>
 
-            <div className="space-y-3">
-              <div className="flex items-center gap-3 text-sm text-slate-700">
-                <div className="w-5 h-5 bg-indigo-100 rounded flex items-center justify-center flex-shrink-0">
-                  <TrendingUp className="w-3 h-3 text-indigo-600" />
-                </div>
-                <span>Consultas gerenciales y KPIs</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm text-slate-700">
-                <div className="w-5 h-5 bg-indigo-100 rounded flex items-center justify-center flex-shrink-0">
-                  <svg className="w-3 h-3 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <span>Mantenimiento de parámetros</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm text-slate-700">
-                <div className="w-5 h-5 bg-indigo-100 rounded flex items-center justify-center flex-shrink-0">
-                  <BarChart3 className="w-3 h-3 text-indigo-600" />
-                </div>
-                <span>Análisis de ingresos y desempeño</span>
-              </div>
-            </div>
-          </Link>
+              <h2 className="mt-5 text-2xl font-semibold text-foreground">{title}</h2>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">{description}</p>
 
-          {/* Operativo */}
-          <Link
-            to="/operativo/dashboard"
-            className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all p-8 border-2 border-transparent hover:border-emerald-600"
-          >
-            <div className="flex items-center justify-between mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                <Truck className="w-9 h-9 text-white" />
+              <div className="mt-5 flex flex-wrap gap-2">
+                {points.map((point) => (
+                  <Badge
+                    key={point}
+                    variant="secondary"
+                    className="rounded-full border border-border/60 bg-background/80 px-3 py-1 text-xs font-medium text-muted-foreground"
+                  >
+                    {point}
+                  </Badge>
+                ))}
               </div>
-              <ArrowRight className="w-6 h-6 text-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-            </div>
+            </Link>
+          ))}
+        </CardContent>
 
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">Módulo Operativo</h2>
-            <p className="text-slate-600 mb-6">
-              Gestiona viajes, tickets, pagos y operaciones diarias del negocio
-            </p>
-
-            <div className="space-y-3">
-              <div className="flex items-center gap-3 text-sm text-slate-700">
-                <div className="w-5 h-5 bg-emerald-100 rounded flex items-center justify-center flex-shrink-0">
-                  <svg className="w-3 h-3 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                  </svg>
-                </div>
-                <span>Gestión de viajes y tickets</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm text-slate-700">
-                <div className="w-5 h-5 bg-emerald-100 rounded flex items-center justify-center flex-shrink-0">
-                  <svg className="w-3 h-3 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                  </svg>
-                </div>
-                <span>Cotizaciones y órdenes de pago</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm text-slate-700">
-                <div className="w-5 h-5 bg-emerald-100 rounded flex items-center justify-center flex-shrink-0">
-                  <Users className="w-3 h-3 text-emerald-600" />
-                </div>
-                <span>Check-in, embarque y cierre</span>
-              </div>
-            </div>
-          </Link>
-        </div>
-
-        <div className="mt-8 text-center">
-          <Link
-            to="/login"
-            className="text-sm text-slate-600 hover:text-slate-900 font-medium"
-          >
-            Cerrar sesión
-          </Link>
-        </div>
-      </div>
-    </div>
+        <CardFooter className="justify-between border-t border-border/60">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <ShieldCheck className="size-4" />
+            Prototipo visual listo para demo
+          </div>
+          <Button asChild variant="ghost" className="rounded-xl">
+            <Link to="/login">
+              <Users className="size-4" />
+              Salir
+            </Link>
+          </Button>
+        </CardFooter>
+      </Card>
+    </AuthShell>
   );
 }

@@ -1,82 +1,84 @@
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
 import {
-  LayoutDashboard,
-  Settings,
-  BarChart3,
-  Users,
-  TrendingUp,
-  DollarSign,
   AlertTriangle,
-  PieChart,
-  Target,
-  Truck,
-  Ticket,
+  BarChart3,
   Calculator,
-  CreditCard,
   CheckSquare,
-  LogOut,
-  FileText,
   ChevronDown,
   ChevronRight,
+  CreditCard,
+  DollarSign,
+  FileText,
+  LayoutDashboard,
+  LogOut,
+  PieChart,
+  Settings,
+  Target,
+  Ticket,
+  Truck,
+  Users,
 } from "lucide-react";
-import { useState } from "react";
+
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
+import { cn } from "../ui/utils";
 
 interface MenuItem {
   title: string;
   icon: React.ReactNode;
   path?: string;
   children?: MenuItem[];
-  section?: "gerencial" | "operativo";
 }
 
 const menuItems: MenuItem[] = [
   {
     title: "Gerencial",
-    icon: <BarChart3 className="w-5 h-5" />,
-    section: "gerencial",
+    icon: <BarChart3 className="size-4" />,
     children: [
       {
         title: "Dashboard",
-        icon: <LayoutDashboard className="w-4 h-4" />,
+        icon: <LayoutDashboard className="size-4" />,
         path: "/gerencial/dashboard",
       },
       {
-        title: "Mantenimiento Parámetros",
-        icon: <Settings className="w-4 h-4" />,
+        title: "Mantenimiento parametros",
+        icon: <Settings className="size-4" />,
         path: "/gerencial/parametros",
       },
       {
         title: "Consultas",
-        icon: <BarChart3 className="w-4 h-4" />,
+        icon: <BarChart3 className="size-4" />,
         children: [
           {
-            title: "Desempeño Operarios",
-            icon: <Users className="w-4 h-4" />,
+            title: "Desempeno operarios",
+            icon: <Users className="size-4" />,
             path: "/gerencial/consultas/desempeno-operarios",
           },
           {
-            title: "Desempeño Vehicular",
-            icon: <Truck className="w-4 h-4" />,
+            title: "Desempeno vehicular",
+            icon: <Truck className="size-4" />,
             path: "/gerencial/consultas/desempeno-vehicular",
           },
           {
             title: "Ingresos",
-            icon: <DollarSign className="w-4 h-4" />,
+            icon: <DollarSign className="size-4" />,
             path: "/gerencial/consultas/ingresos",
           },
           {
             title: "Incidencias",
-            icon: <AlertTriangle className="w-4 h-4" />,
+            icon: <AlertTriangle className="size-4" />,
             path: "/gerencial/consultas/incidencias",
           },
           {
-            title: "Demanda y Ocupación",
-            icon: <PieChart className="w-4 h-4" />,
+            title: "Demanda y ocupacion",
+            icon: <PieChart className="size-4" />,
             path: "/gerencial/consultas/demanda-ocupacion",
           },
           {
             title: "Indicadores KPI",
-            icon: <Target className="w-4 h-4" />,
+            icon: <Target className="size-4" />,
             path: "/gerencial/consultas/indicadores-kpi",
           },
         ],
@@ -85,51 +87,50 @@ const menuItems: MenuItem[] = [
   },
   {
     title: "Operativo",
-    icon: <Truck className="w-5 h-5" />,
-    section: "operativo",
+    icon: <Truck className="size-4" />,
     children: [
       {
         title: "Dashboard",
-        icon: <LayoutDashboard className="w-4 h-4" />,
+        icon: <LayoutDashboard className="size-4" />,
         path: "/operativo/dashboard",
       },
       {
         title: "Transacciones",
-        icon: <FileText className="w-4 h-4" />,
+        icon: <FileText className="size-4" />,
         children: [
           {
-            title: "Recursos de Viaje",
-            icon: <Truck className="w-4 h-4" />,
+            title: "Recursos de viaje",
+            icon: <Truck className="size-4" />,
             path: "/operativo/recursos-viaje",
           },
           {
-            title: "Reserva de Tickets",
-            icon: <Ticket className="w-4 h-4" />,
+            title: "Reserva de tickets",
+            icon: <Ticket className="size-4" />,
             path: "/operativo/reserva-tickets",
           },
           {
-            title: "Cotización",
-            icon: <Calculator className="w-4 h-4" />,
+            title: "Cotizacion",
+            icon: <Calculator className="size-4" />,
             path: "/operativo/cotizacion",
           },
           {
-            title: "Orden de Pago",
-            icon: <CreditCard className="w-4 h-4" />,
+            title: "Orden de pago",
+            icon: <CreditCard className="size-4" />,
             path: "/operativo/orden-pago",
           },
           {
-            title: "Emisión de Ticket",
-            icon: <Ticket className="w-4 h-4" />,
+            title: "Emision de ticket",
+            icon: <Ticket className="size-4" />,
             path: "/operativo/emision-ticket",
           },
           {
-            title: "Check-in y Embarque",
-            icon: <CheckSquare className="w-4 h-4" />,
+            title: "Check-in y embarque",
+            icon: <CheckSquare className="size-4" />,
             path: "/operativo/checkin-embarque",
           },
           {
-            title: "Llegada y Cierre",
-            icon: <LogOut className="w-4 h-4" />,
+            title: "Llegada y cierre",
+            icon: <LogOut className="size-4" />,
             path: "/operativo/llegada-cierre",
           },
         ],
@@ -138,54 +139,46 @@ const menuItems: MenuItem[] = [
   },
 ];
 
+function containsPath(item: MenuItem, pathname: string): boolean {
+  if (item.path === pathname) return true;
+  return item.children?.some((child) => containsPath(child, pathname)) ?? false;
+}
+
 function MenuItemComponent({ item, level = 0 }: { item: MenuItem; level?: number }) {
-  const [isOpen, setIsOpen] = useState(true);
   const location = useLocation();
+  const hasChildren = Boolean(item.children?.length);
   const isActive = item.path === location.pathname;
-  const hasChildren = item.children && item.children.length > 0;
+  const isOpenBranch = containsPath(item, location.pathname);
+  const [isOpen, setIsOpen] = useState(level === 0 || isOpenBranch);
 
-  const sectionColors = {
-    gerencial: "text-indigo-600 bg-indigo-50 border-indigo-600",
-    operativo: "text-emerald-600 bg-emerald-50 border-emerald-600",
-  };
+  useEffect(() => {
+    if (isOpenBranch) setIsOpen(true);
+  }, [isOpenBranch]);
 
-  const sectionHoverColors = {
-    gerencial: "hover:bg-indigo-50 hover:text-indigo-700",
-    operativo: "hover:bg-emerald-50 hover:text-emerald-700",
-  };
-
-  const activeClass = isActive
-    ? item.section
-      ? sectionColors[item.section]
-      : "bg-slate-100 text-slate-900 border-l-4"
-    : "";
-
-  const hoverClass = item.section
-    ? sectionHoverColors[item.section]
-    : "hover:bg-slate-100";
+  const indentStyle = level > 0 ? { paddingLeft: `${16 + level * 12}px` } : undefined;
 
   if (hasChildren) {
     return (
-      <div>
+      <div className="space-y-1">
         <button
-          onClick={() => setIsOpen(!isOpen)}
-          className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${hoverClass} ${
-            level === 0 ? "font-semibold" : "font-medium"
-          }`}
-          style={{ paddingLeft: `${(level + 1) * 16}px` }}
+          onClick={() => setIsOpen((current) => !current)}
+          className={cn(
+            "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors",
+            level === 0
+              ? "text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-400 hover:bg-white/[0.05]"
+              : "text-sm text-zinc-300 hover:bg-white/[0.05] hover:text-white",
+            isOpenBranch && level > 0 && "bg-white/[0.06] text-white",
+          )}
+          style={indentStyle}
         >
           {item.icon}
-          <span className="flex-1 text-left">{item.title}</span>
-          {isOpen ? (
-            <ChevronDown className="w-4 h-4" />
-          ) : (
-            <ChevronRight className="w-4 h-4" />
-          )}
+          <span className="flex-1">{item.title}</span>
+          {isOpen ? <ChevronDown className="size-4" /> : <ChevronRight className="size-4" />}
         </button>
         {isOpen && (
-          <div>
-            {item.children?.map((child, idx) => (
-              <MenuItemComponent key={idx} item={child} level={level + 1} />
+          <div className="space-y-1">
+            {item.children?.map((child) => (
+              <MenuItemComponent key={`${item.title}-${child.title}`} item={child} level={level + 1} />
             ))}
           </div>
         )}
@@ -196,10 +189,13 @@ function MenuItemComponent({ item, level = 0 }: { item: MenuItem; level?: number
   return (
     <Link
       to={item.path || "#"}
-      className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors border-l-4 border-transparent ${activeClass} ${hoverClass} ${
-        level === 0 ? "font-semibold" : "font-medium"
-      }`}
-      style={{ paddingLeft: `${(level + 1) * 16}px` }}
+      className={cn(
+        "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all",
+        isActive
+          ? "bg-white/[0.1] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+          : "text-zinc-300 hover:bg-white/[0.05] hover:text-white",
+      )}
+      style={indentStyle}
     >
       {item.icon}
       <span>{item.title}</span>
@@ -209,33 +205,46 @@ function MenuItemComponent({ item, level = 0 }: { item: MenuItem; level?: number
 
 export function Sidebar() {
   return (
-    <aside className="w-72 bg-white border-r border-slate-200 flex flex-col">
-      <div className="p-6 border-b border-slate-200">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-emerald-600 rounded-lg flex items-center justify-center">
-            <Truck className="w-6 h-6 text-white" />
+    <aside className="hidden w-[304px] border-r border-white/10 bg-[#101114] text-zinc-100 lg:flex lg:flex-col">
+      <div className="p-4">
+        <div className="rounded-[28px] border border-white/10 bg-white/[0.04] p-5 shadow-[0_18px_50px_rgba(0,0,0,0.18)]">
+          <div className="flex items-center gap-3">
+            <div className="flex size-11 items-center justify-center rounded-2xl border border-white/10 bg-white/8">
+              <Truck className="size-5 text-white" />
+            </div>
+            <div>
+              <h1 className="text-base font-semibold text-white">TransporteSaaS</h1>
+              <p className="text-xs text-zinc-500">Sistema empresarial</p>
+            </div>
           </div>
-          <div>
-            <h1 className="font-bold text-lg">TransporteSaaS</h1>
-            <p className="text-xs text-slate-500">Sistema Empresarial</p>
+
+          <div className="mt-4 flex items-center gap-2">
+            <Badge className="rounded-full border-white/10 bg-white/8 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white hover:bg-white/8">
+              Shadcn UI
+            </Badge>
+            <span className="text-xs text-zinc-500">Prototipo visual</span>
           </div>
         </div>
       </div>
 
-      <nav className="flex-1 overflow-y-auto py-4">
-        {menuItems.map((item, idx) => (
-          <MenuItemComponent key={idx} item={item} />
+      <nav className="flex-1 space-y-3 overflow-y-auto px-3 pb-4">
+        {menuItems.map((item) => (
+          <MenuItemComponent key={item.title} item={item} />
         ))}
       </nav>
 
-      <div className="p-4 border-t border-slate-200">
-        <Link
-          to="/login"
-          className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+      <div className="p-4">
+        <Separator className="mb-4 bg-white/10" />
+        <Button
+          asChild
+          variant="ghost"
+          className="w-full justify-start rounded-xl px-3 text-zinc-300 hover:bg-white/[0.06] hover:text-white"
         >
-          <LogOut className="w-4 h-4" />
-          <span>Cerrar Sesión</span>
-        </Link>
+          <Link to="/login">
+            <LogOut className="size-4" />
+            Cerrar sesion
+          </Link>
+        </Button>
       </div>
     </aside>
   );
