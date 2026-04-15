@@ -20,7 +20,7 @@ export function RecursosViaje() {
         actions={
           <button
             onClick={() => setShowModal(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-slate-700 text-white rounded-lg font-medium hover:bg-slate-800 transition-colors"
           >
             <Plus className="w-4 h-4" />
             Programar Nuevo Viaje
@@ -63,8 +63,8 @@ export function RecursosViaje() {
                 <span
                   className={`px-2 py-1 text-xs font-medium rounded-full ${
                     item.estado === "Confirmado"
-                      ? "bg-emerald-100 text-emerald-700"
-                      : "bg-amber-100 text-amber-700"
+                      ? "bg-slate-100 text-slate-700"
+                      : "bg-slate-100 text-slate-700"
                   }`}
                 >
                   {item.estado}
@@ -98,7 +98,7 @@ export function RecursosViaje() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">
                     Ruta
                   </label>
-                  <select className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                  <select className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600">
                     <option>Lima - Arequipa</option>
                     <option>Lima - Cusco</option>
                     <option>Lima - Trujillo</option>
@@ -112,7 +112,7 @@ export function RecursosViaje() {
                   </label>
                   <input
                     type="date"
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
                     defaultValue="2026-04-15"
                   />
                 </div>
@@ -125,7 +125,7 @@ export function RecursosViaje() {
                   </label>
                   <input
                     type="time"
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
                     defaultValue="08:00"
                   />
                 </div>
@@ -136,7 +136,7 @@ export function RecursosViaje() {
                   </label>
                   <input
                     type="time"
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
                     defaultValue="16:00"
                   />
                 </div>
@@ -146,7 +146,7 @@ export function RecursosViaje() {
                 <label className="block text-sm font-medium text-slate-700 mb-2">
                   Vehículo Asignado
                 </label>
-                <select className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <select className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600">
                   <option>ABC-123 - Mercedes Sprinter (Cap: 20)</option>
                   <option>XYZ-789 - Volvo 9700 (Cap: 45)</option>
                   <option>GHI-321 - Mercedes O500 (Cap: 48)</option>
@@ -159,7 +159,7 @@ export function RecursosViaje() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">
                     Conductor Principal
                   </label>
-                  <select className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                  <select className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600">
                     <option>Carlos Mendoza - Lic: A-IIIc</option>
                     <option>Luis Torres - Lic: A-IIIb</option>
                     <option>Pedro Ramírez - Lic: A-IIIc</option>
@@ -170,7 +170,7 @@ export function RecursosViaje() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">
                     Copiloto (Opcional)
                   </label>
-                  <select className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                  <select className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600">
                     <option value="">Sin copiloto</option>
                     <option>Ana García - Lic: A-I</option>
                     <option>María Santos - Supervisor</option>
@@ -183,7 +183,7 @@ export function RecursosViaje() {
                   Observaciones
                 </label>
                 <textarea
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
                   rows={3}
                   placeholder="Notas adicionales sobre el viaje..."
                 ></textarea>
@@ -199,7 +199,7 @@ export function RecursosViaje() {
               </button>
               <button
                 onClick={() => setShowModal(false)}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-slate-700 rounded-lg hover:bg-slate-800 transition-colors"
               >
                 <Save className="w-4 h-4" />
                 Programar Viaje

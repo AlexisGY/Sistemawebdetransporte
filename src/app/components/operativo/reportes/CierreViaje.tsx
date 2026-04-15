@@ -16,7 +16,7 @@ export function CierreViaje() {
             <Printer className="w-4 h-4" />
             Imprimir
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-white bg-emerald-600 rounded-lg hover:bg-emerald-700">
+          <button className="flex items-center gap-2 px-4 py-2 text-white bg-slate-700 rounded-lg hover:bg-slate-800">
             <Download className="w-4 h-4" />
             Descargar PDF
           </button>
@@ -89,21 +89,21 @@ export function CierreViaje() {
         <div className="p-8 border-b border-slate-200">
           <h2 className="text-lg font-bold text-slate-900 mb-4">ESTADÍSTICAS DE PASAJEROS</h2>
           <div className="grid grid-cols-4 gap-4 mb-4">
-            <div className="bg-indigo-50 p-4 rounded-lg print:bg-transparent print:border print:border-slate-300">
+            <div className="bg-slate-50 p-4 rounded-lg print:bg-transparent print:border print:border-slate-300">
               <p className="text-sm text-slate-600 mb-1">Capacidad Total</p>
-              <p className="text-3xl font-bold text-indigo-600 print:text-black">20</p>
+              <p className="text-3xl font-bold text-slate-700 print:text-black">20</p>
             </div>
-            <div className="bg-emerald-50 p-4 rounded-lg print:bg-transparent print:border print:border-slate-300">
+            <div className="bg-slate-50 p-4 rounded-lg print:bg-transparent print:border print:border-slate-300">
               <p className="text-sm text-slate-600 mb-1">Embarcados</p>
-              <p className="text-3xl font-bold text-emerald-600 print:text-black">18</p>
+              <p className="text-3xl font-bold text-slate-700 print:text-black">18</p>
             </div>
-            <div className="bg-purple-50 p-4 rounded-lg print:bg-transparent print:border print:border-slate-300">
+            <div className="bg-slate-50 p-4 rounded-lg print:bg-transparent print:border print:border-slate-300">
               <p className="text-sm text-slate-600 mb-1">Ocupación</p>
-              <p className="text-3xl font-bold text-purple-600 print:text-black">90%</p>
+              <p className="text-3xl font-bold text-slate-700 print:text-black">90%</p>
             </div>
-            <div className="bg-amber-50 p-4 rounded-lg print:bg-transparent print:border print:border-slate-300">
+            <div className="bg-slate-50 p-4 rounded-lg print:bg-transparent print:border print:border-slate-300">
               <p className="text-sm text-slate-600 mb-1">No Shows</p>
-              <p className="text-3xl font-bold text-amber-600 print:text-black">2</p>
+              <p className="text-3xl font-bold text-slate-700 print:text-black">2</p>
             </div>
           </div>
         </div>
@@ -125,7 +125,7 @@ export function CierreViaje() {
                 </div>
                 <div className="flex justify-between pt-2 border-t border-slate-300">
                   <span className="font-bold">Total Ingresos:</span>
-                  <span className="font-bold text-emerald-600 print:text-black">S/ 1,575.00</span>
+                  <span className="font-bold text-slate-700 print:text-black">S/ 1,575.00</span>
                 </div>
               </div>
             </div>
@@ -146,15 +146,15 @@ export function CierreViaje() {
                 </div>
                 <div className="flex justify-between pt-2 border-t border-slate-300">
                   <span className="font-bold">Total Gastos:</span>
-                  <span className="font-bold text-rose-600 print:text-black">S/ 490.00</span>
+                  <span className="font-bold text-slate-700 print:text-black">S/ 490.00</span>
                 </div>
               </div>
             </div>
           </div>
-          <div className="mt-6 p-4 bg-emerald-50 border-2 border-emerald-600 rounded-lg print:bg-transparent print:border-black">
+          <div className="mt-6 p-4 bg-slate-50 border-2 border-slate-700 rounded-lg print:bg-transparent print:border-black">
             <div className="flex justify-between items-center">
               <span className="text-lg font-bold">UTILIDAD NETA:</span>
-              <span className="text-3xl font-bold text-emerald-600 print:text-black">S/ 1,085.00</span>
+              <span className="text-3xl font-bold text-slate-700 print:text-black">S/ 1,085.00</span>
             </div>
           </div>
         </div>
@@ -181,19 +181,19 @@ export function CierreViaje() {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="w-6 h-6 bg-emerald-600 rounded flex items-center justify-center print:border print:border-black print:bg-transparent">
+                <div className="w-6 h-6 bg-slate-700 rounded flex items-center justify-center print:border print:border-black print:bg-transparent">
                   <span className="text-white text-sm print:text-black">✓</span>
                 </div>
                 <span className="text-sm">Todos los pasajeros descendieron</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-6 h-6 bg-emerald-600 rounded flex items-center justify-center print:border print:border-black print:bg-transparent">
+                <div className="w-6 h-6 bg-slate-700 rounded flex items-center justify-center print:border print:border-black print:bg-transparent">
                   <span className="text-white text-sm print:text-black">✓</span>
                 </div>
                 <span className="text-sm">Vehículo inspeccionado</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-6 h-6 bg-emerald-600 rounded flex items-center justify-center print:border print:border-black print:bg-transparent">
+                <div className="w-6 h-6 bg-slate-700 rounded flex items-center justify-center print:border print:border-black print:bg-transparent">
                   <span className="text-white text-sm print:text-black">✓</span>
                 </div>
                 <span className="text-sm">Documentación completa</span>
@@ -201,19 +201,19 @@ export function CierreViaje() {
             </div>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <div className="w-6 h-6 bg-emerald-600 rounded flex items-center justify-center print:border print:border-black print:bg-transparent">
+                <div className="w-6 h-6 bg-slate-700 rounded flex items-center justify-center print:border print:border-black print:bg-transparent">
                   <span className="text-white text-sm print:text-black">✓</span>
                 </div>
                 <span className="text-sm">Manifiesto firmado</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-6 h-6 bg-emerald-600 rounded flex items-center justify-center print:border print:border-black print:bg-transparent">
+                <div className="w-6 h-6 bg-slate-700 rounded flex items-center justify-center print:border print:border-black print:bg-transparent">
                   <span className="text-white text-sm print:text-black">✓</span>
                 </div>
                 <span className="text-sm">Ingresos registrados</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-6 h-6 bg-emerald-600 rounded flex items-center justify-center print:border print:border-black print:bg-transparent">
+                <div className="w-6 h-6 bg-slate-700 rounded flex items-center justify-center print:border print:border-black print:bg-transparent">
                   <span className="text-white text-sm print:text-black">✓</span>
                 </div>
                 <span className="text-sm">Vehículo listo para próximo servicio</span>

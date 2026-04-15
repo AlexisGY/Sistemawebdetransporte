@@ -19,9 +19,9 @@ export function EmisionTicket() {
             <input
               type="text"
               placeholder="Ingrese código de reserva o DNI del pasajero"
-              className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
             />
-            <button className="px-6 py-2 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 transition-colors">
+            <button className="px-6 py-2 bg-slate-700 text-white rounded-lg font-medium hover:bg-slate-800 transition-colors">
               Buscar
             </button>
           </div>
@@ -29,14 +29,14 @@ export function EmisionTicket() {
 
         {/* Ticket Preview */}
         <div className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
-          <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white p-6">
+          <div className="bg-gradient-to-r from-slate-700 to-slate-800 text-white p-6">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold mb-1">TICKET DE VIAJE</h2>
-                <p className="text-emerald-100">TransporteSaaS</p>
+                <p className="text-slate-200">TransporteSaaS</p>
               </div>
               <div className="text-right">
-                <p className="text-sm text-emerald-100">Código</p>
+                <p className="text-sm text-slate-200">Código</p>
                 <p className="text-2xl font-bold">TKT-142</p>
               </div>
             </div>
@@ -106,7 +106,7 @@ export function EmisionTicket() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-xs text-slate-500">Asiento</p>
-                      <p className="font-semibold text-xl text-emerald-600">05</p>
+                      <p className="font-semibold text-xl text-slate-700">05</p>
                     </div>
                     <div>
                       <p className="text-xs text-slate-500">Precio</p>
@@ -144,7 +144,7 @@ export function EmisionTicket() {
             <p className="text-xs text-slate-500">Emitido: 14/04/2026 10:30</p>
             <Link
               to="/operativo/reportes/ticket-viaje/TKT-142"
-              className="text-xs text-emerald-600 hover:text-emerald-700 font-medium"
+              className="text-xs text-slate-600 hover:text-slate-700 font-medium"
             >
               Ver reporte completo →
             </Link>
@@ -161,7 +161,7 @@ export function EmisionTicket() {
             <Download className="w-5 h-5" />
             Descargar PDF
           </button>
-          <button className="flex items-center gap-2 px-6 py-3 text-white bg-emerald-600 rounded-lg font-medium hover:bg-emerald-700 transition-colors">
+          <button className="flex items-center gap-2 px-6 py-3 text-white bg-slate-700 rounded-lg font-medium hover:bg-slate-800 transition-colors">
             <Send className="w-5 h-5" />
             Enviar por Email
           </button>

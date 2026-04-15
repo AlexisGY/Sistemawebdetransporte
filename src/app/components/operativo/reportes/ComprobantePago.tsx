@@ -16,7 +16,7 @@ export function ComprobantePago() {
             <Printer className="w-4 h-4" />
             Imprimir
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-white bg-emerald-600 rounded-lg hover:bg-emerald-700">
+          <button className="flex items-center gap-2 px-4 py-2 text-white bg-slate-700 rounded-lg hover:bg-slate-800">
             <Download className="w-4 h-4" />
             Descargar PDF
           </button>
@@ -25,7 +25,7 @@ export function ComprobantePago() {
 
       <div className="max-w-3xl mx-auto bg-white shadow-lg print:shadow-none">
         {/* Header */}
-        <div className="border-b-4 border-emerald-600 p-8 print:border-black">
+        <div className="border-b-4 border-slate-700 p-8 print:border-black">
           <div className="flex justify-between items-start mb-6">
             <div>
               <h1 className="text-3xl font-bold text-slate-900 mb-2">TransporteSaaS</h1>
@@ -33,9 +33,9 @@ export function ComprobantePago() {
               <p className="text-sm text-slate-500 mt-1">RUC: 20123456789</p>
               <p className="text-sm text-slate-500">Av. Principal 123, Lima, Perú</p>
             </div>
-            <div className="text-right border-2 border-emerald-600 p-4 print:border-black">
+            <div className="text-right border-2 border-slate-700 p-4 print:border-black">
               <p className="text-lg font-bold">BOLETA DE VENTA</p>
-              <p className="text-xl font-bold text-emerald-600 print:text-black">{id}</p>
+              <p className="text-xl font-bold text-slate-700 print:text-black">{id}</p>
             </div>
           </div>
         </div>
@@ -103,7 +103,7 @@ export function ComprobantePago() {
               </div>
               <div className="flex justify-between text-lg pt-3 border-t-2 border-slate-300">
                 <span className="font-bold">TOTAL:</span>
-                <span className="font-bold text-emerald-600 print:text-black">S/ 85.00</span>
+                <span className="font-bold text-slate-700 print:text-black">S/ 85.00</span>
               </div>
               <div className="bg-slate-50 p-3 rounded print:bg-transparent print:border print:border-slate-300">
                 <p className="text-xs text-slate-600 mb-1">Método de Pago:</p>
