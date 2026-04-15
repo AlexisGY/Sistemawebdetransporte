@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { PageHeader } from "../shared/PageHeader";
 import { DataTable } from "../shared/DataTable";
 import {
@@ -771,7 +772,7 @@ function CatalogModal({ category, editingItem, onClose, onSave }: ModalProps) {
         </div>
 
         {/* Form */}
-        <div className="overflow-y-auto px-6 py-4 space-y-4 flex-1">
+        <div className="scrollbar-modern overflow-y-auto px-6 py-4 space-y-4 flex-1">
           {fields.map((field) => (
             <div key={field.key}>
               <label className="block text-sm font-medium text-slate-700 mb-1">
@@ -876,10 +877,20 @@ function EmptyState({ catName, onAdd }: { catName: string; onAdd: () => void }) 
 
 
 export function ParamsMaintenance() {
+  const { category } = useParams();
   const [selectedCategory, setSelectedCategory] = useState("vehiculos");
   const [showModal, setShowModal] = useState(false);
   const [editingItem, setEditingItem] = useState<any>(null);
   const [localData, setLocalData] = useState<Record<string, any[]>>({});
+
+  useEffect(() => {
+    if (!category) {
+      setSelectedCategory("vehiculos");
+      return;
+    }
+    const exists = categories.some((c) => c.id === category);
+    setSelectedCategory(exists ? category : "vehiculos");
+  }, [category]);
 
   const selectedCat = categories.find((c) => c.id === selectedCategory)!;
   const IconComponent = selectedCat.icon;
@@ -926,12 +937,6 @@ export function ParamsMaintenance() {
   const data = getData();
   const hasForm = getCategoryFormFields(selectedCategory).length > 0;
 
-  const menuSections = [
-    { label: "Recursos", ids: ["vehiculos","operarios","sedes","contenedores","bienes","unidades","clientes"] },
-    { label: "Comerciales",   ids: ["servicios","rutas","horarios","tarifarios"] },
-    { label: "Normativos",    ids: ["politicas","reglas","protocolos"] },
-  ];
-
   return (
     <div className="min-h-full bg-background">
       <PageHeader
@@ -939,39 +944,8 @@ export function ParamsMaintenance() {
         subtitle="Configure los catálogos maestros del sistema"
       />
 
-      <div className="flex gap-6 p-8">
-        <div className="w-60 flex-shrink-0 space-y-4">
-          {menuSections.map((section) => (
-            <div key={section.label}>
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider px-2 mb-1">
-                {section.label}
-              </p>
-              <div className="space-y-0.5">
-                {section.ids.map((id) => {
-                  const cat = categories.find((c) => c.id === id)!;
-                  const Icon = cat.icon;
-                  const isActive = selectedCategory === id;
-                  return (
-                    <button
-                      key={id}
-                      onClick={() => setSelectedCategory(id)}
-                      className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                        isActive
-                          ? `${colorMap[cat.color]} border`
-                          : "text-slate-600 hover:bg-slate-100"
-                      }`}
-                    >
-                      <Icon className="w-4 h-4 flex-shrink-0" />
-                      <span className="text-left">{cat.name}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex-1 min-w-0">
+      <div className="p-8">
+        <div className="min-w-0">
           <div className={`flex items-center gap-3 mb-4 px-4 py-3 rounded-xl border ${colorMap[selectedCat.color]}`}>
             <div className="w-8 h-8 flex items-center justify-center">
               <IconComponent className="w-5 h-5" />

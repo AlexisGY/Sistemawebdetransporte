@@ -55,6 +55,10 @@ export const router = createBrowserRouter([
         Component: ParamsMaintenance,
       },
       {
+        path: "gerencial/parametros/:category",
+        Component: ParamsMaintenance,
+      },
+      {
         path: "gerencial/consultas/desempeno-operarios",
         Component: DesempenoOperarios,
       },

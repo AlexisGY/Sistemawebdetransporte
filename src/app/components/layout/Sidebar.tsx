@@ -45,7 +45,24 @@ const menuItems: MenuItem[] = [
       {
         title: "Mantenimiento parámetros",
         icon: <Settings className="size-4" />,
-        path: "/gerencial/parametros",
+        children: [
+          { title: "Vehículos",          icon: <Truck className="size-4" />, path: "/gerencial/parametros/vehiculos" },
+          { title: "Operarios",          icon: <Users className="size-4" />, path: "/gerencial/parametros/operarios" },
+          { title: "Sedes",              icon: <FileText className="size-4" />, path: "/gerencial/parametros/sedes" },
+          { title: "Contenedores",       icon: <FileText className="size-4" />, path: "/gerencial/parametros/contenedores" },
+          { title: "Bienes",             icon: <FileText className="size-4" />, path: "/gerencial/parametros/bienes" },
+          { title: "Unidades de Medida", icon: <FileText className="size-4" />, path: "/gerencial/parametros/unidades" },
+          { title: "Clientes",           icon: <Users className="size-4" />, path: "/gerencial/parametros/clientes" },
+
+          { title: "Servicios",          icon: <FileText className="size-4" />, path: "/gerencial/parametros/servicios" },
+          { title: "Rutas y Coberturas", icon: <FileText className="size-4" />, path: "/gerencial/parametros/rutas" },
+          { title: "Horarios",           icon: <FileText className="size-4" />, path: "/gerencial/parametros/horarios" },
+          { title: "Tarifarios",         icon: <FileText className="size-4" />, path: "/gerencial/parametros/tarifarios" },
+
+          { title: "Políticas",          icon: <FileText className="size-4" />, path: "/gerencial/parametros/politicas" },
+          { title: "Reglas",             icon: <FileText className="size-4" />, path: "/gerencial/parametros/reglas" },
+          { title: "Protocolos",         icon: <FileText className="size-4" />, path: "/gerencial/parametros/protocolos" },
+        ],
       },
       {
         title: "Consultas",
@@ -220,7 +237,7 @@ export function Sidebar() {
         </div>
       </div>
 
-      <nav className="flex-1 space-y-3 overflow-y-auto px-3 pb-4">
+      <nav className="scrollbar-modern flex-1 space-y-3 overflow-y-auto px-3 pb-4">
         {menuItems.map((item) => (
           <MenuItemComponent key={item.title} item={item} />
         ))}
