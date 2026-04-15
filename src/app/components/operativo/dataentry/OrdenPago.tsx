@@ -24,7 +24,7 @@ export function OrdenPago() {
                 onClick={() => setMetodoPago("tarjeta")}
                 className={`p-4 border-2 rounded-lg transition-all ${
                   metodoPago === "tarjeta"
-                    ? "border-emerald-600 bg-emerald-50"
+                    ? "border-slate-700 bg-slate-50"
                     : "border-slate-200 hover:border-slate-300"
                 }`}
               >
@@ -35,7 +35,7 @@ export function OrdenPago() {
                 onClick={() => setMetodoPago("efectivo")}
                 className={`p-4 border-2 rounded-lg transition-all ${
                   metodoPago === "efectivo"
-                    ? "border-emerald-600 bg-emerald-50"
+                    ? "border-slate-700 bg-slate-50"
                     : "border-slate-200 hover:border-slate-300"
                 }`}
               >
@@ -46,7 +46,7 @@ export function OrdenPago() {
                 onClick={() => setMetodoPago("transferencia")}
                 className={`p-4 border-2 rounded-lg transition-all ${
                   metodoPago === "transferencia"
-                    ? "border-emerald-600 bg-emerald-50"
+                    ? "border-slate-700 bg-slate-50"
                     : "border-slate-200 hover:border-slate-300"
                 }`}
               >
@@ -67,7 +67,7 @@ export function OrdenPago() {
                   <input
                     type="text"
                     placeholder="1234 5678 9012 3456"
-                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -78,7 +78,7 @@ export function OrdenPago() {
                     <input
                       type="text"
                       placeholder="MM/AA"
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
                     />
                   </div>
                   <div>
@@ -88,7 +88,7 @@ export function OrdenPago() {
                     <input
                       type="text"
                       placeholder="123"
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
                     />
                   </div>
                 </div>
@@ -99,7 +99,7 @@ export function OrdenPago() {
                   <input
                     type="text"
                     placeholder="JUAN PEREZ GARCIA"
-                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
                   />
                 </div>
               </div>
@@ -115,7 +115,7 @@ export function OrdenPago() {
                   <input
                     type="number"
                     placeholder="0.00"
-                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
                   />
                 </div>
                 <div className="bg-slate-50 rounded-lg p-4">
@@ -125,7 +125,7 @@ export function OrdenPago() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-700">Vuelto:</span>
-                    <span className="font-bold text-emerald-600">S/ 0.00</span>
+                    <span className="font-bold text-slate-700">S/ 0.00</span>
                   </div>
                 </div>
               </div>
@@ -158,13 +158,13 @@ export function OrdenPago() {
                   <input
                     type="text"
                     placeholder="Ingresar número de operación"
-                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
                   />
                 </div>
               </div>
             )}
 
-            <button className="w-full mt-6 flex items-center justify-center gap-2 px-4 py-3 text-white bg-emerald-600 rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
+            <button className="w-full mt-6 flex items-center justify-center gap-2 px-4 py-3 text-white bg-slate-700 rounded-lg font-semibold hover:bg-slate-800 transition-colors">
               <CheckCircle className="w-5 h-5" />
               Procesar Pago
             </button>
@@ -198,7 +198,7 @@ export function OrdenPago() {
                 </div>
                 <div className="flex justify-between pt-2 border-t border-slate-200">
                   <span className="font-bold text-slate-900">Total:</span>
-                  <span className="text-2xl font-bold text-emerald-600">S/ 170.00</span>
+                  <span className="text-2xl font-bold text-slate-700">S/ 170.00</span>
                 </div>
               </div>
             </div>

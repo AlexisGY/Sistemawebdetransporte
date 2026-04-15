@@ -16,7 +16,7 @@ export function TicketViaje() {
             <Printer className="w-4 h-4" />
             Imprimir
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition-colors">
+          <button className="flex items-center gap-2 px-4 py-2 text-white bg-slate-700 rounded-lg hover:bg-slate-800 transition-colors">
             <Download className="w-4 h-4" />
             Descargar PDF
           </button>
@@ -25,7 +25,7 @@ export function TicketViaje() {
 
       <div className="max-w-4xl mx-auto bg-white shadow-lg print:shadow-none">
         {/* Header */}
-        <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white p-8 print:bg-none print:text-black print:border-b-2 print:border-black">
+        <div className="bg-gradient-to-r from-slate-700 to-slate-800 text-white p-8 print:bg-none print:text-black print:border-b-2 print:border-black">
           <div className="flex items-start justify-between">
             <div>
               <h1 className="text-3xl font-bold mb-2 print:text-black">TICKET DE VIAJE</h1>
@@ -33,7 +33,7 @@ export function TicketViaje() {
               <p className="text-sm mt-1 print:text-black">RUC: 20123456789</p>
             </div>
             <div className="text-right">
-              <div className="bg-white text-emerald-700 px-6 py-3 rounded-lg print:bg-transparent print:text-black print:border print:border-black">
+              <div className="bg-white text-slate-700 px-6 py-3 rounded-lg print:bg-transparent print:text-black print:border print:border-black">
                 <p className="text-sm font-medium">N° Ticket</p>
                 <p className="text-2xl font-bold">{id}</p>
               </div>
@@ -96,7 +96,7 @@ export function TicketViaje() {
                 </div>
                 <div>
                   <p className="text-xs text-slate-500 mb-1">Número de Asiento</p>
-                  <p className="text-2xl font-bold text-emerald-600 print:text-black">05</p>
+                  <p className="text-2xl font-bold text-slate-700 print:text-black">05</p>
                 </div>
               </div>
             </div>
@@ -140,14 +140,14 @@ export function TicketViaje() {
                 </div>
                 <div className="flex justify-between pt-2 border-t-2 border-slate-300">
                   <span className="text-lg font-bold">Total:</span>
-                  <span className="text-2xl font-bold text-emerald-600 print:text-black">S/ 85.00</span>
+                  <span className="text-2xl font-bold text-slate-700 print:text-black">S/ 85.00</span>
                 </div>
               </div>
               <div>
                 <p className="text-xs text-slate-500 mb-1">Método de Pago</p>
                 <p className="font-semibold">Tarjeta de Crédito</p>
                 <p className="text-xs text-slate-500 mt-3">Estado</p>
-                <p className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm font-semibold print:bg-transparent print:border print:border-black print:text-black">
+                <p className="inline-block px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-semibold print:bg-transparent print:border print:border-black print:text-black">
                   Pagado
                 </p>
               </div>

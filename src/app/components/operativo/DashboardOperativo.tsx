@@ -10,10 +10,10 @@ const viajesHoy = [
 ];
 
 const accionesRapidas = [
-  { title: "Reservar Ticket", icon: Ticket, color: "emerald", path: "/operativo/reserva-tickets" },
-  { title: "Emitir Ticket", icon: CheckSquare, color: "indigo", path: "/operativo/emision-ticket" },
-  { title: "Cotización", icon: CreditCard, color: "purple", path: "/operativo/cotizacion" },
-  { title: "Check-in", icon: Users, color: "blue", path: "/operativo/checkin-embarque" },
+  { title: "Reservar Ticket", icon: Ticket, color: "slate", path: "/operativo/reserva-tickets" },
+  { title: "Emitir Ticket", icon: CheckSquare, color: "slate", path: "/operativo/emision-ticket" },
+  { title: "Cotización", icon: CreditCard, color: "slate", path: "/operativo/cotizacion" },
+  { title: "Check-in", icon: Users, color: "slate", path: "/operativo/checkin-embarque" },
 ];
 
 export function DashboardOperativo() {
@@ -29,8 +29,8 @@ export function DashboardOperativo() {
         <div className="grid grid-cols-4 gap-6">
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-4">
-              <Truck className="w-10 h-10 text-emerald-600" />
-              <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
+              <Truck className="w-10 h-10 text-slate-600" />
+              <span className="px-2 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
                 Hoy
               </span>
             </div>
@@ -40,8 +40,8 @@ export function DashboardOperativo() {
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-4">
-              <Ticket className="w-10 h-10 text-indigo-600" />
-              <span className="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-full">
+              <Ticket className="w-10 h-10 text-slate-600" />
+              <span className="px-2 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
                 Vendidos
               </span>
             </div>
@@ -51,8 +51,8 @@ export function DashboardOperativo() {
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-4">
-              <CheckSquare className="w-10 h-10 text-purple-600" />
-              <span className="px-2 py-1 bg-purple-100 text-purple-700 text-xs font-medium rounded-full">
+              <CheckSquare className="w-10 h-10 text-slate-600" />
+              <span className="px-2 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
                 Proceso
               </span>
             </div>
@@ -62,8 +62,8 @@ export function DashboardOperativo() {
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-4">
-              <AlertCircle className="w-10 h-10 text-amber-600" />
-              <span className="px-2 py-1 bg-amber-100 text-amber-700 text-xs font-medium rounded-full">
+              <AlertCircle className="w-10 h-10 text-slate-600" />
+              <span className="px-2 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
                 Alertas
               </span>
             </div>
@@ -79,16 +79,13 @@ export function DashboardOperativo() {
             {accionesRapidas.map((accion, index) => {
               const Icon = accion.icon;
               const colorClasses = {
-                emerald: "from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700",
-                indigo: "from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700",
-                purple: "from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700",
-                blue: "from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700",
+                slate: "bg-slate-700 hover:bg-slate-800",
               };
               return (
                 <Link
                   key={index}
                   to={accion.path}
-                  className={`bg-gradient-to-br ${colorClasses[accion.color as keyof typeof colorClasses]} rounded-xl p-6 text-white shadow-lg transition-all hover:shadow-xl group`}
+                  className={`${colorClasses[accion.color as keyof typeof colorClasses]} rounded-xl p-6 text-white shadow-sm transition-all hover:shadow-md group border border-slate-600`}
                 >
                   <Icon className="w-10 h-10 mb-3 opacity-90 group-hover:scale-110 transition-transform" />
                   <p className="font-semibold">{accion.title}</p>
@@ -108,7 +105,7 @@ export function DashboardOperativo() {
               </div>
               <Link
                 to="/operativo/recursos-viaje"
-                className="px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
               >
                 Ver Todos
               </Link>
@@ -123,8 +120,8 @@ export function DashboardOperativo() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-6 flex-1">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center">
-                          <Truck className="w-6 h-6 text-emerald-600" />
+                        <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
+                          <Truck className="w-6 h-6 text-slate-600" />
                         </div>
                         <div>
                           <p className="font-semibold text-slate-900">{viaje.id}</p>
@@ -158,23 +155,13 @@ export function DashboardOperativo() {
                       <div className="w-32">
                         <div className="bg-slate-200 rounded-full h-2 mb-1">
                           <div
-                            className={`h-2 rounded-full ${
-                              ocupacionPorcentaje >= 80 ? "bg-emerald-500" : "bg-indigo-500"
-                            }`}
+                            className="h-2 rounded-full bg-slate-600"
                             style={{ width: `${ocupacionPorcentaje}%` }}
                           ></div>
                         </div>
                         <p className="text-xs text-slate-600 text-right">{ocupacionPorcentaje.toFixed(0)}%</p>
                       </div>
-                      <span
-                        className={`px-3 py-1 text-xs font-medium rounded-full ${
-                          viaje.estado === "En Ruta"
-                            ? "bg-emerald-100 text-emerald-700"
-                            : viaje.estado === "Check-in"
-                            ? "bg-indigo-100 text-indigo-700"
-                            : "bg-slate-100 text-slate-700"
-                        }`}
-                      >
+                      <span className="px-3 py-1 text-xs font-medium rounded-full bg-slate-100 text-slate-700">
                         {viaje.estado}
                       </span>
                     </div>
@@ -189,34 +176,34 @@ export function DashboardOperativo() {
         <div className="grid grid-cols-3 gap-6">
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
-                <Clock className="w-6 h-6 text-indigo-600" />
+              <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
+                <Clock className="w-6 h-6 text-slate-600" />
               </div>
               <h4 className="font-semibold text-slate-900">Próxima Salida</h4>
             </div>
-            <p className="text-2xl font-bold text-indigo-600 mb-1">08:00</p>
+            <p className="text-2xl font-bold text-slate-900 mb-1">08:00</p>
             <p className="text-sm text-slate-600">Lima - Arequipa (VJ-001)</p>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
-                <CreditCard className="w-6 h-6 text-emerald-600" />
+              <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
+                <CreditCard className="w-6 h-6 text-slate-600" />
               </div>
               <h4 className="font-semibold text-slate-900">Ingresos Hoy</h4>
             </div>
-            <p className="text-2xl font-bold text-emerald-600 mb-1">S/ 7,395</p>
+            <p className="text-2xl font-bold text-slate-900 mb-1">S/ 7,395</p>
             <p className="text-sm text-slate-600">87 tickets vendidos</p>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                <Truck className="w-6 h-6 text-purple-600" />
+              <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
+                <Truck className="w-6 h-6 text-slate-600" />
               </div>
               <h4 className="font-semibold text-slate-900">Flota Disponible</h4>
             </div>
-            <p className="text-2xl font-bold text-purple-600 mb-1">38</p>
+            <p className="text-2xl font-bold text-slate-900 mb-1">38</p>
             <p className="text-sm text-slate-600">De 50 vehículos totales</p>
           </div>
         </div>

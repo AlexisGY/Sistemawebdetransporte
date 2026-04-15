@@ -56,7 +56,7 @@ export function Cotizacion() {
                       <input
                         type="text"
                         defaultValue={item.concepto}
-                        className="w-full px-2 py-1 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        className="w-full px-2 py-1 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-slate-600"
                         placeholder="Descripción del servicio"
                       />
                     </td>
@@ -64,14 +64,14 @@ export function Cotizacion() {
                       <input
                         type="number"
                         defaultValue={item.cantidad}
-                        className="w-full px-2 py-1 border border-slate-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        className="w-full px-2 py-1 border border-slate-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-slate-600"
                       />
                     </td>
                     <td className="px-4 py-3">
                       <input
                         type="number"
                         defaultValue={item.precioUnitario}
-                        className="w-full px-2 py-1 border border-slate-300 rounded text-right focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        className="w-full px-2 py-1 border border-slate-300 rounded text-right focus:outline-none focus:ring-2 focus:ring-slate-600"
                       />
                     </td>
                     <td className="px-4 py-3 text-right font-medium">S/ {item.subtotal.toFixed(2)}</td>
@@ -81,7 +81,7 @@ export function Cotizacion() {
             </table>
             <button
               onClick={addItem}
-              className="mt-3 px-4 py-2 text-sm text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+              className="mt-3 px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 rounded-lg transition-colors"
             >
               + Agregar ítem
             </button>
@@ -100,7 +100,7 @@ export function Cotizacion() {
               </div>
               <div className="flex justify-between py-3 border-t-2 border-slate-300">
                 <span className="text-lg font-bold text-slate-900">Total:</span>
-                <span className="text-2xl font-bold text-emerald-600">S/ {totalConIgv.toFixed(2)}</span>
+                <span className="text-2xl font-bold text-slate-700">S/ {totalConIgv.toFixed(2)}</span>
               </div>
             </div>
           </div>
@@ -109,7 +109,7 @@ export function Cotizacion() {
           <div className="mb-6">
             <label className="block text-sm font-medium text-slate-700 mb-2">Observaciones</label>
             <textarea
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
               rows={3}
               placeholder="Condiciones comerciales, validez de la cotización, etc."
             ></textarea>
@@ -121,7 +121,7 @@ export function Cotizacion() {
               <Download className="w-4 h-4" />
               Descargar PDF
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition-colors">
+            <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-slate-700 rounded-lg hover:bg-slate-800 transition-colors">
               <Send className="w-4 h-4" />
               Enviar por Email
             </button>

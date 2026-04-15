@@ -24,7 +24,7 @@ export function ManifiestoViaje() {
             <Printer className="w-4 h-4" />
             Imprimir
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-white bg-emerald-600 rounded-lg hover:bg-emerald-700">
+          <button className="flex items-center gap-2 px-4 py-2 text-white bg-slate-700 rounded-lg hover:bg-slate-800">
             <Download className="w-4 h-4" />
             Descargar PDF
           </button>

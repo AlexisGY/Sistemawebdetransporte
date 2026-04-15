@@ -43,32 +43,32 @@ export function CheckInEmbarque() {
         <div className="grid grid-cols-4 gap-6 mb-6">
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
-              <User className="w-8 h-8 text-indigo-600" />
-              <span className="text-2xl font-bold text-indigo-600">{stats.total}</span>
+              <User className="w-8 h-8 text-slate-600" />
+              <span className="text-2xl font-bold text-slate-700">{stats.total}</span>
             </div>
             <p className="text-sm font-medium text-slate-600">Total Pasajeros</p>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
-              <CheckCircle className="w-8 h-8 text-emerald-600" />
-              <span className="text-2xl font-bold text-emerald-600">{stats.checkIn}</span>
+              <CheckCircle className="w-8 h-8 text-slate-600" />
+              <span className="text-2xl font-bold text-slate-700">{stats.checkIn}</span>
             </div>
             <p className="text-sm font-medium text-slate-600">Check-in Realizado</p>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
-              <CheckCircle className="w-8 h-8 text-purple-600" />
-              <span className="text-2xl font-bold text-purple-600">{stats.embarcados}</span>
+              <CheckCircle className="w-8 h-8 text-slate-600" />
+              <span className="text-2xl font-bold text-slate-700">{stats.embarcados}</span>
             </div>
             <p className="text-sm font-medium text-slate-600">Embarcados</p>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
-              <AlertCircle className="w-8 h-8 text-amber-600" />
-              <span className="text-2xl font-bold text-amber-600">{stats.pendientes}</span>
+              <AlertCircle className="w-8 h-8 text-slate-600" />
+              <span className="text-2xl font-bold text-slate-700">{stats.pendientes}</span>
             </div>
             <p className="text-sm font-medium text-slate-600">Pendientes</p>
           </div>
@@ -90,10 +90,10 @@ export function CheckInEmbarque() {
                 value={scanInput}
                 onChange={(e) => setScanInput(e.target.value)}
                 placeholder="Código de ticket"
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
               />
             </div>
-            <button className="w-full px-4 py-3 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 transition-colors">
+            <button className="w-full px-4 py-3 bg-slate-700 text-white rounded-lg font-medium hover:bg-slate-800 transition-colors">
               Buscar Ticket
             </button>
           </div>
@@ -110,8 +110,8 @@ export function CheckInEmbarque() {
                 <div key={pasajero.id} className="p-6 hover:bg-slate-50 transition-colors">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4 flex-1">
-                      <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
-                        <span className="text-lg font-bold text-indigo-600">{pasajero.asiento}</span>
+                      <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
+                        <span className="text-lg font-bold text-slate-700">{pasajero.asiento}</span>
                       </div>
                       <div>
                         <p className="font-semibold text-slate-900">{pasajero.nombre}</p>
@@ -123,10 +123,10 @@ export function CheckInEmbarque() {
                       <span
                         className={`px-3 py-1 text-xs font-medium rounded-full ${
                           pasajero.estado === "Embarcado"
-                            ? "bg-purple-100 text-purple-700"
+                            ? "bg-slate-100 text-slate-700"
                             : pasajero.estado === "Check-in"
-                            ? "bg-emerald-100 text-emerald-700"
-                            : "bg-amber-100 text-amber-700"
+                            ? "bg-slate-100 text-slate-700"
+                            : "bg-slate-100 text-slate-700"
                         }`}
                       >
                         {pasajero.estado}
@@ -135,7 +135,7 @@ export function CheckInEmbarque() {
                       {pasajero.estado === "Pendiente" && (
                         <button
                           onClick={() => handleCheckIn(pasajero.id)}
-                          className="px-4 py-2 text-sm font-medium text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition-colors"
+                          className="px-4 py-2 text-sm font-medium text-white bg-slate-700 rounded-lg hover:bg-slate-800 transition-colors"
                         >
                           Check-in
                         </button>
@@ -144,7 +144,7 @@ export function CheckInEmbarque() {
                       {pasajero.estado === "Check-in" && (
                         <button
                           onClick={() => handleEmbarque(pasajero.id)}
-                          className="px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-colors"
+                          className="px-4 py-2 text-sm font-medium text-white bg-slate-600 rounded-lg hover:bg-slate-700 transition-colors"
                         >
                           Embarcar
                         </button>

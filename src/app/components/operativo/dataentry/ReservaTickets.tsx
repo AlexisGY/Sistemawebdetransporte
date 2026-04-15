@@ -53,8 +53,8 @@ export function ReservaTickets() {
                   isOccupied
                     ? "bg-slate-300 text-slate-500 cursor-not-allowed"
                     : isSelected
-                    ? "bg-emerald-600 text-white scale-105 shadow-lg"
-                    : "bg-white border-2 border-slate-300 hover:border-emerald-500 hover:scale-105"
+                    ? "bg-slate-700 text-white scale-105 shadow-lg"
+                    : "bg-white border-2 border-slate-300 hover:border-slate-500 hover:scale-105"
                 }`}
               >
                 {seat}
@@ -68,7 +68,7 @@ export function ReservaTickets() {
             <span className="text-sm text-slate-600">Disponible</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-emerald-600 rounded"></div>
+            <div className="w-6 h-6 bg-slate-700 rounded"></div>
             <span className="text-sm text-slate-600">Seleccionado</span>
           </div>
           <div className="flex items-center gap-2">
@@ -101,9 +101,9 @@ export function ReservaTickets() {
                     <div
                       className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
                         isCompleted
-                          ? "bg-emerald-600 text-white"
+                          ? "bg-slate-700 text-white"
                           : isActive
-                          ? "bg-indigo-600 text-white"
+                          ? "bg-slate-600 text-white"
                           : "bg-slate-200 text-slate-600"
                       }`}
                     >
@@ -115,7 +115,7 @@ export function ReservaTickets() {
                     </div>
                     <span
                       className={`text-sm font-medium mt-2 ${
-                        isActive ? "text-indigo-600" : "text-slate-600"
+                        isActive ? "text-slate-700" : "text-slate-600"
                       }`}
                     >
                       {step.name}
@@ -124,7 +124,7 @@ export function ReservaTickets() {
                   {index < steps.length - 1 && (
                     <div
                       className={`flex-1 h-1 mx-4 rounded ${
-                        isCompleted ? "bg-emerald-600" : "bg-slate-200"
+                        isCompleted ? "bg-slate-700" : "bg-slate-200"
                       }`}
                     ></div>
                   )}
@@ -147,14 +147,14 @@ export function ReservaTickets() {
                     onClick={() => setSelectedViaje(viaje)}
                     className={`w-full p-6 border-2 rounded-xl transition-all ${
                       selectedViaje?.id === viaje.id
-                        ? "border-emerald-600 bg-emerald-50"
+                        ? "border-slate-700 bg-slate-50"
                         : "border-slate-200 hover:border-slate-300"
                     }`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4 text-left">
-                        <div className="w-16 h-16 bg-emerald-100 rounded-lg flex items-center justify-center">
-                          <MapPin className="w-8 h-8 text-emerald-600" />
+                      <div className="w-16 h-16 bg-slate-100 rounded-lg flex items-center justify-center">
+                        <MapPin className="w-8 h-8 text-slate-600" />
                         </div>
                         <div>
                           <p className="font-bold text-lg text-slate-900">{viaje.ruta}</p>
@@ -168,7 +168,7 @@ export function ReservaTickets() {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-2xl font-bold text-emerald-600">S/ {viaje.precio}</p>
+                        <p className="text-2xl font-bold text-slate-700">S/ {viaje.precio}</p>
                         <p className="text-sm text-slate-600">{viaje.disponibles} asientos disponibles</p>
                       </div>
                     </div>
@@ -189,7 +189,7 @@ export function ReservaTickets() {
                   </label>
                   <input
                     type="text"
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
                     placeholder="Juan Carlos"
                   />
                 </div>
@@ -199,7 +199,7 @@ export function ReservaTickets() {
                   </label>
                   <input
                     type="text"
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
                     placeholder="Pérez García"
                   />
                 </div>
@@ -209,7 +209,7 @@ export function ReservaTickets() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">
                     Tipo de Documento
                   </label>
-                  <select className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                  <select className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600">
                     <option>DNI</option>
                     <option>Pasaporte</option>
                     <option>Carnet de Extranjería</option>
@@ -221,7 +221,7 @@ export function ReservaTickets() {
                   </label>
                   <input
                     type="text"
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
                     placeholder="12345678"
                   />
                 </div>
@@ -233,7 +233,7 @@ export function ReservaTickets() {
                   </label>
                   <input
                     type="tel"
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
                     placeholder="+51 999 888 777"
                   />
                 </div>
@@ -243,7 +243,7 @@ export function ReservaTickets() {
                   </label>
                   <input
                     type="email"
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
                     placeholder="correo@ejemplo.com"
                   />
                 </div>
@@ -258,11 +258,11 @@ export function ReservaTickets() {
                 Selecciona tus asientos
               </h3>
               {renderSeatMap()}
-              <div className="mt-6 p-4 bg-emerald-50 border border-emerald-200 rounded-lg max-w-md mx-auto">
-                <p className="text-sm font-medium text-emerald-900">
+              <div className="mt-6 p-4 bg-slate-50 border border-slate-200 rounded-lg max-w-md mx-auto">
+                <p className="text-sm font-medium text-slate-700">
                   Asientos seleccionados: {selectedSeats.length > 0 ? selectedSeats.join(", ") : "Ninguno"}
                 </p>
-                <p className="text-lg font-bold text-emerald-700 mt-2">
+                <p className="text-lg font-bold text-slate-700 mt-2">
                   Total: S/ {(selectedSeats.length * (selectedViaje?.precio || 0)).toFixed(2)}
                 </p>
               </div>
@@ -273,8 +273,8 @@ export function ReservaTickets() {
           {currentStep === 4 && (
             <div className="max-w-2xl mx-auto">
               <div className="text-center mb-8">
-                <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle className="w-12 h-12 text-emerald-600" />
+                <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="w-12 h-12 text-slate-700" />
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900 mb-2">Resumen de Reserva</h3>
                 <p className="text-slate-600">Verifica los datos antes de confirmar</p>
@@ -303,10 +303,10 @@ export function ReservaTickets() {
                   </div>
                 </div>
 
-                <div className="bg-emerald-50 rounded-lg p-6 border-2 border-emerald-200">
+                <div className="bg-slate-50 rounded-lg p-6 border-2 border-slate-200">
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-semibold text-slate-900">Total a Pagar:</span>
-                    <span className="text-3xl font-bold text-emerald-600">
+                    <span className="text-3xl font-bold text-slate-700">
                       S/ {(selectedSeats.length * (selectedViaje?.precio || 0)).toFixed(2)}
                     </span>
                   </div>
@@ -332,7 +332,7 @@ export function ReservaTickets() {
                   setCurrentStep(Math.min(4, currentStep + 1));
                 }
               }}
-              className="px-6 py-2 text-sm font-medium text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition-colors"
+              className="px-6 py-2 text-sm font-medium text-white bg-slate-700 rounded-lg hover:bg-slate-800 transition-colors"
             >
               {currentStep === 4 ? "Confirmar Reserva" : "Siguiente"}
             </button>
