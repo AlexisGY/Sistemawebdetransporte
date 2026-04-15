@@ -16,37 +16,39 @@ import { cn } from "../ui/utils";
 
 const moduleCards = [
   {
-    title: "Modulo gerencial",
-    description: "Reportes, seguimiento de KPIs, analisis de ingresos y mantenimiento.",
+    title: "Entorno gerencial",
+    description: "Consultas, indicadores y seguimiento de información consolidada.",
     to: "/gerencial/dashboard",
     icon: BarChart3,
-    points: ["Consultas ejecutivas", "Indicadores consolidados", "Control parametrico"],
+    points: ["Consultas", "Indicadores", "Parámetros"],
   },
   {
-    title: "Modulo operativo",
-    description: "Viajes, tickets, pagos y control diario de la operacion en campo.",
+    title: "Entorno operativo",
+    description: "Viajes, tickets, pagos y control diario de operación.",
     to: "/operativo/dashboard",
     icon: Truck,
-    points: ["Transacciones criticas", "Cierres y embarque", "Visibilidad del turno"],
+    points: ["Viajes", "Tickets", "Pagos"],
   },
 ];
 
 export function RoleSelection() {
   return (
     <AuthShell>
-      <Card className="w-full max-w-[540px] border-border/70 bg-card/95 shadow-[0_24px_80px_rgba(15,23,42,0.14)] backdrop-blur-sm">
+      <Card className="w-full max-w-[560px] border-border/70 bg-card/95 shadow-[0_24px_80px_rgba(15,23,42,0.14)] backdrop-blur-sm">
         <CardHeader className="space-y-4 border-b border-border/60">
           <Badge
             variant="outline"
             className="w-fit rounded-full border-border/80 bg-muted/40 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em]"
           >
-            Acceso por modulo
+            Acceso al sistema
           </Badge>
+
           <div>
-            <CardTitle className="text-3xl font-semibold">Selecciona tu area</CardTitle>
+            <CardTitle className="text-3xl font-semibold">
+              Seleccione un entorno de trabajo
+            </CardTitle>
             <CardDescription className="mt-2 text-sm leading-6">
-              Esta vista esta pensada solo para prototipado, pero ya sigue la misma logica
-              visual sobria del shell principal.
+              Continúe según la vista disponible para esta sesión.
             </CardDescription>
           </div>
         </CardHeader>
@@ -66,6 +68,7 @@ export function RoleSelection() {
                 <div className="flex size-14 items-center justify-center rounded-2xl border border-border/80 bg-background shadow-inner">
                   <Icon className="size-7 text-foreground" />
                 </div>
+
                 <ArrowRight className="mt-1 size-5 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-foreground" />
               </div>
 
@@ -90,8 +93,9 @@ export function RoleSelection() {
         <CardFooter className="justify-between border-t border-border/60">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <ShieldCheck className="size-4" />
-            Prototipo visual listo para demo
+            Acceso disponible según configuración del sistema
           </div>
+
           <Button asChild variant="ghost" className="rounded-xl">
             <Link to="/login">
               <Users className="size-4" />
