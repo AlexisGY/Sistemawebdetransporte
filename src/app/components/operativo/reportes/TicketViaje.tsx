@@ -34,10 +34,10 @@ export function TicketViaje() {
             </div>
             <div className="text-right">
               <div className="bg-white text-emerald-700 px-6 py-3 rounded-lg print:bg-transparent print:text-black print:border print:border-black">
-                <p className="text-sm font-medium">N° Ticket</p>
+                <p className="text-sm font-medium">N掳 Ticket</p>
                 <p className="text-2xl font-bold">{id}</p>
               </div>
-              <p className="text-sm mt-2 print:text-black">Fecha Emisión: 14/04/2026</p>
+              <p className="text-sm mt-2 print:text-black">Fecha Emisi贸n: 14/04/2026</p>
             </div>
           </div>
         </div>
@@ -52,14 +52,14 @@ export function TicketViaje() {
             <div className="grid grid-cols-2 gap-6">
               <div>
                 <p className="text-xs text-slate-500 mb-1">Nombre Completo</p>
-                <p className="text-lg font-semibold">Juan Carlos Pérez García</p>
+                <p className="text-lg font-semibold">Juan Carlos P茅rez Garc铆a</p>
               </div>
               <div>
                 <p className="text-xs text-slate-500 mb-1">Documento de Identidad</p>
                 <p className="text-lg font-semibold">DNI: 12345678</p>
               </div>
               <div>
-                <p className="text-xs text-slate-500 mb-1">Teléfono</p>
+                <p className="text-xs text-slate-500 mb-1">Tel茅fono</p>
                 <p className="font-medium">+51 999 888 777</p>
               </div>
               <div>
@@ -95,7 +95,7 @@ export function TicketViaje() {
                   <p className="text-lg font-semibold">08:00</p>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-500 mb-1">Número de Asiento</p>
+                  <p className="text-xs text-slate-500 mb-1">N煤mero de Asiento</p>
                   <p className="text-2xl font-bold text-emerald-600 print:text-black">05</p>
                 </div>
               </div>
@@ -105,7 +105,7 @@ export function TicketViaje() {
           {/* Vehicle Info */}
           <div className="mb-8">
             <h2 className="text-sm font-bold text-slate-600 uppercase mb-4 pb-2 border-b border-slate-300">
-              Información del Vehículo
+              Informaci贸n del Veh铆culo
             </h2>
             <div className="grid grid-cols-3 gap-6">
               <div>
@@ -126,7 +126,7 @@ export function TicketViaje() {
           {/* Payment */}
           <div className="mb-8">
             <h2 className="text-sm font-bold text-slate-600 uppercase mb-4 pb-2 border-b border-slate-300">
-              Información de Pago
+              Informaci贸n de Pago
             </h2>
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-2">
@@ -144,8 +144,8 @@ export function TicketViaje() {
                 </div>
               </div>
               <div>
-                <p className="text-xs text-slate-500 mb-1">Método de Pago</p>
-                <p className="font-semibold">Tarjeta de Crédito</p>
+                <p className="text-xs text-slate-500 mb-1">M茅todo de Pago</p>
+                <p className="font-semibold">Tarjeta de Cr茅dito</p>
                 <p className="text-xs text-slate-500 mt-3">Estado</p>
                 <p className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm font-semibold print:bg-transparent print:border print:border-black print:text-black">
                   Pagado
@@ -157,14 +157,14 @@ export function TicketViaje() {
           {/* QR and Terms */}
           <div className="grid grid-cols-3 gap-8">
             <div className="col-span-2">
-              <h2 className="text-sm font-bold text-slate-600 uppercase mb-3">Condiciones y Términos</h2>
+              <h2 className="text-sm font-bold text-slate-600 uppercase mb-3">Condiciones y T茅rminos</h2>
               <ul className="text-xs text-slate-700 space-y-2">
-                <li>• El pasajero debe presentarse 30 minutos antes de la hora de salida</li>
-                <li>• Es obligatorio presentar documento de identidad original</li>
-                <li>• Equipaje permitido: 25kg en bodega + 8kg de mano</li>
-                <li>• No se permiten devoluciones, solo cambios con 24 horas de anticipación</li>
-                <li>• El pasajero es responsable de sus pertenencias durante el viaje</li>
-                <li>• Prohibido fumar, consumir alcohol o alterar el orden público</li>
+                <li>鈥?El pasajero debe presentarse 30 minutos antes de la hora de salida</li>
+                <li>鈥?Es obligatorio presentar documento de identidad original</li>
+                <li>鈥?Equipaje permitido: 25kg en bodega + 8kg de mano</li>
+                <li>鈥?No se permiten devoluciones, solo cambios con 24 horas de anticipaci贸n</li>
+                <li>鈥?El pasajero es responsable de sus pertenencias durante el viaje</li>
+                <li>鈥?Prohibido fumar, consumir alcohol o alterar el orden p煤blico</li>
               </ul>
             </div>
             <div>
@@ -173,7 +173,7 @@ export function TicketViaje() {
                   <svg className="w-32 h-32 text-slate-400 mx-auto print:text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
                   </svg>
-                  <p className="text-xs text-slate-500 mt-2 print:text-black">Código QR</p>
+                  <p className="text-xs text-slate-500 mt-2 print:text-black">C贸digo QR</p>
                 </div>
               </div>
             </div>
@@ -182,10 +182,10 @@ export function TicketViaje() {
           {/* Footer */}
           <div className="mt-8 pt-6 border-t border-slate-300 text-center">
             <p className="text-xs text-slate-500">
-              Este documento es válido como comprobante de viaje. Conserve hasta su destino.
+              Este documento es v谩lido como comprobante de viaje. Conserve hasta su destino.
             </p>
             <p className="text-xs text-slate-500 mt-1">
-              Atención al Cliente: (01) 123-4567 | soporte@transportesaas.com
+              Atenci贸n al Cliente: (01) 123-4567 | soporte@transportesaas.com
             </p>
           </div>
         </div>

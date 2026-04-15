@@ -23,6 +23,7 @@ import { TicketViaje } from "./components/operativo/reportes/TicketViaje";
 import { ComprobantePago } from "./components/operativo/reportes/ComprobantePago";
 import { ManifiestoViaje } from "./components/operativo/reportes/ManifiestoViaje";
 import { CierreViaje } from "./components/operativo/reportes/CierreViaje";
+import { SecurityModule } from "./components/seguridad/SecurityModule";
 
 export const router = createBrowserRouter([
   {
@@ -45,7 +46,6 @@ export const router = createBrowserRouter([
         index: true,
         Component: RoleSelection,
       },
-      // Gerencial
       {
         path: "gerencial/dashboard",
         Component: DashboardGerencial,
@@ -78,7 +78,6 @@ export const router = createBrowserRouter([
         path: "gerencial/consultas/indicadores-kpi",
         Component: IndicadoresKPI,
       },
-      // Operativo
       {
         path: "operativo/dashboard",
         Component: DashboardOperativo,
@@ -126,6 +125,10 @@ export const router = createBrowserRouter([
       {
         path: "operativo/reportes/cierre-viaje/:id",
         Component: CierreViaje,
+      },
+      {
+        path: "seguridad",
+        Component: SecurityModule,
       },
     ],
   },

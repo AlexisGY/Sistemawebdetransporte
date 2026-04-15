@@ -5,14 +5,14 @@ import { Link } from "react-router";
 const viajesHoy = [
   { id: "VJ-001", ruta: "Lima - Arequipa", hora: "08:00", conductor: "Carlos Mendoza", placa: "ABC-123", estado: "En Ruta", ocupacion: 18, capacidad: 20 },
   { id: "VJ-002", ruta: "Lima - Cusco", hora: "09:30", conductor: "Luis Torres", placa: "XYZ-789", estado: "Check-in", ocupacion: 42, capacidad: 45 },
-  { id: "VJ-003", ruta: "Lima - Trujillo", hora: "10:00", conductor: "Ana García", placa: "GHI-321", estado: "Programado", ocupacion: 35, capacidad: 48 },
-  { id: "VJ-004", ruta: "Arequipa - Cusco", hora: "14:00", conductor: "María Santos", placa: "JKL-654", estado: "Programado", ocupacion: 12, capacidad: 18 },
+  { id: "VJ-003", ruta: "Lima - Trujillo", hora: "10:00", conductor: "Ana Garc铆a", placa: "GHI-321", estado: "Programado", ocupacion: 35, capacidad: 48 },
+  { id: "VJ-004", ruta: "Arequipa - Cusco", hora: "14:00", conductor: "Mar铆a Santos", placa: "JKL-654", estado: "Programado", ocupacion: 12, capacidad: 18 },
 ];
 
 const accionesRapidas = [
   { title: "Reservar Ticket", icon: Ticket, color: "emerald", path: "/operativo/reserva-tickets" },
   { title: "Emitir Ticket", icon: CheckSquare, color: "indigo", path: "/operativo/emision-ticket" },
-  { title: "Cotización", icon: CreditCard, color: "purple", path: "/operativo/cotizacion" },
+  { title: "Cotizaci贸n", icon: CreditCard, color: "purple", path: "/operativo/cotizacion" },
   { title: "Check-in", icon: Users, color: "blue", path: "/operativo/checkin-embarque" },
 ];
 
@@ -46,7 +46,7 @@ export function DashboardOperativo() {
               </span>
             </div>
             <p className="text-3xl font-bold text-slate-900 mb-1">87</p>
-            <p className="text-sm text-slate-600">Tickets del Día</p>
+            <p className="text-sm text-slate-600">Tickets del D铆a</p>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
@@ -68,13 +68,13 @@ export function DashboardOperativo() {
               </span>
             </div>
             <p className="text-3xl font-bold text-slate-900 mb-1">3</p>
-            <p className="text-sm text-slate-600">Pendientes de Atención</p>
+            <p className="text-sm text-slate-600">Pendientes de Atenci贸n</p>
           </div>
         </div>
 
         {/* Quick Actions */}
         <div>
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">Acciones Rápidas</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Acciones R谩pidas</h3>
           <div className="grid grid-cols-4 gap-4">
             {accionesRapidas.map((accion, index) => {
               const Icon = accion.icon;
@@ -150,7 +150,7 @@ export function DashboardOperativo() {
 
                     <div className="flex items-center gap-4">
                       <div className="text-right">
-                        <p className="text-sm font-medium text-slate-600">Ocupación</p>
+                        <p className="text-sm font-medium text-slate-600">Ocupaci贸n</p>
                         <p className="font-bold text-slate-900">
                           {viaje.ocupacion}/{viaje.capacidad}
                         </p>
@@ -192,7 +192,7 @@ export function DashboardOperativo() {
               <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
                 <Clock className="w-6 h-6 text-indigo-600" />
               </div>
-              <h4 className="font-semibold text-slate-900">Próxima Salida</h4>
+              <h4 className="font-semibold text-slate-900">Pr贸xima Salida</h4>
             </div>
             <p className="text-2xl font-bold text-indigo-600 mb-1">08:00</p>
             <p className="text-sm text-slate-600">Lima - Arequipa (VJ-001)</p>
@@ -217,7 +217,7 @@ export function DashboardOperativo() {
               <h4 className="font-semibold text-slate-900">Flota Disponible</h4>
             </div>
             <p className="text-2xl font-bold text-purple-600 mb-1">38</p>
-            <p className="text-sm text-slate-600">De 50 vehículos totales</p>
+            <p className="text-sm text-slate-600">De 50 veh铆culos totales</p>
           </div>
         </div>
       </div>

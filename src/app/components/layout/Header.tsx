@@ -1,36 +1,67 @@
-import { Bell, Search, User, Settings } from "lucide-react";
+import { Bell, Search, Settings, User } from "lucide-react";
+import { useLocation } from "react-router";
+
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+
+function getSectionLabel(pathname: string) {
+  if (pathname.startsWith("/gerencial")) return "Gerencial";
+  if (pathname.startsWith("/operativo")) return "Operativo";
+  return "Acceso";
+}
 
 export function Header() {
+  const location = useLocation();
+  const sectionLabel = getSectionLabel(location.pathname);
+
   return (
-    <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6">
-      <div className="flex items-center gap-4 flex-1 max-w-xl">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Buscar vehículos, operarios, tickets..."
-            className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-          />
-        </div>
-      </div>
+    <header className="border-b border-border/60 bg-background/70 backdrop-blur-xl">
+      <div className="flex h-16 items-center justify-between px-6">
+        <div className="flex flex-1 items-center gap-4">
+          <Badge
+            variant="outline"
+            className="hidden rounded-full border-border/80 bg-card/70 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground lg:inline-flex"
+          >
+            {sectionLabel}
+          </Badge>
 
-      <div className="flex items-center gap-4">
-        <button className="relative p-2 hover:bg-slate-100 rounded-lg transition-colors">
-          <Bell className="w-5 h-5 text-slate-600" />
-          <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-        </button>
-
-        <button className="p-2 hover:bg-slate-100 rounded-lg transition-colors">
-          <Settings className="w-5 h-5 text-slate-600" />
-        </button>
-
-        <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
-          <div className="text-right">
-            <p className="text-sm font-medium text-slate-700">Usuario Admin</p>
-            <p className="text-xs text-slate-500">Administrador</p>
+          <div className="relative w-full max-w-xl">
+            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Buscar rutas, operarios o tickets"
+              className="h-10 rounded-full border-border/80 bg-card/80 pl-10 pr-4 shadow-none"
+            />
           </div>
-          <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-emerald-500 rounded-full flex items-center justify-center">
-            <User className="w-5 h-5 text-white" />
+        </div>
+
+        <div className="ml-6 flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="relative rounded-full border border-transparent hover:border-border/80 hover:bg-card"
+          >
+            <Bell className="size-4 text-muted-foreground" />
+            <span className="absolute right-2 top-2 size-2 rounded-full bg-foreground/80" />
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-full border border-transparent hover:border-border/80 hover:bg-card"
+          >
+            <Settings className="size-4 text-muted-foreground" />
+          </Button>
+
+          <div className="ml-2 hidden items-center gap-3 border-l border-border/60 pl-4 sm:flex">
+            <div className="text-right">
+              <p className="text-sm font-semibold text-foreground">Usuario Admin</p>
+              <p className="text-xs text-muted-foreground">Prototipo corporativo</p>
+            </div>
+            <div className="flex size-10 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm">
+              <User className="size-5" />
+            </div>
           </div>
         </div>
       </div>

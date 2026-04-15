@@ -1,97 +1,66 @@
 import { LucideIcon } from "lucide-react";
 import { motion } from "motion/react";
 
+import { Badge } from "../ui/badge";
+import { Card, CardContent } from "../ui/card";
+import { cn } from "../ui/utils";
+
 interface KPICardProps {
   title: string;
   value: string | number;
   change?: number;
   icon: LucideIcon;
-  color?: "indigo" | "emerald" | "amber" | "rose" | "purple" | "blue";
+  variant?: "primary" | "secondary" | "accent" | "destructive";
   subtitle?: string;
 }
 
-const colorClasses = {
-  indigo: {
-    bg: "bg-indigo-50",
-    icon: "bg-indigo-600",
-    text: "text-indigo-600",
-    trend: "text-indigo-600",
-  },
-  emerald: {
-    bg: "bg-emerald-50",
-    icon: "bg-emerald-600",
-    text: "text-emerald-600",
-    trend: "text-emerald-600",
-  },
-  amber: {
-    bg: "bg-amber-50",
-    icon: "bg-amber-600",
-    text: "text-amber-600",
-    trend: "text-amber-600",
-  },
-  rose: {
-    bg: "bg-rose-50",
-    icon: "bg-rose-600",
-    text: "text-rose-600",
-    trend: "text-rose-600",
-  },
-  purple: {
-    bg: "bg-purple-50",
-    icon: "bg-purple-600",
-    text: "text-purple-600",
-    trend: "text-purple-600",
-  },
-  blue: {
-    bg: "bg-blue-50",
-    icon: "bg-blue-600",
-    text: "text-blue-600",
-    trend: "text-blue-600",
-  },
+const variantClasses = {
+  primary: "bg-primary text-primary-foreground",
+  secondary: "bg-secondary text-secondary-foreground",
+  accent: "bg-accent text-accent-foreground",
+  destructive: "bg-destructive text-destructive-foreground",
 };
 
-export function KPICard({ title, value, change, icon: Icon, color = "indigo", subtitle }: KPICardProps) {
-  const colors = colorClasses[color];
+export function KPICard({ title, value, change, icon: Icon, variant = "primary", subtitle }: KPICardProps) {
+  const tone = variantClasses[variant];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow"
-    >
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <p className="text-sm font-medium text-slate-600 mb-1">{title}</p>
-          <p className="text-3xl font-bold text-slate-900 mb-1">{value}</p>
-          {subtitle && <p className="text-xs text-slate-500">{subtitle}</p>}
-          {change !== undefined && (
-            <div className="flex items-center gap-1 mt-2">
-              {change >= 0 ? (
-                <>
-                  <svg className={`w-4 h-4 ${colors.trend}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                  </svg>
-                  <span className={`text-sm font-medium ${colors.trend}`}>
-                    +{change.toFixed(1)}%
+    <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}>
+      <Card className="border-border/70 bg-card/90 shadow-[0_18px_50px_rgba(15,23,42,0.06)]">
+        <CardContent className="pt-6">
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0 flex-1">
+              <Badge
+                variant="outline"
+                className="rounded-full border-border/70 bg-muted/35 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground"
+              >
+                KPI
+              </Badge>
+              <p className="mt-4 text-sm font-medium text-muted-foreground">{title}</p>
+              <p className="mt-2 text-3xl font-semibold text-foreground">{value}</p>
+              {subtitle && <p className="mt-2 text-xs text-muted-foreground">{subtitle}</p>}
+
+              {change !== undefined && (
+                <div className="mt-4 flex items-center gap-2">
+                  <span
+                    className={cn(
+                      "text-sm font-semibold",
+                      change >= 0 ? "text-foreground" : "text-destructive",
+                    )}
+                  >
+                    {change >= 0 ? `+${change.toFixed(1)}%` : `${change.toFixed(1)}%`}
                   </span>
-                </>
-              ) : (
-                <>
-                  <svg className="w-4 h-4 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                  </svg>
-                  <span className="text-sm font-medium text-rose-600">
-                    {change.toFixed(1)}%
-                  </span>
-                </>
+                  <span className="text-xs text-muted-foreground">vs mes anterior</span>
+                </div>
               )}
-              <span className="text-xs text-slate-500 ml-1">vs mes anterior</span>
             </div>
-          )}
-        </div>
-        <div className={`w-12 h-12 ${colors.icon} rounded-lg flex items-center justify-center flex-shrink-0`}>
-          <Icon className="w-6 h-6 text-white" />
-        </div>
-      </div>
+
+            <div className={cn("flex size-12 items-center justify-center rounded-2xl shadow-sm", tone)}>
+              <Icon className="size-6" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </motion.div>
   );
 }

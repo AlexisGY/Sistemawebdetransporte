@@ -6,9 +6,9 @@ import { DataTable } from "../../shared/DataTable";
 const operariosDesempeno = [
   { id: 1, nombre: "Carlos Mendoza", viajes: 45, puntualidad: 98, satisfaccion: 4.8, incidencias: 1 },
   { id: 2, nombre: "Luis Torres", viajes: 42, puntualidad: 95, satisfaccion: 4.7, incidencias: 2 },
-  { id: 3, nombre: "Ana García", viajes: 38, puntualidad: 99, satisfaccion: 4.9, incidencias: 0 },
-  { id: 4, nombre: "María Santos", viajes: 35, puntualidad: 92, satisfaccion: 4.5, incidencias: 3 },
-  { id: 5, nombre: "Pedro Ramírez", viajes: 40, puntualidad: 97, satisfaccion: 4.6, incidencias: 1 },
+  { id: 3, nombre: "Ana Garc铆a", viajes: 38, puntualidad: 99, satisfaccion: 4.9, incidencias: 0 },
+  { id: 4, nombre: "Mar铆a Santos", viajes: 35, puntualidad: 92, satisfaccion: 4.5, incidencias: 3 },
+  { id: 5, nombre: "Pedro Ram铆rez", viajes: 40, puntualidad: 97, satisfaccion: 4.6, incidencias: 1 },
 ];
 
 const tendenciaData = [
@@ -22,10 +22,10 @@ const tendenciaData = [
 
 export function DesempenoOperarios() {
   return (
-    <div className="min-h-full bg-slate-50">
+    <div className="min-h-full bg-background">
       <PageHeader
-        title="Desempeño de Operarios"
-        subtitle="Evaluación y seguimiento del personal operativo"
+        title="Desempe帽o de Operarios"
+        subtitle="Evaluaci贸n y seguimiento del personal operativo"
         actions={
           <div className="flex items-center gap-3">
             <select className="px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
@@ -45,82 +45,105 @@ export function DesempenoOperarios() {
       <div className="p-8 space-y-6">
         {/* KPIs */}
         <div className="grid grid-cols-4 gap-6">
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <Users className="w-10 h-10 text-indigo-600" />
-              <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
+              <Users className="w-10 h-10 text-primary" />
+              <span className="px-2 py-1 bg-primary/20 text-primary text-xs font-medium rounded-full">
                 +5%
               </span>
             </div>
-            <p className="text-3xl font-bold text-slate-900 mb-1">124</p>
-            <p className="text-sm text-slate-600">Operarios Activos</p>
+            <p className="text-3xl font-bold text-foreground mb-1">124</p>
+            <p className="text-sm text-muted-foreground">Operarios Activos</p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <Star className="w-10 h-10 text-amber-500" />
-              <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
+              <Star className="w-10 h-10 fill-current text-muted-foreground" />
+              <span className="px-2 py-1 bg-primary/20 text-primary text-xs font-medium rounded-full">
                 +0.2
               </span>
             </div>
-            <p className="text-3xl font-bold text-slate-900 mb-1">4.7</p>
-            <p className="text-sm text-slate-600">Satisfacción Promedio</p>
+            <p className="text-3xl font-bold text-foreground mb-1">4.7</p>
+            <p className="text-sm text-muted-foreground">Satisfacci贸n Promedio</p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <Clock className="w-10 h-10 text-emerald-600" />
-              <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
+              <Clock className="w-10 h-10 text-primary" />
+              <span className="px-2 py-1 bg-primary/20 text-primary text-xs font-medium rounded-full">
                 +3%
               </span>
             </div>
-            <p className="text-3xl font-bold text-slate-900 mb-1">96%</p>
-            <p className="text-sm text-slate-600">Puntualidad General</p>
+            <p className="text-3xl font-bold text-foreground mb-1">96%</p>
+            <p className="text-sm text-muted-foreground">Puntualidad General</p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <AlertTriangle className="w-10 h-10 text-rose-600" />
-              <span className="px-2 py-1 bg-rose-100 text-rose-700 text-xs font-medium rounded-full">
+              <AlertTriangle className="w-10 h-10 text-destructive" />
+              <span className="px-2 py-1 bg-destructive/20 text-destructive text-xs font-medium rounded-full">
                 -8
               </span>
             </div>
-            <p className="text-3xl font-bold text-slate-900 mb-1">12</p>
-            <p className="text-sm text-slate-600">Incidencias del Mes</p>
+            <p className="text-3xl font-bold text-foreground mb-1">12</p>
+            <p className="text-sm text-muted-foreground">Incidencias del Mes</p>
           </div>
         </div>
 
         {/* Charts */}
         <div className="grid grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="font-semibold text-slate-900 mb-4">Tendencia de Satisfacción</h3>
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
+            <h3 className="font-semibold text-foreground mb-4">Tendencia de Satisfacci贸n</h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={tendenciaData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="mes" tick={{ fill: "#64748b" }} />
-                <YAxis domain={[0, 5]} tick={{ fill: "#64748b" }} />
-                <Tooltip />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                <XAxis dataKey="mes" tick={{ fill: "var(--muted-foreground)" }} />
+                <YAxis domain={[0, 5]} tick={{ fill: "var(--muted-foreground)" }} />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "var(--card)",
+                    border: "1px solid var(--border)",
+                    color: "var(--foreground)",
+                  }}
+                />
                 <Line
                   type="monotone"
                   dataKey="promedio"
-                  stroke="#6366f1"
+                  stroke="var(--primary)"
                   strokeWidth={3}
-                  dot={{ fill: "#6366f1", r: 6 }}
+                  dot={{ fill: "var(--primary)", r: 6 }}
                   name="Promedio"
                 />
               </LineChart>
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="font-semibold text-slate-900 mb-4">Viajes por Operario (Top 5)</h3>
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
+            <h3 className="font-semibold text-foreground mb-4">Viajes por Operario (Top 5)</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={operariosDesempeno.slice(0, 5)} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis type="number" tick={{ fill: "#64748b" }} />
-                <YAxis dataKey="nombre" type="category" tick={{ fill: "#64748b" }} width={120} />
-                <Tooltip />
-                <Bar dataKey="viajes" fill="#10b981" radius={[0, 8, 8, 0]} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                <XAxis type="number" tick={{ fill: "var(--muted-foreground)" }} />
+                <YAxis dataKey="nombre" type="category" tick={{ fill: "var(--muted-foreground)" }} width={120} />
+                <Tooltip
+                  formatter={(value) => [value, "Viajes"]}
+                  labelStyle={{
+                    color: "var(--foreground)",
+                    fontWeight: 600,
+                  }}
+                  itemStyle={{
+                    color: "var(--foreground)",
+                    fontWeight: 500,
+                  }}
+                  contentStyle={{
+                    backgroundColor: "var(--card)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "10px",
+                    boxShadow: "0 8px 24px rgba(15, 23, 42, 0.08)",
+                    color: "var(--foreground)",
+                  }}
+                />
+                <Bar dataKey="viajes" fill="var(--primary)" radius={[0, 8, 8, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -138,9 +161,9 @@ export function DesempenoOperarios() {
               sortable: true,
               render: (item: any) => (
                 <div className="flex items-center gap-2">
-                  <div className="flex-1 bg-slate-200 rounded-full h-2">
+                  <div className="flex-1 bg-muted rounded-full h-2">
                     <div
-                      className="bg-emerald-500 h-2 rounded-full"
+                      className="bg-primary h-2 rounded-full"
                       style={{ width: `${item.puntualidad}%` }}
                     ></div>
                   </div>
@@ -150,11 +173,11 @@ export function DesempenoOperarios() {
             },
             {
               key: "satisfaccion",
-              label: "Satisfacción",
+              label: "Satisfacci贸n",
               sortable: true,
               render: (item: any) => (
                 <div className="flex items-center gap-1">
-                  <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                  <Star className="w-4 h-4 fill-current text-muted-foreground" />
                   <span className="font-medium">{item.satisfaccion}</span>
                 </div>
               ),
@@ -167,10 +190,10 @@ export function DesempenoOperarios() {
                 <span
                   className={`px-2 py-1 text-xs font-medium rounded-full ${
                     item.incidencias === 0
-                      ? "bg-emerald-100 text-emerald-700"
+                      ? "bg-primary/20 text-primary"
                       : item.incidencias <= 2
-                      ? "bg-amber-100 text-amber-700"
-                      : "bg-rose-100 text-rose-700"
+                      ? "bg-accent/20 text-accent"
+                      : "bg-destructive/20 text-destructive"
                   }`}
                 >
                   {item.incidencias}

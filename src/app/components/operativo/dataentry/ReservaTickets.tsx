@@ -6,7 +6,7 @@ const steps = [
   { id: 1, name: "Seleccionar Viaje", icon: MapPin },
   { id: 2, name: "Datos del Pasajero", icon: Users },
   { id: 3, name: "Asientos", icon: CheckCircle },
-  { id: 4, name: "Confirmación", icon: CreditCard },
+  { id: 4, name: "Confirmaci贸n", icon: CreditCard },
 ];
 
 const viajesDisponibles = [
@@ -200,7 +200,7 @@ export function ReservaTickets() {
                   <input
                     type="text"
                     className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    placeholder="Pérez García"
+                    placeholder="P茅rez Garc铆a"
                   />
                 </div>
               </div>
@@ -212,12 +212,12 @@ export function ReservaTickets() {
                   <select className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     <option>DNI</option>
                     <option>Pasaporte</option>
-                    <option>Carnet de Extranjería</option>
+                    <option>Carnet de Extranjer铆a</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Número de Documento
+                    N煤mero de Documento
                   </label>
                   <input
                     type="text"
@@ -229,7 +229,7 @@ export function ReservaTickets() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Teléfono
+                    Tel茅fono
                   </label>
                   <input
                     type="tel"
@@ -327,7 +327,7 @@ export function ReservaTickets() {
             <button
               onClick={() => {
                 if (currentStep === 4) {
-                  alert("¡Reserva confirmada!");
+                  alert("隆Reserva confirmada!");
                 } else {
                   setCurrentStep(Math.min(4, currentStep + 1));
                 }

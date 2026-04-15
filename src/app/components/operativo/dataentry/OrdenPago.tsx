@@ -16,7 +16,7 @@ export function OrdenPago() {
         <div className="grid grid-cols-3 gap-6">
           {/* Payment Form */}
           <div className="col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-lg font-bold text-slate-900 mb-6">Método de Pago</h3>
+            <h3 className="text-lg font-bold text-slate-900 mb-6">M茅todo de Pago</h3>
 
             {/* Payment Methods */}
             <div className="grid grid-cols-3 gap-3 mb-6">
@@ -62,7 +62,7 @@ export function OrdenPago() {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Número de Tarjeta
+                    N煤mero de Tarjeta
                   </label>
                   <input
                     type="text"
@@ -153,11 +153,11 @@ export function OrdenPago() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-2">
-                    N° de Operación
+                    N掳 de Operaci贸n
                   </label>
                   <input
                     type="text"
-                    placeholder="Ingresar número de operación"
+                    placeholder="Ingresar n煤mero de operaci贸n"
                     className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>

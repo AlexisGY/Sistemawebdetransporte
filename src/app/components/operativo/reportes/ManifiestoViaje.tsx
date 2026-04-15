@@ -2,11 +2,11 @@ import { Printer, Download } from "lucide-react";
 import { useParams } from "react-router";
 
 const pasajeros = [
-  { n: 1, nombre: "Juan Pérez García", dni: "12345678", asiento: 5, destino: "Arequipa" },
-  { n: 2, nombre: "María García López", dni: "87654321", asiento: 6, destino: "Arequipa" },
-  { n: 3, nombre: "Carlos López Ruiz", dni: "45678912", asiento: 8, destino: "Arequipa" },
+  { n: 1, nombre: "Juan P茅rez Garc铆a", dni: "12345678", asiento: 5, destino: "Arequipa" },
+  { n: 2, nombre: "Mar铆a Garc铆a L贸pez", dni: "87654321", asiento: 6, destino: "Arequipa" },
+  { n: 3, nombre: "Carlos L贸pez Ruiz", dni: "45678912", asiento: 8, destino: "Arequipa" },
   { n: 4, nombre: "Ana Santos Torres", dni: "78912345", asiento: 12, destino: "Arequipa" },
-  { n: 5, nombre: "Pedro Ramírez Silva", dni: "32165498", asiento: 15, destino: "Arequipa" },
+  { n: 5, nombre: "Pedro Ram铆rez Silva", dni: "32165498", asiento: 15, destino: "Arequipa" },
 ];
 
 export function ManifiestoViaje() {
@@ -45,7 +45,7 @@ export function ManifiestoViaje() {
               <h3 className="font-bold mb-3 text-slate-900">DATOS DEL VIAJE</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex">
-                  <span className="w-32 text-slate-600">N° Manifiesto:</span>
+                  <span className="w-32 text-slate-600">N掳 Manifiesto:</span>
                   <span className="font-semibold">{id}</span>
                 </div>
                 <div className="flex">
@@ -64,7 +64,7 @@ export function ManifiestoViaje() {
             </div>
             
             <div>
-              <h3 className="font-bold mb-3 text-slate-900">DATOS DEL VEHÍCULO</h3>
+              <h3 className="font-bold mb-3 text-slate-900">DATOS DEL VEH脥CULO</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex">
                   <span className="w-32 text-slate-600">Placa:</span>
@@ -89,11 +89,11 @@ export function ManifiestoViaje() {
 
         {/* Passenger List */}
         <div className="p-8">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">RELACIÓN DE PASAJEROS</h2>
+          <h2 className="text-lg font-bold text-slate-900 mb-4">RELACI脫N DE PASAJEROS</h2>
           <table className="w-full text-sm">
             <thead className="bg-slate-800 text-white print:bg-slate-200 print:text-black">
               <tr>
-                <th className="px-4 py-3 text-left w-12">N°</th>
+                <th className="px-4 py-3 text-left w-12">N掳</th>
                 <th className="px-4 py-3 text-left">Apellidos y Nombres</th>
                 <th className="px-4 py-3 text-left w-32">DNI</th>
                 <th className="px-4 py-3 text-center w-24">Asiento</th>
@@ -172,7 +172,7 @@ export function ManifiestoViaje() {
 
         {/* Footer */}
         <div className="bg-slate-800 text-white p-4 text-center text-xs print:bg-transparent print:text-black print:border-t print:border-slate-300">
-          <p>Este documento es de uso obligatorio según normativa MTC - Conservar durante el viaje</p>
+          <p>Este documento es de uso obligatorio seg煤n normativa MTC - Conservar durante el viaje</p>
           <p className="mt-1">Emitido: 14/04/2026 10:30 | Sistema TransporteSaaS</p>
         </div>
       </div>

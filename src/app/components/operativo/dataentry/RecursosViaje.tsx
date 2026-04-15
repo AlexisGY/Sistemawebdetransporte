@@ -4,9 +4,9 @@ import { DataTable } from "../../shared/DataTable";
 import { Truck, Users, MapPin, Calendar, Plus, X, Save } from "lucide-react";
 
 const viajesData = [
-  { id: 1, codigo: "VJ-001", ruta: "Lima - Arequipa", fecha: "14/04/2026", hora: "08:00", vehiculo: "ABC-123", conductor: "Carlos Mendoza", copiloto: "Ana García", estado: "Confirmado" },
-  { id: 2, codigo: "VJ-002", ruta: "Lima - Cusco", fecha: "14/04/2026", hora: "09:30", vehiculo: "XYZ-789", conductor: "Luis Torres", copiloto: "María Santos", estado: "Confirmado" },
-  { id: 3, codigo: "VJ-003", ruta: "Lima - Trujillo", fecha: "15/04/2026", hora: "10:00", vehiculo: "GHI-321", conductor: "Pedro Ramírez", copiloto: "-", estado: "Pendiente" },
+  { id: 1, codigo: "VJ-001", ruta: "Lima - Arequipa", fecha: "14/04/2026", hora: "08:00", vehiculo: "ABC-123", conductor: "Carlos Mendoza", copiloto: "Ana Garc铆a", estado: "Confirmado" },
+  { id: 2, codigo: "VJ-002", ruta: "Lima - Cusco", fecha: "14/04/2026", hora: "09:30", vehiculo: "XYZ-789", conductor: "Luis Torres", copiloto: "Mar铆a Santos", estado: "Confirmado" },
+  { id: 3, codigo: "VJ-003", ruta: "Lima - Trujillo", fecha: "15/04/2026", hora: "10:00", vehiculo: "GHI-321", conductor: "Pedro Ram铆rez", copiloto: "-", estado: "Pendiente" },
 ];
 
 export function RecursosViaje() {
@@ -16,7 +16,7 @@ export function RecursosViaje() {
     <div className="min-h-full bg-slate-50">
       <PageHeader
         title="Recursos de Viaje"
-        subtitle="Asignación de vehículos y personal operativo"
+        subtitle="Asignaci贸n de veh铆culos y personal operativo"
         actions={
           <button
             onClick={() => setShowModal(true)}
@@ -31,7 +31,7 @@ export function RecursosViaje() {
       <div className="p-8">
         <DataTable
           columns={[
-            { key: "codigo", label: "Código", sortable: true },
+            { key: "codigo", label: "C贸digo", sortable: true },
             {
               key: "ruta",
               label: "Ruta",
@@ -53,7 +53,7 @@ export function RecursosViaje() {
                 </div>
               ),
             },
-            { key: "vehiculo", label: "Vehículo" },
+            { key: "vehiculo", label: "Veh铆culo" },
             { key: "conductor", label: "Conductor" },
             { key: "copiloto", label: "Copiloto" },
             {
@@ -144,7 +144,7 @@ export function RecursosViaje() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Vehículo Asignado
+                  Veh铆culo Asignado
                 </label>
                 <select className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
                   <option>ABC-123 - Mercedes Sprinter (Cap: 20)</option>
@@ -162,7 +162,7 @@ export function RecursosViaje() {
                   <select className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     <option>Carlos Mendoza - Lic: A-IIIc</option>
                     <option>Luis Torres - Lic: A-IIIb</option>
-                    <option>Pedro Ramírez - Lic: A-IIIc</option>
+                    <option>Pedro Ram铆rez - Lic: A-IIIc</option>
                   </select>
                 </div>
 
@@ -172,8 +172,8 @@ export function RecursosViaje() {
                   </label>
                   <select className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     <option value="">Sin copiloto</option>
-                    <option>Ana García - Lic: A-I</option>
-                    <option>María Santos - Supervisor</option>
+                    <option>Ana Garc铆a - Lic: A-I</option>
+                    <option>Mar铆a Santos - Supervisor</option>
                   </select>
                 </div>
               </div>

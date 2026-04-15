@@ -10,7 +10,7 @@ export function LlegadaCierre() {
     <div className="min-h-full bg-slate-50">
       <PageHeader
         title="Llegada y Cierre de Viaje"
-        subtitle="Finalización y cierre operativo"
+        subtitle="Finalizaci贸n y cierre operativo"
       />
 
       <div className="p-8 max-w-5xl mx-auto space-y-6">
@@ -40,7 +40,7 @@ export function LlegadaCierre() {
               <p className="font-semibold">16:00</p>
             </div>
             <div>
-              <p className="text-sm text-slate-600 mb-1">Vehículo</p>
+              <p className="text-sm text-slate-600 mb-1">Veh铆culo</p>
               <p className="font-semibold">ABC-123</p>
             </div>
           </div>
@@ -105,7 +105,7 @@ export function LlegadaCierre() {
               <h4 className="font-semibold text-slate-900">Distancia</h4>
             </div>
             <p className="text-3xl font-bold text-slate-900 mb-1">1,018</p>
-            <p className="text-sm text-slate-600">Kilómetros recorridos</p>
+            <p className="text-sm text-slate-600">Kil贸metros recorridos</p>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
@@ -113,7 +113,7 @@ export function LlegadaCierre() {
               <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
                 <Clock className="w-6 h-6 text-purple-600" />
               </div>
-              <h4 className="font-semibold text-slate-900">Duración</h4>
+              <h4 className="font-semibold text-slate-900">Duraci贸n</h4>
             </div>
             <p className="text-3xl font-bold text-slate-900 mb-1">8h 05m</p>
             <p className="text-sm text-slate-600">Tiempo total</p>
@@ -122,7 +122,7 @@ export function LlegadaCierre() {
 
         {/* Checklist */}
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <h3 className="text-lg font-semibold text-slate-900 mb-6">Verificación de Cierre</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-6">Verificaci贸n de Cierre</h3>
           
           <div className="space-y-4">
             <label className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
@@ -133,7 +133,7 @@ export function LlegadaCierre() {
 
             <label className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
               <input type="checkbox" className="w-5 h-5 text-emerald-600 rounded" defaultChecked />
-              <span className="flex-1 font-medium text-slate-900">Vehículo inspeccionado</span>
+              <span className="flex-1 font-medium text-slate-900">Veh铆culo inspeccionado</span>
               <CheckCircle className="w-5 h-5 text-emerald-600" />
             </label>
 
@@ -150,7 +150,7 @@ export function LlegadaCierre() {
 
             <label className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg cursor-pointer hover:bg-slate-100 transition-colors">
               <input type="checkbox" className="w-5 h-5 text-emerald-600 rounded" />
-              <span className="flex-1 font-medium text-slate-900">Documentación completa</span>
+              <span className="flex-1 font-medium text-slate-900">Documentaci贸n completa</span>
             </label>
           </div>
         </div>

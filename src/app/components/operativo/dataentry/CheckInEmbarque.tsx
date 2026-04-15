@@ -3,9 +3,9 @@ import { PageHeader } from "../../shared/PageHeader";
 import { QrCode, CheckCircle, AlertCircle, User } from "lucide-react";
 
 const pasajerosMock = [
-  { id: 1, nombre: "Juan Pérez", dni: "12345678", asiento: 5, ticket: "TKT-142", estado: "Pendiente" },
-  { id: 2, nombre: "María García", dni: "87654321", asiento: 6, ticket: "TKT-143", estado: "Check-in" },
-  { id: 3, nombre: "Carlos López", dni: "45678912", asiento: 8, ticket: "TKT-144", estado: "Embarcado" },
+  { id: 1, nombre: "Juan P茅rez", dni: "12345678", asiento: 5, ticket: "TKT-142", estado: "Pendiente" },
+  { id: 2, nombre: "Mar铆a Garc铆a", dni: "87654321", asiento: 6, ticket: "TKT-143", estado: "Check-in" },
+  { id: 3, nombre: "Carlos L贸pez", dni: "45678912", asiento: 8, ticket: "TKT-144", estado: "Embarcado" },
 ];
 
 export function CheckInEmbarque() {
@@ -83,13 +83,13 @@ export function CheckInEmbarque() {
                 <QrCode className="w-24 h-24 text-slate-400" />
               </div>
               <p className="text-sm text-slate-600 text-center mb-4">
-                Escanee el código QR del ticket o ingrese manualmente
+                Escanee el c贸digo QR del ticket o ingrese manualmente
               </p>
               <input
                 type="text"
                 value={scanInput}
                 onChange={(e) => setScanInput(e.target.value)}
-                placeholder="Código de ticket"
+                placeholder="C贸digo de ticket"
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
@@ -115,7 +115,7 @@ export function CheckInEmbarque() {
                       </div>
                       <div>
                         <p className="font-semibold text-slate-900">{pasajero.nombre}</p>
-                        <p className="text-sm text-slate-600">DNI: {pasajero.dni} • {pasajero.ticket}</p>
+                        <p className="text-sm text-slate-600">DNI: {pasajero.dni} 鈥?{pasajero.ticket}</p>
                       </div>
                     </div>
                     

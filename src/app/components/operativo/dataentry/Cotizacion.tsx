@@ -18,8 +18,8 @@ export function Cotizacion() {
   return (
     <div className="min-h-full bg-slate-50">
       <PageHeader
-        title="Cotización"
-        subtitle="Generar cotización para clientes"
+        title="Cotizaci贸n"
+        subtitle="Generar cotizaci贸n para clientes"
       />
 
       <div className="p-8 max-w-5xl mx-auto">
@@ -27,8 +27,8 @@ export function Cotizacion() {
           {/* Header */}
           <div className="flex items-start justify-between mb-8 pb-6 border-b border-slate-200">
             <div>
-              <h2 className="text-2xl font-bold text-slate-900 mb-2">COTIZACIÓN</h2>
-              <p className="text-slate-600">N° COT-2026-0142</p>
+              <h2 className="text-2xl font-bold text-slate-900 mb-2">COTIZACI脫N</h2>
+              <p className="text-slate-600">N掳 COT-2026-0142</p>
               <p className="text-sm text-slate-500 mt-1">Fecha: 14/04/2026</p>
             </div>
             <div className="text-right">
@@ -57,7 +57,7 @@ export function Cotizacion() {
                         type="text"
                         defaultValue={item.concepto}
                         className="w-full px-2 py-1 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                        placeholder="Descripción del servicio"
+                        placeholder="Descripci贸n del servicio"
                       />
                     </td>
                     <td className="px-4 py-3">
@@ -83,7 +83,7 @@ export function Cotizacion() {
               onClick={addItem}
               className="mt-3 px-4 py-2 text-sm text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
             >
-              + Agregar ítem
+              + Agregar 铆tem
             </button>
           </div>
 
@@ -111,7 +111,7 @@ export function Cotizacion() {
             <textarea
               className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
               rows={3}
-              placeholder="Condiciones comerciales, validez de la cotización, etc."
+              placeholder="Condiciones comerciales, validez de la cotizaci贸n, etc."
             ></textarea>
           </div>
 
