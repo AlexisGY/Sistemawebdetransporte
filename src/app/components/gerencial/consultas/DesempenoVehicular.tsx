@@ -181,12 +181,12 @@ export function DesempenoVehicular() {
               label: "Estado",
               render: (item: any) => (
                 <span
-                  className={`px-2 py-1 text-xs font-medium rounded-full ${
+                  className={`px-3 py-1 text-xs font-medium rounded-full ${
                     item.estado === "Óptimo"
-                      ? "bg-primary/20 text-primary"
+                      ? "bg-slate-100 text-slate-700"
                       : item.estado === "Advertencia"
-                      ? "bg-accent/20 text-accent"
-                      : "bg-muted text-muted-foreground"
+                      ? "bg-slate-200 text-slate-700"
+                      : "bg-slate-300 text-slate-700"
                   }`}
                 >
                   {item.estado}

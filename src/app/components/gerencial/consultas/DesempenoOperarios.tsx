@@ -28,12 +28,12 @@ export function DesempenoOperarios() {
         subtitle="Evaluación y seguimiento del personal operativo"
         actions={
           <div className="flex items-center gap-3">
-            <select className="px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <select className="px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-600">
               <option>Todos los operarios</option>
               <option>Conductores</option>
               <option>Copilotos</option>
             </select>
-            <select className="px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <select className="px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-600">
               <option>Junio 2026</option>
               <option>Mayo 2026</option>
               <option>Abril 2026</option>
@@ -188,12 +188,12 @@ export function DesempenoOperarios() {
               sortable: true,
               render: (item: any) => (
                 <span
-                  className={`px-2 py-1 text-xs font-medium rounded-full ${
+                  className={`px-3 py-1 text-xs font-medium rounded-full ${
                     item.incidencias === 0
-                      ? "bg-primary/20 text-primary"
+                      ? "bg-slate-100 text-slate-700"
                       : item.incidencias <= 2
-                      ? "bg-accent/20 text-accent"
-                      : "bg-destructive/20 text-destructive"
+                      ? "bg-slate-200 text-slate-700"
+                      : "bg-slate-300 text-slate-700"
                   }`}
                 >
                   {item.incidencias}
