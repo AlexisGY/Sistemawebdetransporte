@@ -118,7 +118,12 @@ const menuItems: MenuItem[] = [
           {
             title: "Recursos de viaje",
             icon: <Truck className="size-4" />,
-            path: "/operativo/recursos-viaje",
+            path: "/operativo/recursos",
+          },
+          {
+            title: "Lotes de tickets",
+            icon: <Ticket className="size-4" />,
+            path: "/operativo/lotes",
           },
           {
             title: "Reserva de tickets",
@@ -138,17 +143,17 @@ const menuItems: MenuItem[] = [
           {
             title: "Emision de ticket",
             icon: <Ticket className="size-4" />,
-            path: "/operativo/emision-ticket",
+            path: "/operativo/emision",
           },
           {
             title: "Check-in y embarque",
             icon: <CheckSquare className="size-4" />,
-            path: "/operativo/checkin-embarque",
+            path: "/operativo/check-in",
           },
           {
             title: "Llegada y cierre",
             icon: <LogOut className="size-4" />,
-            path: "/operativo/llegada-cierre",
+            path: "/operativo/cierre",
           },
         ],
       },

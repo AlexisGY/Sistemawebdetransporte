@@ -14,11 +14,19 @@ function getSectionLabel(pathname: string) {
 export function Header() {
   const location = useLocation();
   const sectionLabel = getSectionLabel(location.pathname);
+  const visibleUrl = `https://sistema.transportes.com${location.pathname}`;
 
   return (
     <header className="border-b border-border/60 bg-background/70 backdrop-blur-xl">
       <div className="flex h-16 items-center justify-between px-6">
         <div className="flex flex-1 items-center gap-4">
+          <div className="hidden lg:flex items-center gap-3">
+            <div className="rounded-full border border-border/70 bg-card/70 px-3 py-1 text-xs font-semibold text-foreground">
+              Sistema de Transporte y Logística
+            </div>
+            <div className="text-xs font-mono text-muted-foreground">{visibleUrl}</div>
+          </div>
+
           <Badge
             variant="outline"
             className="hidden rounded-full border-border/80 bg-card/70 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground lg:inline-flex"

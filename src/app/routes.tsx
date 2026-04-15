@@ -13,6 +13,7 @@ import { Incidencias } from "./components/gerencial/consultas/Incidencias";
 import { DemandaOcupacion } from "./components/gerencial/consultas/DemandaOcupacion";
 import { IndicadoresKPI } from "./components/gerencial/consultas/IndicadoresKPI";
 import { RecursosViaje } from "./components/operativo/dataentry/RecursosViaje";
+import { LotesTickets } from "./components/operativo/dataentry/LotesTickets";
 import { ReservaTickets } from "./components/operativo/dataentry/ReservaTickets";
 import { Cotizacion } from "./components/operativo/dataentry/Cotizacion";
 import { OrdenPago } from "./components/operativo/dataentry/OrdenPago";
@@ -92,8 +93,16 @@ export const router = createHashRouter([
         Component: RecursosViaje,
       },
       {
+        path: "operativo/recursos",
+        Component: RecursosViaje,
+      },
+      {
         path: "operativo/reserva-tickets",
         Component: ReservaTickets,
+      },
+      {
+        path: "operativo/lotes",
+        Component: LotesTickets,
       },
       {
         path: "operativo/cotizacion",
@@ -108,11 +117,23 @@ export const router = createHashRouter([
         Component: EmisionTicket,
       },
       {
+        path: "operativo/emision",
+        Component: EmisionTicket,
+      },
+      {
         path: "operativo/checkin-embarque",
         Component: CheckInEmbarque,
       },
       {
+        path: "operativo/check-in",
+        Component: CheckInEmbarque,
+      },
+      {
         path: "operativo/llegada-cierre",
+        Component: LlegadaCierre,
+      },
+      {
+        path: "operativo/cierre",
         Component: LlegadaCierre,
       },
       {

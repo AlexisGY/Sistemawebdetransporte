@@ -1,29 +1,53 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { PageHeader } from "../../shared/PageHeader";
-import { Ticket, Download, Send, Printer } from "lucide-react";
+import { Download, Printer, QrCode, Send, ShieldCheck, Ticket } from "lucide-react";
 import { Link } from "react-router";
+import { getCatalog, getTickets, getViajes } from "../../../store/localDb";
 
 export function EmisionTicket() {
+  const tickets = useMemo(() => getTickets(), []);
+  const viajes = useMemo(() => getViajes(), []);
+  const vehiculos = useMemo(() => getCatalog<any>("vehiculos", []), []);
+
+  const [ticketId, setTicketId] = useState(tickets[0]?.id || "");
+  const t = tickets.find((x) => x.id === ticketId) || tickets[0];
+  const v = viajes.find((x) => x.id === t?.viajeId);
+  const veh = vehiculos.find((x) => x.idTipoVehiculo === v?.vehiculoId);
+
   return (
     <div className="min-h-full bg-slate-50">
       <PageHeader
         title="Emisión de Ticket"
-        subtitle="Generar tickets de viaje"
+        subtitle="Cierre comercial (ticket/guía emitida y asignada)"
       />
 
       <div className="p-8 max-w-4xl mx-auto">
-        {/* Search */}
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">Buscar Reserva</h3>
-          <div className="flex gap-3">
-            <input
-              type="text"
-              placeholder="Ingrese código de reserva o DNI del pasajero"
-              className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600"
-            />
-            <button className="px-6 py-2 bg-slate-700 text-white rounded-lg font-medium hover:bg-slate-800 transition-colors">
-              Buscar
-            </button>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Selección de Ticket (Solo catálogo)</h3>
+          <div className="grid grid-cols-3 gap-4 items-end">
+            <div className="col-span-2">
+              <label className="block text-xs font-semibold text-slate-600 uppercase mb-2">Ticket emitible</label>
+              <select
+                value={ticketId}
+                onChange={(e) => setTicketId(e.target.value)}
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-600"
+              >
+                {tickets.map((x) => (
+                  <option key={x.id} value={x.id}>
+                    {x.codigo} — {x.pasajeroDocumento} — Asiento {String(x.asiento).padStart(2, "0")}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+              <div className="flex items-start gap-2">
+                <ShieldCheck className="w-5 h-5 text-emerald-700 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-emerald-900">Estado</p>
+                  <p className="text-sm text-emerald-800">Emitido / Asignado</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -33,11 +57,11 @@ export function EmisionTicket() {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold mb-1">TICKET DE VIAJE</h2>
-                <p className="text-slate-200">TransporteSaaS</p>
+                <p className="text-slate-200">Sistema de Transporte y Logística</p>
               </div>
               <div className="text-right">
                 <p className="text-sm text-slate-200">Código</p>
-                <p className="text-2xl font-bold">TKT-142</p>
+                <p className="text-2xl font-bold">{t?.codigo || "-"}</p>
               </div>
             </div>
           </div>
@@ -50,11 +74,11 @@ export function EmisionTicket() {
                 <div className="space-y-2">
                   <div>
                     <p className="text-xs text-slate-500">Nombre Completo</p>
-                    <p className="font-semibold">Juan Carlos Pérez García</p>
+                    <p className="font-semibold">{t?.pasajeroNombre || "-"}</p>
                   </div>
                   <div>
                     <p className="text-xs text-slate-500">DNI</p>
-                    <p className="font-semibold">12345678</p>
+                    <p className="font-semibold">{t?.pasajeroDocumento || "-"}</p>
                   </div>
                 </div>
               </div>
@@ -67,7 +91,7 @@ export function EmisionTicket() {
                   </div>
                   <div>
                     <p className="text-xs text-slate-500">Email</p>
-                    <p className="font-semibold">jperez@email.com</p>
+                    <p className="font-semibold">juan.perez@correo.com</p>
                   </div>
                 </div>
               </div>
@@ -82,16 +106,16 @@ export function EmisionTicket() {
                 <div className="space-y-2">
                   <div>
                     <p className="text-xs text-slate-500">Ruta</p>
-                    <p className="font-semibold text-lg">Lima → Arequipa</p>
+                    <p className="font-semibold text-lg">{v?.ruta?.replace(" - ", " → ") || "-"}</p>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-xs text-slate-500">Fecha</p>
-                      <p className="font-semibold">15/04/2026</p>
+                      <p className="font-semibold">{v?.fechaISO || "-"}</p>
                     </div>
                     <div>
                       <p className="text-xs text-slate-500">Hora Salida</p>
-                      <p className="font-semibold">08:00</p>
+                      <p className="font-semibold">{v?.horaSalida || "-"}</p>
                     </div>
                   </div>
                 </div>
@@ -101,16 +125,16 @@ export function EmisionTicket() {
                 <div className="space-y-2">
                   <div>
                     <p className="text-xs text-slate-500">Vehículo</p>
-                    <p className="font-semibold">ABC-123</p>
+                    <p className="font-semibold">{veh ? `${veh.idTipoVehiculo} — ${veh.marca} ${veh.modelo}` : v?.vehiculoId || "-"}</p>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-xs text-slate-500">Asiento</p>
-                      <p className="font-semibold text-xl text-slate-700">05</p>
+                      <p className="font-semibold text-xl text-slate-700">{String(t?.asiento ?? "-").padStart(2, "0")}</p>
                     </div>
                     <div>
                       <p className="text-xs text-slate-500">Precio</p>
-                      <p className="font-semibold text-xl">S/ 85.00</p>
+                      <p className="font-semibold text-xl">S/ {Number(t?.precio ?? 0).toFixed(2)}</p>
                     </div>
                   </div>
                 </div>
@@ -131,19 +155,17 @@ export function EmisionTicket() {
               </div>
               <div className="w-32 h-32 bg-slate-100 border-2 border-slate-300 rounded-lg flex items-center justify-center">
                 <div className="text-center">
-                  <svg className="w-24 h-24 text-slate-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
-                  </svg>
-                  <p className="text-xs text-slate-500 mt-1">QR Code</p>
+                  <QrCode className="w-16 h-16 text-slate-400 mx-auto" />
+                  <p className="text-xs text-slate-500 mt-1">QR/Barcode</p>
                 </div>
               </div>
             </div>
           </div>
 
           <div className="bg-slate-50 border-t border-slate-200 px-8 py-4 flex items-center justify-between">
-            <p className="text-xs text-slate-500">Emitido: 14/04/2026 10:30</p>
+            <p className="text-xs text-slate-500">Emitido: {new Date(t?.emitidoAt || Date.now()).toLocaleString()}</p>
             <Link
-              to="/operativo/reportes/ticket-viaje/TKT-142"
+              to={`/operativo/reportes/ticket-viaje/${t?.codigo || "TKT-000"}`}
               className="text-xs text-slate-600 hover:text-slate-700 font-medium"
             >
               Ver reporte completo →

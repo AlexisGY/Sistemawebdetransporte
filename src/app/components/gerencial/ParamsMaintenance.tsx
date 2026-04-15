@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { PageHeader } from "../shared/PageHeader";
 import { DataTable } from "../shared/DataTable";
+import { getCatalog, setCatalog } from "../../store/localDb";
+import { ensureCatalogSeeded } from "../../store/catalogSeed";
 import {
   Truck,
   Users,
@@ -884,6 +886,17 @@ export function ParamsMaintenance() {
   const [localData, setLocalData] = useState<Record<string, any[]>>({});
 
   useEffect(() => {
+    // Seed core catalogs once (only if localStorage is empty for that catalog)
+    ensureCatalogSeeded("vehiculos", vehiculosData as any[]);
+    ensureCatalogSeeded("operarios", operariosData as any[]);
+    ensureCatalogSeeded("sedes", sedesData as any[]);
+    ensureCatalogSeeded("contenedores", contenedoresData as any[]);
+    ensureCatalogSeeded("bienes", bienesData as any[]);
+    ensureCatalogSeeded("unidades", unidadesData as any[]);
+    ensureCatalogSeeded("clientes", clientesData as any[]);
+  }, []);
+
+  useEffect(() => {
     if (!category) {
       setSelectedCategory("vehiculos");
       return;
@@ -891,6 +904,14 @@ export function ParamsMaintenance() {
     const exists = categories.some((c) => c.id === category);
     setSelectedCategory(exists ? category : "vehiculos");
   }, [category]);
+
+  useEffect(() => {
+    const next: Record<string, any[]> = {};
+    categories.forEach((c) => {
+      next[c.id] = getCatalog(c.id as any, []);
+    });
+    setLocalData(next);
+  }, []);
 
   const selectedCat = categories.find((c) => c.id === selectedCategory)!;
   const IconComponent = selectedCat.icon;
@@ -916,10 +937,12 @@ export function ParamsMaintenance() {
   const handleSave = (data: any) => {
     setLocalData((prev) => {
       const existing = prev[selectedCategory] || [];
-      if (editingItem) {
-        return { ...prev, [selectedCategory]: existing.map((i) => (i.id === data.id ? data : i)) };
-      }
-      return { ...prev, [selectedCategory]: [...existing, data] };
+      const nextItems = editingItem
+        ? existing.map((i) => (i.id === data.id ? data : i))
+        : [...existing, data];
+
+      setCatalog(selectedCategory as any, nextItems);
+      return { ...prev, [selectedCategory]: nextItems };
     });
     setShowModal(false);
   };
