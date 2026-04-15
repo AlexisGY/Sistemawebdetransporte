@@ -30,12 +30,6 @@ export function KPICard({ title, value, change, icon: Icon, variant = "primary",
         <CardContent className="pt-6">
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0 flex-1">
-              <Badge
-                variant="outline"
-                className="rounded-full border-border/70 bg-muted/35 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground"
-              >
-                KPI
-              </Badge>
               <p className="mt-4 text-sm font-medium text-muted-foreground">{title}</p>
               <p className="mt-2 text-3xl font-semibold text-foreground">{value}</p>
               {subtitle && <p className="mt-2 text-xs text-muted-foreground">{subtitle}</p>}
