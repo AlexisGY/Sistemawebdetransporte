@@ -1,33 +1,49 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { PageHeader } from "../../shared/PageHeader";
 import { CheckCircle2, CreditCard, DollarSign, ShieldCheck, AlertTriangle } from "lucide-react";
 import {
   getCatalog,
   getCotizaciones,
   getOrdenesPago,
+  getReservas,
   newId,
   setOrdenesPago,
   upsertCotizacion,
+  upsertReserva,
   type Cotizacion,
   type OrdenPago as OrdenPagoTx,
+  type Reserva,
 } from "../../../store/localDb";
 
 export function OrdenPago() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const search = new URLSearchParams(location.search);
+  const reservaIdFromUrl = search.get("reservaId") || "";
   const cotizaciones = useMemo(() => getCotizaciones(), []);
+  const reservas = useMemo(() => getReservas(), []);
   const clientes = useMemo(() => getCatalog<any>("clientes", []), []);
   const [ordenes, setOrdenes] = useState<OrdenPagoTx[]>(() => getOrdenesPago());
+  const [modo, setModo] = useState<"Cotizacion" | "Reserva">(() => (reservaIdFromUrl ? "Reserva" : "Cotizacion"));
   const [cotId, setCotId] = useState(cotizaciones[0]?.id || "");
+  const [resId, setResId] = useState(reservaIdFromUrl || reservas[0]?.id || "");
   const [metodoPago, setMetodoPago] = useState<"Tarjeta" | "Efectivo" | "Transferencia" | "Credito">("Tarjeta");
 
   const cot = cotizaciones.find((c) => c.id === cotId) as Cotizacion | undefined;
-  const cliente = clientes.find((c) => c.idTipoCliente === cot?.clienteId);
+  const reserva = reservas.find((r) => r.id === resId) as Reserva | undefined;
+  const cliente = (() => {
+    const id = modo === "Reserva" ? reserva?.clienteId : cot?.clienteId;
+    if (id) return clientes.find((c) => c.idTipoCliente === id);
+    const doc = modo === "Reserva" ? reserva?.pasajeroDocumento : undefined;
+    if (doc) return clientes.find((c) => String(c.doc || "").includes(String(doc).replace(/\s+/g, " ").trim()));
+    return undefined;
+  })();
 
   const esCorporativo = String(cliente?.categoriaPerfil || "").toLowerCase().includes("corporativo");
   const creditoHabilitado = esCorporativo && String(cliente?.aplicaLineaCredito || "No") === "Sí";
   const limite = Number(cliente?.limiteCreditoMax ?? 0);
-  const total = Number(cot?.total ?? 0);
+  const total = Number((modo === "Reserva" ? reserva?.total : cot?.total) ?? 0);
   const creditoOk = total <= limite;
 
   return (
@@ -45,23 +61,60 @@ export function OrdenPago() {
 
             <div className="mb-6 grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-600 uppercase mb-2">Cotización</label>
-                <select
-                  value={cotId}
-                  onChange={(e) => setCotId(e.target.value)}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-600"
-                >
-                  {cotizaciones.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.codigo} — {c.clienteId} — Total S/ {Number(c.total).toFixed(2)}
-                    </option>
-                  ))}
-                </select>
+                <label className="block text-xs font-semibold text-slate-600 uppercase mb-2">Origen</label>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setModo("Reserva")}
+                    className={`flex-1 px-3 py-2 rounded-lg text-sm font-semibold border ${
+                      modo === "Reserva" ? "bg-slate-900 text-white border-slate-900" : "bg-white text-slate-700 border-slate-200"
+                    }`}
+                  >
+                    Reserva
+                  </button>
+                  <button
+                    onClick={() => setModo("Cotizacion")}
+                    className={`flex-1 px-3 py-2 rounded-lg text-sm font-semibold border ${
+                      modo === "Cotizacion" ? "bg-slate-900 text-white border-slate-900" : "bg-white text-slate-700 border-slate-200"
+                    }`}
+                  >
+                    Cotización
+                  </button>
+                </div>
+
+                {modo === "Reserva" ? (
+                  <select
+                    value={resId}
+                    onChange={(e) => setResId(e.target.value)}
+                    className="mt-2 w-full px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-600"
+                  >
+                    {reservas.map((r) => (
+                      <option key={r.id} value={r.id}>
+                        {r.codigo} — {r.tipoReserva || (r.asientos?.length ? "Pasajeros" : "Carga")} — Total S/ {Number(r.total || 0).toFixed(2)}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <select
+                    value={cotId}
+                    onChange={(e) => setCotId(e.target.value)}
+                    className="mt-2 w-full px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-600"
+                  >
+                    {cotizaciones.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.codigo} — {c.clienteId} — Total S/ {Number(c.total).toFixed(2)}
+                      </option>
+                    ))}
+                  </select>
+                )}
               </div>
               <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
                 <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total a pagar</p>
                 <p className="mt-1 text-2xl font-bold text-slate-900">S/ {total.toFixed(2)}</p>
-                <p className="text-xs text-slate-600 mt-1">{cot?.servicioCodigo} — {cot?.bienId}</p>
+                <p className="text-xs text-slate-600 mt-1">
+                  {modo === "Reserva"
+                    ? `${reserva?.codigo || "-"} — ${reserva?.tipoReserva || "-"}`
+                    : `${cot?.servicioCodigo || "-"} — ${cot?.bienId || "-"}`}
+                </p>
               </div>
             </div>
 
@@ -187,12 +240,13 @@ export function OrdenPago() {
 
             <button
               onClick={() => {
-                if (!cot) return;
+                if (modo === "Cotizacion" && !cot) return;
+                if (modo === "Reserva" && !reserva) return;
                 if (metodoPago === "Credito" && (!creditoHabilitado || !creditoOk)) return;
                 const op: OrdenPagoTx = {
                   id: newId("op"),
                   codigo: `OP-2026-${String(ordenes.length + 142).padStart(4, "0")}`,
-                  reservaId: cot.id, // puente mock: usa cotización como referencia
+                  reservaId: modo === "Reserva" ? reserva!.id : cot!.id, // referencia (reserva real o cotización legacy)
                   metodo: metodoPago === "Credito" ? "Transferencia" : metodoPago,
                   monto: total,
                   estado: "Pagado",
@@ -201,11 +255,12 @@ export function OrdenPago() {
                 const next = [...ordenes, op];
                 setOrdenesPago(next);
                 setOrdenes(next);
-                upsertCotizacion({ ...cot, estado: "Convertido" });
+                if (modo === "Cotizacion" && cot) upsertCotizacion({ ...cot, estado: "Convertido" });
+                if (modo === "Reserva" && reserva) upsertReserva({ ...reserva, estado: "Pagada" });
                 navigate(`/operativo/reportes/comprobante-pago/${op.codigo}`);
               }}
               className="w-full mt-6 flex items-center justify-center gap-2 px-4 py-3 text-white bg-slate-700 rounded-lg font-semibold hover:bg-slate-800 transition-colors disabled:bg-slate-400"
-              disabled={!cot || (metodoPago === "Credito" && (!creditoHabilitado || !creditoOk))}
+              disabled={(modo === "Cotizacion" ? !cot : !reserva) || (metodoPago === "Credito" && (!creditoHabilitado || !creditoOk))}
             >
               <CheckCircle2 className="w-5 h-5" />
               Confirmar Pago

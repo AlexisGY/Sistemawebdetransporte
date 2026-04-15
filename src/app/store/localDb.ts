@@ -69,6 +69,9 @@ export type Viaje = {
   copilotoOperarioId?: string;
   capacidad: number;
   asientosOcupados: number[];
+  // Online (Carga): espacios de bodega por viaje
+  capacidadCargaEspacios?: number; // e.g. 40
+  espaciosCargaOcupados?: number[]; // e.g. [1,2,3]
   estado: "Pendiente" | "Confirmado" | "En Ruta" | "Cerrado";
   observaciones?: string;
   createdAt: string;
@@ -78,11 +81,21 @@ export type Reserva = {
   id: string;
   codigo: string;
   viajeId: string;
+  clienteId?: string; // idTipoCliente (vínculo a catálogo)
   pasajeroNombre: string;
   pasajeroDocumento: string;
   telefono?: string;
   email?: string;
+  // Pasajeros
   asientos: number[];
+  // Carga (opcional)
+  tipoReserva?: "Pasajeros" | "Carga";
+  espaciosCarga?: number[]; // SP-001.. -> [1..]
+  bienId?: string; // idTipoBien
+  contenedorId?: string; // idTipoContenedor
+  cantidad?: number;
+  unidad?: string; // e.g. KG
+  temperaturaObjetivoC?: number | null; // selección por combo (si aplica)
   total: number;
   estado: "Reservada" | "Pagada" | "TicketEmitido" | "Cancelada";
   createdAt: string;
