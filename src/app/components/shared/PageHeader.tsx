@@ -1,7 +1,5 @@
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router";
-
-import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 
 interface PageHeaderProps {
@@ -30,12 +28,6 @@ export function PageHeader({ title, subtitle, showBack = false, actions }: PageH
           )}
 
           <div>
-            <Badge
-              variant="outline"
-              className="mb-3 rounded-full border-border/80 bg-card/70 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground"
-            >
-              Vista
-            </Badge>
             <h1 className="text-3xl font-semibold text-foreground">{title}</h1>
             {subtitle && <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">{subtitle}</p>}
           </div>
