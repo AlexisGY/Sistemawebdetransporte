@@ -26,10 +26,10 @@ const ingresosData = [
 ];
 
 const porRutaData = [
-  { name: "Lima-Arequipa", value: 32500, color: "#6366f1" },
-  { name: "Lima-Cusco", value: 28900, color: "#10b981" },
-  { name: "Lima-Trujillo", value: 26000, color: "#f59e0b" },
-  { name: "Otros", value: 77600, color: "#8b5cf6" },
+  { name: "Lima-Arequipa", value: 32500, color: "var(--foreground)" },
+  { name: "Lima-Cusco", value: 28900, color: "#5f5f5f" },
+  { name: "Lima-Trujillo", value: 26000, color: "#8a8a8a" },
+  { name: "Otros", value: 77600, color: "#b0b0b0" },
 ];
 
 const metodoPagoData = [
@@ -64,8 +64,8 @@ export function Ingresos() {
         <div className="grid grid-cols-4 gap-6">
           <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <DollarSign className="w-10 h-10 text-emerald-600" />
-              <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
+              <DollarSign className="w-10 h-10 text-foreground" />
+              <span className="px-2 py-1 bg-muted text-foreground text-xs font-medium rounded-full border border-border">
                 +8.5%
               </span>
             </div>
@@ -75,8 +75,8 @@ export function Ingresos() {
 
           <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <TrendingUp className="w-10 h-10 text-primary" />
-              <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
+              <TrendingUp className="w-10 h-10 text-foreground" />
+              <span className="px-2 py-1 bg-muted text-foreground text-xs font-medium rounded-full border border-border">
                 +12.1%
               </span>
             </div>
@@ -86,19 +86,19 @@ export function Ingresos() {
 
           <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <CreditCard className="w-10 h-10 text-purple-600" />
-              <span className="px-2 py-1 bg-secondary text-indigo-700 text-xs font-medium rounded-full">
+              <CreditCard className="w-10 h-10 text-foreground" />
+              <span className="px-2 py-1 bg-muted text-foreground text-xs font-medium rounded-full border border-border">
                 50%
               </span>
             </div>
             <p className="text-3xl font-bold text-foreground mb-1">S/ 82,500</p>
-            <p className="text-sm text-muted-foreground">Pagos con Tarjeta</p>
+            <p className="text-sm text-muted-foreground">Ingresos por tarjeta</p>
           </div>
 
           <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <PieChartIcon className="w-10 h-10 text-amber-600" />
-              <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
+              <PieChartIcon className="w-10 h-10 text-foreground" />
+              <span className="px-2 py-1 bg-muted text-foreground text-xs font-medium rounded-full border border-border">
                 41%
               </span>
             </div>
@@ -113,31 +113,41 @@ export function Ingresos() {
             <h3 className="font-semibold text-foreground mb-4">Evolución de Ingresos y Utilidad</h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={ingresosData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="mes" tick={{ fill: "hsl(var(--muted-foreground))" }} />
-                <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                <XAxis dataKey="mes" tick={{ fill: "var(--muted-foreground)" }} />
+                <YAxis tick={{ fill: "var(--muted-foreground)" }} />
                 <Tooltip
+                  labelStyle={{
+                    color: "var(--foreground)",
+                    fontWeight: 600,
+                  }}
+                  itemStyle={{
+                    color: "var(--foreground)",
+                    fontWeight: 500,
+                  }}
                   contentStyle={{
-                    backgroundColor: "#fff",
-                    border: "1px solid #e2e8f0",
-                    borderRadius: "8px",
+                    backgroundColor: "var(--card)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "10px",
+                    boxShadow: "0 8px 24px rgba(15, 23, 42, 0.08)",
+                    color: "var(--foreground)",
                   }}
                 />
                 <Legend />
                 <Line
                   type="monotone"
                   dataKey="ingresos"
-                  stroke="#10b981"
+                  stroke="var(--foreground)"
                   strokeWidth={3}
-                  dot={{ fill: "#10b981", r: 6 }}
+                  dot={{ fill: "var(--foreground)", r: 6 }}
                   name="Ingresos"
                 />
                 <Line
                   type="monotone"
                   dataKey="utilidad"
-                  stroke="#6366f1"
+                  stroke="var(--muted-foreground)"
                   strokeWidth={3}
-                  dot={{ fill: "#6366f1", r: 6 }}
+                  dot={{ fill: "var(--muted-foreground)", r: 6 }}
                   name="Utilidad"
                 />
               </LineChart>
@@ -155,7 +165,28 @@ export function Ingresos() {
                     cy="50%"
                     outerRadius={100}
                     dataKey="value"
-                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    labelLine={{ stroke: "var(--muted-foreground)" }}
+                    label={(props: any) => {
+                      const { cx, cy, midAngle, outerRadius, name, percent } = props;
+                      const RADIAN = Math.PI / 180;
+                      const radius = outerRadius + 18;
+                      const x = cx + radius * Math.cos(-midAngle * RADIAN);
+                      const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+                      return (
+                        <text
+                          x={x}
+                          y={y}
+                          fill="var(--foreground)"
+                          textAnchor={x > cx ? "start" : "end"}
+                          dominantBaseline="central"
+                          fontSize={14}
+                          fontWeight={500}
+                        >
+                          {`${name} ${(percent * 100).toFixed(0)}%`}
+                        </text>
+                      );
+                    }}
                   >
                     {porRutaData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
@@ -174,13 +205,29 @@ export function Ingresos() {
             <h3 className="font-semibold text-foreground mb-4">Ingresos vs Gastos Mensuales</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={ingresosData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="mes" tick={{ fill: "hsl(var(--muted-foreground))" }} />
-                <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} />
-                <Tooltip />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                <XAxis dataKey="mes" tick={{ fill: "var(--muted-foreground)" }} />
+                <YAxis tick={{ fill: "var(--muted-foreground)" }} />
+                <Tooltip
+                  labelStyle={{
+                    color: "var(--foreground)",
+                    fontWeight: 600,
+                  }}
+                  itemStyle={{
+                    color: "var(--foreground)",
+                    fontWeight: 500,
+                  }}
+                  contentStyle={{
+                    backgroundColor: "var(--card)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "10px",
+                    boxShadow: "0 8px 24px rgba(15, 23, 42, 0.08)",
+                    color: "var(--foreground)",
+                  }}
+                />
                 <Legend />
-                <Bar dataKey="ingresos" fill="#10b981" radius={[8, 8, 0, 0]} name="Ingresos" />
-                <Bar dataKey="gastos" fill="#ef4444" radius={[8, 8, 0, 0]} name="Gastos" />
+                <Bar dataKey="ingresos" fill="var(--foreground)" radius={[8, 8, 0, 0]} name="Ingresos" />
+                <Bar dataKey="gastos" fill="var(--muted-foreground)" radius={[8, 8, 0, 0]} name="Gastos" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -191,15 +238,15 @@ export function Ingresos() {
               {metodoPagoData.map((metodo, index) => (
                 <div key={index} className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-slate-700">{metodo.metodo}</span>
+                    <span className="text-sm font-medium text-foreground">{metodo.metodo}</span>
                     <span className="text-sm font-bold text-foreground">
                       S/ {metodo.monto.toLocaleString()}
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="flex-1 bg-slate-200 rounded-full h-3">
+                    <div className="flex-1 bg-muted rounded-full h-3">
                       <div
-                        className="bg-primary h-3 rounded-full transition-all"
+                        className="bg-foreground h-3 rounded-full transition-all"
                         style={{ width: `${metodo.porcentaje}%` }}
                       ></div>
                     </div>
@@ -212,7 +259,7 @@ export function Ingresos() {
             <div className="mt-6 pt-6 border-t border-border">
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-foreground">Total</span>
-                <span className="text-xl font-bold text-emerald-600">
+                <span className="text-xl font-bold text-foreground">
                   S/ {metodoPagoData.reduce((sum, m) => sum + m.monto, 0).toLocaleString()}
                 </span>
               </div>

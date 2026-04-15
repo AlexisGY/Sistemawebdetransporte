@@ -58,8 +58,8 @@ export function DesempenoVehicular() {
 
           <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <TrendingUp className="w-10 h-10 text-accent" />
-              <span className="px-2 py-1 bg-accent/20 text-accent text-xs font-medium rounded-full">
+              <TrendingUp className="w-10 h-10 text-foreground" />
+              <span className="px-2 py-1 bg-primary/20 text-primary text-xs font-medium rounded-full">
                 +12%
               </span>
             </div>
@@ -69,8 +69,8 @@ export function DesempenoVehicular() {
 
           <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <Fuel className="w-10 h-10 text-secondary" />
-              <span className="px-2 py-1 bg-secondary/20 text-secondary-foreground text-xs font-medium rounded-full">
+              <Fuel className="w-10 h-10 text-foreground" />
+              <span className="px-2 py-1 bg-muted text-foreground text-xs font-semibold rounded-full border border-border">
                 -3%
               </span>
             </div>
@@ -80,7 +80,7 @@ export function DesempenoVehicular() {
 
           <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <Wrench className="w-10 h-10 text-accent" />
+              <Wrench className="w-10 h-10 text-foreground" />
               <span className="px-2 py-1 bg-destructive/20 text-destructive text-xs font-medium rounded-full">
                 +2
               </span>
@@ -96,22 +96,32 @@ export function DesempenoVehicular() {
             <h3 className="font-semibold text-foreground mb-4">Consumo Mensual de Combustible</h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={consumoMensual}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="mes" tick={{ fill: "hsl(var(--muted-foreground))" }} />
-                <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                <XAxis dataKey="mes" tick={{ fill: "var(--muted-foreground)" }} />
+                <YAxis tick={{ fill: "var(--muted-foreground)" }} />
                 <Tooltip
+                  labelStyle={{
+                    color: "var(--foreground)",
+                    fontWeight: 600,
+                  }}
+                  itemStyle={{
+                    color: "var(--foreground)",
+                    fontWeight: 500,
+                  }}
                   contentStyle={{
-                    backgroundColor: "hsl(var(--card))",
-                    border: "1px solid hsl(var(--border))",
-                    color: "hsl(var(--foreground))",
+                    backgroundColor: "var(--card)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "10px",
+                    boxShadow: "0 8px 24px rgba(15, 23, 42, 0.08)",
+                    color: "var(--foreground)",
                   }}
                 />
                 <Line
                   type="monotone"
                   dataKey="consumo"
-                  stroke="hsl(var(--secondary))"
+                  stroke="var(--secondary-foreground)"
                   strokeWidth={3}
-                  dot={{ fill: "hsl(var(--secondary))", r: 6 }}
+                  dot={{ fill: "var(--secondary-foreground)", r: 6 }}
                   name="Consumo (L/100km)"
                 />
               </LineChart>
@@ -122,17 +132,28 @@ export function DesempenoVehicular() {
             <h3 className="font-semibold text-foreground mb-4">Kilómetros Recorridos (Top 5)</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={vehiculosData.slice(0, 5).filter(v => v.kmRecorridos > 0)}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="placa" tick={{ fill: "hsl(var(--muted-foreground))" }} />
-                <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                <XAxis dataKey="placa" tick={{ fill: "var(--muted-foreground)" }} />
+                <YAxis tick={{ fill: "var(--muted-foreground)" }} />
                 <Tooltip
+                  formatter={(value) => [Number(value).toLocaleString(), "Km recorridos"]}
+                  labelStyle={{
+                    color: "var(--foreground)",
+                    fontWeight: 600,
+                  }}
+                  itemStyle={{
+                    color: "var(--foreground)",
+                    fontWeight: 500,
+                  }}
                   contentStyle={{
-                    backgroundColor: "hsl(var(--card))",
-                    border: "1px solid hsl(var(--border))",
-                    color: "hsl(var(--foreground))",
+                    backgroundColor: "var(--card)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "10px",
+                    boxShadow: "0 8px 24px rgba(15, 23, 42, 0.08)",
+                    color: "var(--foreground)",
                   }}
                 />
-                <Bar dataKey="kmRecorridos" fill="hsl(var(--primary))" radius={[8, 8, 0, 0]} name="Km" />
+                <Bar dataKey="kmRecorridos" fill="var(--primary)" radius={[8, 8, 0, 0]} name="Km" />
               </BarChart>
             </ResponsiveContainer>
           </div>

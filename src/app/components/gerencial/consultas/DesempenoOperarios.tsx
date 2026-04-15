@@ -58,8 +58,8 @@ export function DesempenoOperarios() {
 
           <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <Star className="w-10 h-10 text-accent" />
-              <span className="px-2 py-1 bg-accent/20 text-accent text-xs font-medium rounded-full">
+              <Star className="w-10 h-10 fill-current text-muted-foreground" />
+              <span className="px-2 py-1 bg-primary/20 text-primary text-xs font-medium rounded-full">
                 +0.2
               </span>
             </div>
@@ -96,22 +96,22 @@ export function DesempenoOperarios() {
             <h3 className="font-semibold text-foreground mb-4">Tendencia de Satisfacción</h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={tendenciaData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="mes" tick={{ fill: "hsl(var(--muted-foreground))" }} />
-                <YAxis domain={[0, 5]} tick={{ fill: "hsl(var(--muted-foreground))" }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                <XAxis dataKey="mes" tick={{ fill: "var(--muted-foreground)" }} />
+                <YAxis domain={[0, 5]} tick={{ fill: "var(--muted-foreground)" }} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "hsl(var(--card))",
-                    border: "1px solid hsl(var(--border))",
-                    color: "hsl(var(--foreground))",
+                    backgroundColor: "var(--card)",
+                    border: "1px solid var(--border)",
+                    color: "var(--foreground)",
                   }}
                 />
                 <Line
                   type="monotone"
                   dataKey="promedio"
-                  stroke="hsl(var(--primary))"
+                  stroke="var(--primary)"
                   strokeWidth={3}
-                  dot={{ fill: "hsl(var(--primary))", r: 6 }}
+                  dot={{ fill: "var(--primary)", r: 6 }}
                   name="Promedio"
                 />
               </LineChart>
@@ -122,17 +122,28 @@ export function DesempenoOperarios() {
             <h3 className="font-semibold text-foreground mb-4">Viajes por Operario (Top 5)</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={operariosDesempeno.slice(0, 5)} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis type="number" tick={{ fill: "hsl(var(--muted-foreground))" }} />
-                <YAxis dataKey="nombre" type="category" tick={{ fill: "hsl(var(--muted-foreground))" }} width={120} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                <XAxis type="number" tick={{ fill: "var(--muted-foreground)" }} />
+                <YAxis dataKey="nombre" type="category" tick={{ fill: "var(--muted-foreground)" }} width={120} />
                 <Tooltip
+                  formatter={(value) => [value, "Viajes"]}
+                  labelStyle={{
+                    color: "var(--foreground)",
+                    fontWeight: 600,
+                  }}
+                  itemStyle={{
+                    color: "var(--foreground)",
+                    fontWeight: 500,
+                  }}
                   contentStyle={{
-                    backgroundColor: "hsl(var(--card))",
-                    border: "1px solid hsl(var(--border))",
-                    color: "hsl(var(--foreground))",
+                    backgroundColor: "var(--card)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "10px",
+                    boxShadow: "0 8px 24px rgba(15, 23, 42, 0.08)",
+                    color: "var(--foreground)",
                   }}
                 />
-                <Bar dataKey="viajes" fill="hsl(var(--accent))" radius={[0, 8, 8, 0]} />
+                <Bar dataKey="viajes" fill="var(--primary)" radius={[0, 8, 8, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -166,7 +177,7 @@ export function DesempenoOperarios() {
               sortable: true,
               render: (item: any) => (
                 <div className="flex items-center gap-1">
-                  <Star className="w-4 h-4 fill-accent text-accent" />
+                  <Star className="w-4 h-4 fill-current text-muted-foreground" />
                   <span className="font-medium">{item.satisfaccion}</span>
                 </div>
               ),

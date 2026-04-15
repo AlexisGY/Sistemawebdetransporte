@@ -35,10 +35,10 @@ const demandaPorRutaData = [
 ];
 
 const porHorarioData = [
-  { name: "Madrugada (00-06)", value: 12, color: "#6366f1" },
-  { name: "Mañana (06-12)", value: 35, color: "#10b981" },
-  { name: "Tarde (12-18)", value: 28, color: "#f59e0b" },
-  { name: "Noche (18-00)", value: 25, color: "#8b5cf6" },
+  { name: "Madrugada (00-06)", value: 12, color: "#111111" },
+  { name: "Mañana (06-12)", value: 35, color: "#4b5563" },
+  { name: "Tarde (12-18)", value: 28, color: "#6b7280" },
+  { name: "Noche (18-00)", value: 25, color: "#9ca3af" },
 ];
 
 export function DemandaOcupacion() {
@@ -66,8 +66,8 @@ export function DemandaOcupacion() {
         <div className="grid grid-cols-4 gap-6">
           <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <Users className="w-10 h-10 text-primary" />
-              <span className="px-2 py-1 bg-primary/20 text-primary text-xs font-medium rounded-full">
+              <Users className="w-10 h-10 text-foreground" />
+              <span className="px-2 py-1 bg-muted text-foreground text-xs font-medium rounded-full border border-border">
                 +8%
               </span>
             </div>
@@ -77,8 +77,8 @@ export function DemandaOcupacion() {
 
           <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <TrendingUp className="w-10 h-10 text-accent" />
-              <span className="px-2 py-1 bg-accent/20 text-accent text-xs font-medium rounded-full">
+              <TrendingUp className="w-10 h-10 text-foreground" />
+              <span className="px-2 py-1 bg-muted text-foreground text-xs font-medium rounded-full border border-border">
                 Pico
               </span>
             </div>
@@ -88,8 +88,8 @@ export function DemandaOcupacion() {
 
           <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <Calendar className="w-10 h-10 text-secondary-foreground" />
-              <span className="px-2 py-1 bg-secondary/20 text-secondary-foreground text-xs font-medium rounded-full">
+              <Calendar className="w-10 h-10 text-foreground" />
+              <span className="px-2 py-1 bg-muted text-foreground text-xs font-medium rounded-full border border-border">
                 Valle
               </span>
             </div>
@@ -99,8 +99,8 @@ export function DemandaOcupacion() {
 
           <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <PieChartIcon className="w-10 h-10 text-accent" />
-              <span className="px-2 py-1 bg-accent/20 text-accent text-xs font-medium rounded-full">
+              <PieChartIcon className="w-10 h-10 text-foreground" />
+              <span className="px-2 py-1 bg-muted text-foreground text-xs font-medium rounded-full border border-border">
                 Total
               </span>
             </div>
@@ -115,13 +115,29 @@ export function DemandaOcupacion() {
             <h3 className="font-semibold text-foreground mb-4">Ocupación Semanal</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={ocupacionSemanalData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="dia" tick={{ fill: "hsl(var(--muted-foreground))" }} />
-                <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} />
-                <Tooltip />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                <XAxis dataKey="dia" tick={{ fill: "var(--muted-foreground)" }} />
+                <YAxis tick={{ fill: "var(--muted-foreground)" }} />
+                <Tooltip
+                  labelStyle={{
+                    color: "var(--foreground)",
+                    fontWeight: 600,
+                  }}
+                  itemStyle={{
+                    color: "var(--foreground)",
+                    fontWeight: 500,
+                  }}
+                  contentStyle={{
+                    backgroundColor: "var(--card)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "10px",
+                    boxShadow: "0 8px 24px rgba(15, 23, 42, 0.08)",
+                    color: "var(--foreground)",
+                  }}
+                />
                 <Legend />
-                <Bar dataKey="ocupacion" fill="#10b981" radius={[8, 8, 0, 0]} name="Ocupación %" />
-                <Bar dataKey="capacidad" fill="#e5e7eb" radius={[8, 8, 0, 0]} name="Capacidad %" opacity={0.3} />
+                <Bar dataKey="ocupacion" fill="var(--foreground)" radius={[8, 8, 0, 0]} name="Ocupación %" />
+                <Bar dataKey="capacidad" fill="var(--muted-foreground)" radius={[8, 8, 0, 0]} name="Capacidad %" opacity={0.45} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -136,13 +152,50 @@ export function DemandaOcupacion() {
                   cy="50%"
                   outerRadius={100}
                   dataKey="value"
-                  label={({ name, value }) => `${value}%`}
+                  labelLine={{ stroke: "var(--muted-foreground)" }}
+                  label={(props: any) => {
+                    const { cx, cy, midAngle, outerRadius, value } = props;
+                    const RADIAN = Math.PI / 180;
+                    const radius = outerRadius + 14;
+                    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+                    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+                    return (
+                      <text
+                        x={x}
+                        y={y}
+                        fill="var(--foreground)"
+                        textAnchor={x > cx ? "start" : "end"}
+                        dominantBaseline="central"
+                        fontSize={13}
+                        fontWeight={500}
+                      >
+                        {`${value}%`}
+                      </text>
+                    );
+                  }}
                 >
                   {porHorarioData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip
+                  labelStyle={{
+                    color: "var(--foreground)",
+                    fontWeight: 600,
+                  }}
+                  itemStyle={{
+                    color: "var(--foreground)",
+                    fontWeight: 500,
+                  }}
+                  contentStyle={{
+                    backgroundColor: "var(--card)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "10px",
+                    boxShadow: "0 8px 24px rgba(15, 23, 42, 0.08)",
+                    color: "var(--foreground)",
+                  }}
+                />
               </PieChart>
             </ResponsiveContainer>
             <div className="grid grid-cols-2 gap-2 mt-4">
@@ -165,33 +218,19 @@ export function DemandaOcupacion() {
               return (
                 <div key={index} className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-slate-700">{ruta.ruta}</span>
+                    <span className="text-sm font-medium text-foreground">{ruta.ruta}</span>
                     <div className="flex items-center gap-3">
                       <span className="text-sm text-muted-foreground">
                         {ruta.demanda} / {ruta.capacidad} asientos
                       </span>
-                      <span
-                        className={`text-sm font-bold ${
-                          porcentaje >= 80
-                            ? "text-emerald-600"
-                            : porcentaje >= 60
-                            ? "text-amber-600"
-                            : "text-muted-foreground"
-                        }`}
-                      >
+                      <span className="text-sm font-bold text-foreground">
                         {porcentaje.toFixed(0)}%
                       </span>
                     </div>
                   </div>
-                  <div className="flex-1 bg-slate-200 rounded-full h-3">
+                  <div className="flex-1 bg-muted rounded-full h-3">
                     <div
-                      className={`h-3 rounded-full transition-all ${
-                        porcentaje >= 80
-                          ? "bg-emerald-500"
-                          : porcentaje >= 60
-                          ? "bg-amber-500"
-                          : "bg-indigo-500"
-                      }`}
+                      className="h-3 rounded-full transition-all bg-foreground"
                       style={{ width: `${porcentaje}%` }}
                     ></div>
                   </div>
@@ -203,38 +242,38 @@ export function DemandaOcupacion() {
 
         {/* Recommendations */}
         <div className="grid grid-cols-3 gap-6">
-          <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl p-6 border border-emerald-200">
+          <div className="bg-card rounded-xl p-6 border border-border">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-primary-foreground" />
+              <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center border border-border">
+                <TrendingUp className="w-6 h-6 text-foreground" />
               </div>
-              <h4 className="font-semibold text-emerald-900">Alta Demanda</h4>
+              <h4 className="font-semibold text-foreground">Alta Demanda</h4>
             </div>
-            <p className="text-sm text-emerald-800">
+            <p className="text-sm text-muted-foreground">
               Los fines de semana presentan ocupación del 90%. Considere agregar más servicios.
             </p>
           </div>
 
-          <div className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl p-6 border border-amber-200">
+          <div className="bg-card rounded-xl p-6 border border-border">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center">
-                <Calendar className="w-6 h-6 text-primary-foreground" />
+              <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center border border-border">
+                <Calendar className="w-6 h-6 text-foreground" />
               </div>
-              <h4 className="font-semibold text-amber-900">Optimización</h4>
+              <h4 className="font-semibold text-foreground">Optimización</h4>
             </div>
-            <p className="text-sm text-amber-800">
+            <p className="text-sm text-muted-foreground">
               Martes y miércoles tienen baja ocupación. Evalúe reducir frecuencias.
             </p>
           </div>
 
-          <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-6 border border-indigo-200">
+          <div className="bg-card rounded-xl p-6 border border-border">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                <Users className="w-6 h-6 text-primary-foreground" />
+              <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center border border-border">
+                <Users className="w-6 h-6 text-foreground" />
               </div>
-              <h4 className="font-semibold text-indigo-900">Horario Pico</h4>
+              <h4 className="font-semibold text-foreground">Horario Pico</h4>
             </div>
-            <p className="text-sm text-indigo-800">
+            <p className="text-sm text-muted-foreground">
               El 35% de la demanda se concentra en horarios de mañana (06-12).
             </p>
           </div>

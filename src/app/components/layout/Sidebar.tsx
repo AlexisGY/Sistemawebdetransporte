@@ -43,7 +43,7 @@ const menuItems: MenuItem[] = [
         path: "/gerencial/dashboard",
       },
       {
-        title: "Mantenimiento parametros",
+        title: "Mantenimiento parámetros",
         icon: <Settings className="size-4" />,
         path: "/gerencial/parametros",
       },
@@ -52,12 +52,12 @@ const menuItems: MenuItem[] = [
         icon: <BarChart3 className="size-4" />,
         children: [
           {
-            title: "Desempeno operarios",
+            title: "Desempeño operarios",
             icon: <Users className="size-4" />,
             path: "/gerencial/consultas/desempeno-operarios",
           },
           {
-            title: "Desempeno vehicular",
+            title: "Desempeño vehicular",
             icon: <Truck className="size-4" />,
             path: "/gerencial/consultas/desempeno-vehicular",
           },
@@ -72,7 +72,7 @@ const menuItems: MenuItem[] = [
             path: "/gerencial/consultas/incidencias",
           },
           {
-            title: "Demanda y ocupacion",
+            title: "Demanda y ocupación",
             icon: <PieChart className="size-4" />,
             path: "/gerencial/consultas/demanda-ocupacion",
           },
