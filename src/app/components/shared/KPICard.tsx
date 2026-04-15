@@ -10,21 +10,19 @@ interface KPICardProps {
   value: string | number;
   change?: number;
   icon: LucideIcon;
-  color?: "indigo" | "emerald" | "amber" | "rose" | "purple" | "blue";
+  variant?: "primary" | "secondary" | "accent" | "destructive";
   subtitle?: string;
 }
 
-const toneClasses = {
-  indigo: "bg-zinc-950 text-white",
-  emerald: "bg-zinc-800 text-white",
-  amber: "bg-zinc-700 text-white",
-  rose: "bg-zinc-600 text-white",
-  purple: "bg-zinc-500 text-white",
-  blue: "bg-zinc-300 text-zinc-950",
+const variantClasses = {
+  primary: "bg-primary text-primary-foreground",
+  secondary: "bg-secondary text-secondary-foreground",
+  accent: "bg-accent text-accent-foreground",
+  destructive: "bg-destructive text-destructive-foreground",
 };
 
-export function KPICard({ title, value, change, icon: Icon, color = "indigo", subtitle }: KPICardProps) {
-  const tone = toneClasses[color];
+export function KPICard({ title, value, change, icon: Icon, variant = "primary", subtitle }: KPICardProps) {
+  const tone = variantClasses[variant];
 
   return (
     <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}>

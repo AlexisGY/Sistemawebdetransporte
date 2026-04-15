@@ -29,19 +29,19 @@ const tendenciaData = [
 
 export function Incidencias() {
   return (
-    <div className="min-h-full bg-slate-50">
+    <div className="min-h-full bg-background">
       <PageHeader
         title="Gestión de Incidencias"
         subtitle="Monitoreo y seguimiento de eventos"
         actions={
           <div className="flex items-center gap-3">
-            <select className="px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <select className="px-4 py-2 border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ring bg-background text-foreground">
               <option>Todas las incidencias</option>
               <option>Resueltas</option>
               <option>En proceso</option>
               <option>Pendientes</option>
             </select>
-            <select className="px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <select className="px-4 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ring">
               <option>Junio 2026</option>
               <option>Mayo 2026</option>
               <option>Abril 2026</option>
@@ -53,55 +53,55 @@ export function Incidencias() {
       <div className="p-8 space-y-6">
         {/* KPIs */}
         <div className="grid grid-cols-4 gap-6">
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
               <AlertTriangle className="w-10 h-10 text-amber-600" />
               <span className="px-2 py-1 bg-rose-100 text-rose-700 text-xs font-medium rounded-full">
                 Total
               </span>
             </div>
-            <p className="text-3xl font-bold text-slate-900 mb-1">12</p>
-            <p className="text-sm text-slate-600">Incidencias del Mes</p>
+            <p className="text-3xl font-bold text-foreground mb-1">12</p>
+            <p className="text-sm text-muted-foreground">Incidencias del Mes</p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
               <TrendingDown className="w-10 h-10 text-emerald-600" />
               <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
                 -25%
               </span>
             </div>
-            <p className="text-3xl font-bold text-slate-900 mb-1">-4</p>
-            <p className="text-sm text-slate-600">vs Mes Anterior</p>
+            <p className="text-3xl font-bold text-foreground mb-1">-4</p>
+            <p className="text-sm text-muted-foreground">vs Mes Anterior</p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <CheckCircle className="w-10 h-10 text-indigo-600" />
-              <span className="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-full">
+              <CheckCircle className="w-10 h-10 text-primary" />
+              <span className="px-2 py-1 bg-secondary text-indigo-700 text-xs font-medium rounded-full">
                 83%
               </span>
             </div>
-            <p className="text-3xl font-bold text-slate-900 mb-1">10</p>
-            <p className="text-sm text-slate-600">Incidencias Resueltas</p>
+            <p className="text-3xl font-bold text-foreground mb-1">10</p>
+            <p className="text-sm text-muted-foreground">Incidencias Resueltas</p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
               <Clock className="w-10 h-10 text-purple-600" />
               <span className="px-2 py-1 bg-purple-100 text-purple-700 text-xs font-medium rounded-full">
                 Promedio
               </span>
             </div>
-            <p className="text-3xl font-bold text-slate-900 mb-1">1.2 hrs</p>
-            <p className="text-sm text-slate-600">Tiempo de Resolución</p>
+            <p className="text-3xl font-bold text-foreground mb-1">1.2 hrs</p>
+            <p className="text-sm text-muted-foreground">Tiempo de Resolución</p>
           </div>
         </div>
 
         {/* Charts */}
         <div className="grid grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="font-semibold text-slate-900 mb-4">Incidencias por Tipo</h3>
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
+            <h3 className="font-semibold text-foreground mb-4">Incidencias por Tipo</h3>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -121,13 +121,13 @@ export function Incidencias() {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="font-semibold text-slate-900 mb-4">Tendencia Mensual</h3>
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
+            <h3 className="font-semibold text-foreground mb-4">Tendencia Mensual</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={tendenciaData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="mes" tick={{ fill: "#64748b" }} />
-                <YAxis tick={{ fill: "#64748b" }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="mes" tick={{ fill: "hsl(var(--muted-foreground))" }} />
+                <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} />
                 <Tooltip />
                 <Bar dataKey="incidencias" fill="#f59e0b" radius={[8, 8, 0, 0]} name="Incidencias" />
               </BarChart>
@@ -151,7 +151,7 @@ export function Incidencias() {
                       ? "bg-rose-100 text-rose-700"
                       : item.tipo === "Retraso"
                       ? "bg-amber-100 text-amber-700"
-                      : "bg-indigo-100 text-indigo-700"
+                      : "bg-secondary text-indigo-700"
                   }`}
                 >
                   {item.tipo}
@@ -201,3 +201,6 @@ export function Incidencias() {
     </div>
   );
 }
+
+
+

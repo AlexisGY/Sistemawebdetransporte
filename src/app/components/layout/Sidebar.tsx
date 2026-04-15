@@ -213,16 +213,9 @@ export function Sidebar() {
               <Truck className="size-5 text-white" />
             </div>
             <div>
-              <h1 className="text-base font-semibold text-white">TransporteSaaS</h1>
-              <p className="text-xs text-zinc-500">Sistema empresarial</p>
+              <h1 className="text-base font-semibold text-white">Sistema de Transporte</h1>
+              <p className="text-xs text-zinc-500">Prototipado</p>
             </div>
-          </div>
-
-          <div className="mt-4 flex items-center gap-2">
-            <Badge className="rounded-full border-white/10 bg-white/8 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white hover:bg-white/8">
-              Shadcn UI
-            </Badge>
-            <span className="text-xs text-zinc-500">Prototipo visual</span>
           </div>
         </div>
       </div>

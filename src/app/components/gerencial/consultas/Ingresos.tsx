@@ -40,19 +40,19 @@ const metodoPagoData = [
 
 export function Ingresos() {
   return (
-    <div className="min-h-full bg-slate-50">
+    <div className="min-h-full bg-background">
       <PageHeader
         title="Análisis de Ingresos"
         subtitle="Seguimiento financiero y rentabilidad"
         actions={
           <div className="flex items-center gap-3">
-            <select className="px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <select className="px-4 py-2 border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ring bg-background text-foreground">
               <option>Este mes</option>
               <option>Últimos 3 meses</option>
               <option>Últimos 6 meses</option>
               <option>Este año</option>
             </select>
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+            <button className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
               Exportar Reporte
             </button>
           </div>
@@ -62,60 +62,60 @@ export function Ingresos() {
       <div className="p-8 space-y-6">
         {/* KPIs */}
         <div className="grid grid-cols-4 gap-6">
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
               <DollarSign className="w-10 h-10 text-emerald-600" />
               <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
                 +8.5%
               </span>
             </div>
-            <p className="text-3xl font-bold text-slate-900 mb-1">S/ 165,000</p>
-            <p className="text-sm text-slate-600">Ingresos del Mes</p>
+            <p className="text-3xl font-bold text-foreground mb-1">S/ 165,000</p>
+            <p className="text-sm text-muted-foreground">Ingresos del Mes</p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <TrendingUp className="w-10 h-10 text-indigo-600" />
+              <TrendingUp className="w-10 h-10 text-primary" />
               <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
                 +12.1%
               </span>
             </div>
-            <p className="text-3xl font-bold text-slate-900 mb-1">S/ 68,000</p>
-            <p className="text-sm text-slate-600">Utilidad Neta</p>
+            <p className="text-3xl font-bold text-foreground mb-1">S/ 68,000</p>
+            <p className="text-sm text-muted-foreground">Utilidad Neta</p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
               <CreditCard className="w-10 h-10 text-purple-600" />
-              <span className="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs font-medium rounded-full">
+              <span className="px-2 py-1 bg-secondary text-indigo-700 text-xs font-medium rounded-full">
                 50%
               </span>
             </div>
-            <p className="text-3xl font-bold text-slate-900 mb-1">S/ 82,500</p>
-            <p className="text-sm text-slate-600">Pagos con Tarjeta</p>
+            <p className="text-3xl font-bold text-foreground mb-1">S/ 82,500</p>
+            <p className="text-sm text-muted-foreground">Pagos con Tarjeta</p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
             <div className="flex items-center justify-between mb-4">
               <PieChartIcon className="w-10 h-10 text-amber-600" />
               <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
                 41%
               </span>
             </div>
-            <p className="text-3xl font-bold text-slate-900 mb-1">41.2%</p>
-            <p className="text-sm text-slate-600">Margen de Utilidad</p>
+            <p className="text-3xl font-bold text-foreground mb-1">41.2%</p>
+            <p className="text-sm text-muted-foreground">Margen de Utilidad</p>
           </div>
         </div>
 
         {/* Charts Row 1 */}
         <div className="grid grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="font-semibold text-slate-900 mb-4">Evolución de Ingresos y Utilidad</h3>
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
+            <h3 className="font-semibold text-foreground mb-4">Evolución de Ingresos y Utilidad</h3>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={ingresosData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="mes" tick={{ fill: "#64748b" }} />
-                <YAxis tick={{ fill: "#64748b" }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="mes" tick={{ fill: "hsl(var(--muted-foreground))" }} />
+                <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} />
                 <Tooltip
                   contentStyle={{
                     backgroundColor: "#fff",
@@ -144,8 +144,8 @@ export function Ingresos() {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="font-semibold text-slate-900 mb-4">Ingresos por Ruta</h3>
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
+            <h3 className="font-semibold text-foreground mb-4">Ingresos por Ruta</h3>
             <div className="flex items-center justify-center">
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
@@ -170,13 +170,13 @@ export function Ingresos() {
 
         {/* Charts Row 2 */}
         <div className="grid grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="font-semibold text-slate-900 mb-4">Ingresos vs Gastos Mensuales</h3>
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
+            <h3 className="font-semibold text-foreground mb-4">Ingresos vs Gastos Mensuales</h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={ingresosData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis dataKey="mes" tick={{ fill: "#64748b" }} />
-                <YAxis tick={{ fill: "#64748b" }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="mes" tick={{ fill: "hsl(var(--muted-foreground))" }} />
+                <YAxis tick={{ fill: "hsl(var(--muted-foreground))" }} />
                 <Tooltip />
                 <Legend />
                 <Bar dataKey="ingresos" fill="#10b981" radius={[8, 8, 0, 0]} name="Ingresos" />
@@ -185,33 +185,33 @@ export function Ingresos() {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="font-semibold text-slate-900 mb-4">Métodos de Pago</h3>
+          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
+            <h3 className="font-semibold text-foreground mb-4">Métodos de Pago</h3>
             <div className="space-y-4">
               {metodoPagoData.map((metodo, index) => (
                 <div key={index} className="space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-medium text-slate-700">{metodo.metodo}</span>
-                    <span className="text-sm font-bold text-slate-900">
+                    <span className="text-sm font-bold text-foreground">
                       S/ {metodo.monto.toLocaleString()}
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="flex-1 bg-slate-200 rounded-full h-3">
                       <div
-                        className="bg-indigo-600 h-3 rounded-full transition-all"
+                        className="bg-primary h-3 rounded-full transition-all"
                         style={{ width: `${metodo.porcentaje}%` }}
                       ></div>
                     </div>
-                    <span className="text-sm font-medium text-slate-600 w-12">{metodo.porcentaje}%</span>
+                    <span className="text-sm font-medium text-muted-foreground w-12">{metodo.porcentaje}%</span>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="mt-6 pt-6 border-t border-slate-200">
+            <div className="mt-6 pt-6 border-t border-border">
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-slate-900">Total</span>
+                <span className="font-semibold text-foreground">Total</span>
                 <span className="text-xl font-bold text-emerald-600">
                   S/ {metodoPagoData.reduce((sum, m) => sum + m.monto, 0).toLocaleString()}
                 </span>
@@ -223,3 +223,6 @@ export function Ingresos() {
     </div>
   );
 }
+
+
+
