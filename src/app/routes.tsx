@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createHashRouter } from "react-router";
 import { MainLayout } from "./components/layout/MainLayout";
 import { Login } from "./components/auth/Login";
 import { Recovery } from "./components/auth/Recovery";
@@ -24,7 +24,7 @@ import { ComprobantePago } from "./components/operativo/reportes/ComprobantePago
 import { ManifiestoViaje } from "./components/operativo/reportes/ManifiestoViaje";
 import { CierreViaje } from "./components/operativo/reportes/CierreViaje";
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: "/login",
     Component: Login,
