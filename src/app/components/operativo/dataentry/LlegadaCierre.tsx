@@ -24,7 +24,7 @@ export function LlegadaCierre() {
 
       <div className="p-8 max-w-5xl mx-auto space-y-6">
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">Selección de Viaje (Solo catálogo)</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Selección de viaje</h3>
           <select
             value={viajeId}
             onChange={(e) => setViajeId(e.target.value)}
@@ -56,7 +56,7 @@ export function LlegadaCierre() {
               <p className="font-semibold">{v?.fechaISO}</p>
             </div>
             <div>
-              <p className="text-sm text-slate-600 mb-1">Hora Salida</p>
+              <p className="text-sm text-slate-600 mb-1">Hora de salida</p>
               <p className="font-semibold">{v?.horaSalida}</p>
             </div>
             <div>
@@ -98,7 +98,7 @@ export function LlegadaCierre() {
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">
-              Observación (Solo catálogo)
+              Observación
             </label>
             <select className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-600">
               <option>Arribo sin novedades</option>

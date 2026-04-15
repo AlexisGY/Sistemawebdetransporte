@@ -20,12 +20,6 @@ export function Header() {
     <header className="border-b border-border/60 bg-background/70 backdrop-blur-xl">
       <div className="flex h-16 items-center justify-between px-6">
         <div className="flex flex-1 items-center gap-4">
-          <div className="hidden lg:flex items-center gap-3">
-            <div className="rounded-full border border-border/70 bg-card/70 px-3 py-1 text-xs font-semibold text-foreground">
-              Sistema de Transporte y Logística
-            </div>
-            <div className="text-xs font-mono text-muted-foreground">{visibleUrl}</div>
-          </div>
 
           <Badge
             variant="outline"

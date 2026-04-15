@@ -57,7 +57,7 @@ export function EmisionTicket() {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold mb-1">TICKET DE VIAJE</h2>
-                <p className="text-slate-200">Sistema de Transporte y Logística</p>
+                <p className="text-slate-200">Sistema de Transporte</p>
               </div>
               <div className="text-right">
                 <p className="text-sm text-slate-200">Código</p>

@@ -12,6 +12,8 @@ function fmtFecha(iso: string) {
 }
 
 export function LotesTickets() {
+  const MAX_ASIENTOS_PREVIEW = 30;
+
   const viajes = useMemo(() => getViajes(), []);
   const [lotes, setLotesState] = useState<LoteCapacidad[]>(() => getLotes());
   const [selectedViajeId, setSelectedViajeId] = useState(viajes[0]?.id || "");
@@ -28,7 +30,7 @@ export function LotesTickets() {
 
   const yaExisteLote = useMemo(() => {
     if (!selectedViaje) return false;
-    return lotes.some((l) => l.viajeId === selectedViaje.id && l.tipo === tipo && l.estado !== "Anulado");
+    return lotes.some((l) => l.viajeId === selectedViaje.id && l.tipo === tipo);
   }, [lotes, selectedViaje, tipo]);
 
   const validacion = (() => {
@@ -76,8 +78,8 @@ export function LotesTickets() {
     if (tipo === "Pasajeros") {
       const total = selectedViaje.capacidad;
       const occupied = new Set<number>(selectedViaje.asientosOcupados);
-      // Representación tipo "mapa" (máximo 80 para vista rápida)
-      return Array.from({ length: total }, (_, i) => i + 1).slice(0, 80).map((n) => ({
+      // Representación tipo "mapa" (máximo 30 para evitar desborde visual)
+      return Array.from({ length: total }, (_, i) => i + 1).slice(0, MAX_ASIENTOS_PREVIEW).map((n) => ({
         id: n,
         cupo: `AS-${String(n).padStart(2, "0")}`,
         estado: occupied.has(n) ? "Ocupado" : "Disponible",
@@ -95,7 +97,7 @@ export function LotesTickets() {
   return (
     <div className="min-h-full bg-slate-50">
       <PageHeader
-        title="Lotes de Tickets (Apertura de Capacidad)"
+        title="Lotes de Tickets y Capacidad"
         subtitle="Abre cupos listos para Cotización → Orden de Pago → Emisión"
         actions={
           <button
@@ -136,7 +138,7 @@ export function LotesTickets() {
 
         <div className="grid grid-cols-3 gap-6">
           <div className="col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-sm font-semibold text-slate-900 mb-4">Paso 1 — Selección (Invoca Catálogo de Viajes)</h3>
+            <h3 className="text-sm font-semibold text-slate-900 mb-4">Paso 1 — Selección del viaje</h3>
             <div className="grid grid-cols-3 gap-4 items-end">
               <div>
                 <label className="block text-xs font-semibold text-slate-600 uppercase mb-2">Viaje Programado</label>
@@ -178,10 +180,10 @@ export function LotesTickets() {
                 </div>
               ) : (
                 <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                  <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">KPIs del Viaje</p>
+                  <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Resumen del viaje</p>
                   <div className="mt-2 grid grid-cols-3 gap-2">
                     <div className="rounded-lg bg-white border border-slate-200 px-3 py-2">
-                      <p className="text-[10px] text-slate-500 font-semibold uppercase">Capacidad</p>
+                      <p className="text-[10px] text-slate-500 font-semibold uppercase">Total de asientos</p>
                       <p className="text-sm font-bold text-slate-900">{capacidadTotalViaje}</p>
                     </div>
                     <div className="rounded-lg bg-white border border-slate-200 px-3 py-2">
@@ -227,7 +229,7 @@ export function LotesTickets() {
                   validacion.ok ? "bg-emerald-50 border-emerald-200" : "bg-rose-50 border-rose-200"
                 }`}
               >
-                <p className="text-xs font-semibold text-slate-700">Paso 3 — Validación (Autómata)</p>
+                <p className="text-xs font-semibold text-slate-700">Paso 3 — Validación de apertura</p>
                 <div className="mt-2 flex items-start gap-2">
                   {validacion.ok ? (
                     <CheckCircle2 className="w-4 h-4 text-emerald-700 mt-0.5" />
@@ -252,7 +254,7 @@ export function LotesTickets() {
                     }`}
                   >
                     <Plus className="w-4 h-4" />
-                    Generar ahora
+                    Generar lote
                   </button>
                 </div>
               </div>
@@ -260,13 +262,13 @@ export function LotesTickets() {
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-sm font-semibold text-slate-900 mb-1">Paso 4 — Vista Previa (ReadOnly)</h3>
+            <h3 className="text-sm font-semibold text-slate-900 mb-1">Paso 4 — Vista previa</h3>
             <p className="text-xs text-slate-600 mb-4">
               {tipo === "Pasajeros"
-                ? "Mapa rápido: verde = disponible, gris = ocupado (ejemplo realista)."
+                ? "Mapa rápido: verde = disponible, gris = ocupado (muestra hasta 30 asientos)."
                 : "Espacios de bodega (SP) listos para cotizar y vender."}
             </p>
-            <div className={`grid gap-2 ${tipo === "Pasajeros" ? "grid-cols-8" : "grid-cols-4"}`}>
+            <div className={`grid gap-2 ${tipo === "Pasajeros" ? "grid-cols-5" : "grid-cols-3"}`}>
               {gridPreview.map((c: any) => (
                 <div
                   key={c.id}

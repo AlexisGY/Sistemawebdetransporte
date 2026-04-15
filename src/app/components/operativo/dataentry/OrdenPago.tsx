@@ -32,7 +32,7 @@ export function OrdenPago() {
     <div className="min-h-full bg-slate-50">
       <PageHeader
         title="Orden de Pago"
-        subtitle="Formalizar el cobro pendiente (con validación de crédito)"
+        subtitle="Registra el pago y valida la línea de crédito"
       />
 
       <div className="p-8 max-w-4xl mx-auto">
@@ -117,7 +117,7 @@ export function OrdenPago() {
             </div>
 
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm">
-              <p className="font-semibold text-slate-900 mb-2">Resumen (Readonly)</p>
+              <p className="font-semibold text-slate-900 mb-2">Resumen</p>
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <p className="text-xs text-slate-500 uppercase font-semibold">Cliente</p>
