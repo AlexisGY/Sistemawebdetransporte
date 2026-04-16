@@ -3,7 +3,9 @@ import { ChevronDown, ChevronUp, Download, Filter, Plus, Search } from "lucide-r
 
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 import {
   Table,
   TableBody,
@@ -44,6 +46,13 @@ export function DataTable<T extends { id?: string | number }>({
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [showFilters, setShowFilters] = useState(false);
+  const [filterOptions, setFilterOptions] = useState({
+    activos: true,
+    pendientes: false,
+    cerrados: false,
+    soloConIncidencia: false,
+  });
   const itemsPerPage = 10;
 
   const handleSort = (columnKey: string) => {
@@ -114,11 +123,138 @@ export function DataTable<T extends { id?: string | number }>({
             />
           </div>
 
-          <Button variant="outline" className="rounded-xl">
+          <Button
+            type="button"
+            variant="outline"
+            className="rounded-xl"
+            onClick={() => setShowFilters((current) => !current)}
+          >
             <Filter className="size-4" />
             Filtros
           </Button>
         </div>
+
+        {showFilters && (
+          <div className="mt-4 rounded-2xl border border-border/70 bg-muted/20 p-4 shadow-sm">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-sm font-semibold">Opciones de filtrado</p>
+                <p className="text-xs text-muted-foreground">
+                  Vista previa de filtros. Se muestran opciones, sin aplicar lógica todavía.
+                </p>
+              </div>
+
+              <Button type="button" variant="ghost" size="sm" onClick={() => setShowFilters(false)}>
+                Cerrar
+              </Button>
+            </div>
+
+            <div className="mt-4 grid gap-4 lg:grid-cols-3">
+              <div className="space-y-3">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Estado</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <Label htmlFor="filtro-activos" className="cursor-pointer text-sm">
+                    <Checkbox
+                      id="filtro-activos"
+                      checked={filterOptions.activos}
+                      onCheckedChange={(checked) =>
+                        setFilterOptions((current) => ({ ...current, activos: Boolean(checked) }))
+                      }
+                    />
+                    Activos
+                  </Label>
+
+                  <Label htmlFor="filtro-pendientes" className="cursor-pointer text-sm">
+                    <Checkbox
+                      id="filtro-pendientes"
+                      checked={filterOptions.pendientes}
+                      onCheckedChange={(checked) =>
+                        setFilterOptions((current) => ({ ...current, pendientes: Boolean(checked) }))
+                      }
+                    />
+                    Pendientes
+                  </Label>
+
+                  <Label htmlFor="filtro-cerrados" className="cursor-pointer text-sm">
+                    <Checkbox
+                      id="filtro-cerrados"
+                      checked={filterOptions.cerrados}
+                      onCheckedChange={(checked) =>
+                        setFilterOptions((current) => ({ ...current, cerrados: Boolean(checked) }))
+                      }
+                    />
+                    Cerrados
+                  </Label>
+
+                  <Label htmlFor="filtro-incidencia" className="cursor-pointer text-sm">
+                    <Checkbox
+                      id="filtro-incidencia"
+                      checked={filterOptions.soloConIncidencia}
+                      onCheckedChange={(checked) =>
+                        setFilterOptions((current) => ({
+                          ...current,
+                          soloConIncidencia: Boolean(checked),
+                        }))
+                      }
+                    />
+                    Con incidencia
+                  </Label>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  Rango de fechas
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  <Input type="date" aria-label="Fecha desde" />
+                  <Input type="date" aria-label="Fecha hasta" />
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  Tipo de búsqueda
+                </p>
+                <div className="grid gap-3">
+                  <Label htmlFor="filtro-general" className="cursor-pointer text-sm">
+                    <Checkbox id="filtro-general" />
+                    General
+                  </Label>
+                  <Label htmlFor="filtro-detallada" className="cursor-pointer text-sm">
+                    <Checkbox id="filtro-detallada" />
+                    Detallada
+                  </Label>
+                  <Label htmlFor="filtro-critica" className="cursor-pointer text-sm">
+                    <Checkbox id="filtro-critica" />
+                    Crítica
+                  </Label>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 flex items-center justify-end gap-2 border-t border-border/60 pt-3">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() =>
+                  setFilterOptions({
+                    activos: false,
+                    pendientes: false,
+                    cerrados: false,
+                    soloConIncidencia: false,
+                  })
+                }
+              >
+                Limpiar
+              </Button>
+              <Button type="button" size="sm">
+                Aplicar
+              </Button>
+            </div>
+          </div>
+        )}
       </CardHeader>
 
       <CardContent className="px-0">

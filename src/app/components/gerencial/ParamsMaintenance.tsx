@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 
 const categories = [
-  { id: "vehiculos",  name: "Vehículos",            icon: Truck,       color: "indigo" },
+  { id: "vehiculos",  name: "Vehículos",            icon: Truck,       color: "slate" },
   { id: "operarios",  name: "Operarios",             icon: Users,       color: "emerald" },
   { id: "sedes",      name: "Sedes",                 icon: Building,    color: "purple" },
   { id: "contenedores", name: "Contenedores",        icon: Package,     color: "blue" },
@@ -34,7 +34,7 @@ const categories = [
   { id: "unidades",   name: "Unidades de Medida",    icon: Ruler,       color: "rose" },
   { id: "clientes",   name: "Clientes",              icon: UserCircle,  color: "cyan" },
   { id: "servicios",  name: "Servicios",             icon: Briefcase,   color: "teal" },
-  { id: "rutas",      name: "Rutas y Coberturas",    icon: Map,         color: "indigo" },
+  { id: "rutas",      name: "Rutas y Coberturas",    icon: Map,         color: "slate" },
   { id: "horarios",   name: "Horarios",              icon: Clock,       color: "emerald" },
   { id: "tarifarios", name: "Tarifarios",            icon: DollarSign,  color: "purple" },
   { id: "politicas",  name: "Políticas de Negocio",  icon: FileText,    color: "blue" },
@@ -355,7 +355,7 @@ const estadoBadge = (estado: string) => (
 const siNoBadge = (val: string) => (
   <span
     className={`px-2 py-1 text-xs font-medium rounded-full ${
-      val === "Sí" ? "bg-indigo-100 text-indigo-700" : "bg-slate-100 text-slate-500"
+      val === "Sí" ? "bg-slate-100 text-slate-700" : "bg-slate-100 text-slate-500"
     }`}
   >
     {val}
@@ -790,7 +790,7 @@ function CatalogModal({ category, editingItem, onClose, onSave }: ModalProps) {
                       value={form[field.key] ?? ""}
                       onChange={(e) => handleChange(field.key, e.target.value)}
                       placeholder={field.placeholder}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
                     />
                     <datalist id={`${category}-${field.key}-list`}>
                       {field.options?.map((opt) => (
@@ -802,7 +802,7 @@ function CatalogModal({ category, editingItem, onClose, onSave }: ModalProps) {
                   <select
                     value={form[field.key] ?? ""}
                     onChange={(e) => handleChange(field.key, e.target.value)}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
                   >
                     {field.options?.map((opt) => (
                       <option key={opt} value={opt}>{opt}</option>
@@ -815,7 +815,7 @@ function CatalogModal({ category, editingItem, onClose, onSave }: ModalProps) {
                   onChange={(e) => handleChange(field.key, e.target.value)}
                   placeholder={field.placeholder}
                   rows={3}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500 resize-none"
                 />
               ) : (
                 <input
@@ -823,7 +823,7 @@ function CatalogModal({ category, editingItem, onClose, onSave }: ModalProps) {
                   value={form[field.key] ?? ""}
                   onChange={(e) => handleChange(field.key, e.target.value)}
                   placeholder={field.placeholder}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
                 />
               )}
             </div>
@@ -840,7 +840,7 @@ function CatalogModal({ category, editingItem, onClose, onSave }: ModalProps) {
           </button>
           <button
             onClick={handleSubmit}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-slate-600 rounded-lg hover:bg-slate-700 transition-colors"
           >
             <Save className="w-4 h-4" />
             {editingItem ? "Guardar Cambios" : "Registrar"}
@@ -865,7 +865,7 @@ function EmptyState({ catName, onAdd }: { catName: string; onAdd: () => void }) 
       </div>
       <button
         onClick={onAdd}
-        className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors"
+        className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-slate-600 rounded-lg hover:bg-slate-700 transition-colors"
       >
         <Plus className="w-4 h-4" />
         Agregar Registro
