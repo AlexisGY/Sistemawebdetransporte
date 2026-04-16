@@ -16,7 +16,8 @@ function figmaAssetResolver() {
   }
 }
 
-const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? ''
+const repository = process.env.GITHUB_REPOSITORY ?? ''
+const [, repoName = ''] = repository.split('/')
 const ghPagesBase = repoName ? `/${repoName}/` : '/'
 
 export default defineConfig({
