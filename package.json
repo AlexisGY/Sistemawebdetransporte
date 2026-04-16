@@ -7,7 +7,7 @@
     "build": "vite build",
     "dev": "vite",
     "preview": "vite preview",
-    "deploy": "npm run build && git add dist -f && git commit -m 'deploy to GitHub Pages' && git push origin $(git subtree split --prefix dist main):gh-pages --force",
+    "deploy": "npm run build",
     "ui:add": "npx shadcn@latest add"
   },
   "dependencies": {
