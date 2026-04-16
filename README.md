@@ -5,7 +5,12 @@
 
   ## Running the code
 
-  Run `npm i` to install the dependencies.
+Run `npm i` to install the dependencies.
 
-  Run `npm run dev` to start the development server.
+Run `npm run dev` to start the development server.
+
+## Deploy (GitHub Pages)
+
+The production build uses `/Sistemawebdetransporte/` as base path so it renders correctly at:
+https://alexisgy.github.io/Sistemawebdetransporte/
   
