@@ -17,7 +17,13 @@ function figmaAssetResolver() {
 }
 
 export default defineConfig(({ mode }) => ({
-  base: mode === 'production' ? '/Sistemawebdetransporte/' : '/',
+  base:
+    mode === 'production'
+      ? process.env.VITE_BASE_PATH ||
+        (process.env.GITHUB_REPOSITORY
+          ? `/${process.env.GITHUB_REPOSITORY.split('/')[1]}/`
+          : '/')
+      : '/',
   plugins: [
     figmaAssetResolver(),
     // The React and Tailwind plugins are both required for Make, even if
