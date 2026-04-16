@@ -15,5 +15,5 @@
   2. En GitHub ve a **Settings > Pages**.
   3. En **Source**, selecciona **GitHub Actions**.
   4. Espera que termine el workflow **Deploy to GitHub Pages**.
-  5. Tu sitio quedará disponible en `https://<usuario>.github.io/Sistemawebdetransporte/`.
+  5. Tu sitio quedará disponible en `https://<usuario>.github.io/<nombre-repositorio>/`.
   
