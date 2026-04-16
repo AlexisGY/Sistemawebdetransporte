@@ -13,4 +13,9 @@ Run `npm run dev` to start the development server.
 
 The production build uses `/Sistemawebdetransporte/` as base path so it renders correctly at:
 https://alexisgy.github.io/Sistemawebdetransporte/
+
+This repository now deploys with GitHub Actions from `.github/workflows/deploy-pages.yml`, publishing the compiled `dist/` folder (not `src/`).
+
+Required GitHub Pages setting:
+- **Settings → Pages → Source:** `GitHub Actions`
   
