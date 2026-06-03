@@ -111,7 +111,7 @@ export function Cotizacion() {
     <div className="min-h-full bg-slate-50">
       <PageHeader
         title="Cotización"
-        subtitle="Calcula el precio según viaje, cliente, servicio, bien/carga, tarifa y cantidad."
+        subtitle="Calcula el precio del servicio de carga según viaje, bien, contenedor, tarifa y cantidad."
       />
 
       <div className="p-8 w-full max-w-[1480px] mx-auto space-y-6">

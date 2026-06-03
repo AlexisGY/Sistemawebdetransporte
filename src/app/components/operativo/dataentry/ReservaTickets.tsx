@@ -102,6 +102,8 @@ export function ReservaTickets() {
   const totalPasajeros = selectedAsientos.length * tarifaPasajero;
   const totalCarga = Number(form.cantidad || 0) * tarifaCargaKg;
   const total = form.tipoReserva === "Pasajeros" ? totalPasajeros : totalCarga;
+  const siguientePaso = form.tipoReserva === "Pasajeros" ? "Orden de Pago" : "Cotización";
+  const continuarLabel = form.tipoReserva === "Pasajeros" ? "Continuar a orden de pago" : "Continuar a cotización";
 
   const firstDisponible = (cap: number, occ: Set<number>) => {
     for (let n = 1; n <= cap; n++) if (!occ.has(n)) return n;
@@ -259,8 +261,12 @@ export function ReservaTickets() {
     setSelectedAsientos([]);
     setSelectedEspacios([]);
 
-    // Siguiente paso: pago de la reserva (online)
-    navigate(`/operativo/orden-pago?reservaId=${encodeURIComponent(reserva.id)}`);
+    if (form.tipoReserva === "Pasajeros") {
+      navigate(`/operativo/orden-pago?reservaId=${encodeURIComponent(reserva.id)}`);
+      return;
+    }
+
+    navigate("/operativo/cotizacion");
   };
 
   const seats = useMemo(() => {
@@ -287,7 +293,7 @@ export function ReservaTickets() {
             }`}
           >
             <Ticket className="w-4 h-4" />
-            Reservar
+            {continuarLabel}
           </button>
         }
       />
@@ -330,6 +336,9 @@ export function ReservaTickets() {
                   <option value="Pasajeros">Pasajeros (Asientos)</option>
                   <option value="Carga">Carga (Espacios SP)</option>
                 </select>
+                <p className="text-[11px] text-slate-500 mt-1">
+                  Tipo seleccionado: <span className="font-semibold text-slate-800">{form.tipoReserva}</span>
+                </p>
               </div>
               <div>
                 <label className="block text-xs font-semibold text-slate-600 uppercase mb-2">Cliente</label>
@@ -373,6 +382,14 @@ export function ReservaTickets() {
                     <p className="text-sm font-semibold text-emerald-700">
                       {form.tipoReserva === "Pasajeros" ? disponiblesAsientos : disponiblesCarga}
                     </p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] text-slate-500 font-semibold uppercase">Tipo de reserva</p>
+                    <p className="text-sm font-semibold text-slate-900">{form.tipoReserva}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] text-slate-500 font-semibold uppercase">Siguiente paso</p>
+                    <p className="text-sm font-semibold text-slate-900">{siguientePaso}</p>
                   </div>
                 </div>
               </div>
@@ -570,7 +587,8 @@ export function ReservaTickets() {
                 </div>
                 <div className="mt-3 flex items-center justify-between gap-3">
                   <p className="text-[11px] text-slate-700/80">
-                    Siguiente: <span className="font-semibold">Orden de Pago</span> (se genera al confirmar).
+                    Siguiente: <span className="font-semibold">{siguientePaso}</span>
+                    {form.tipoReserva === "Pasajeros" ? " (se genera al confirmar)." : " antes de la orden de pago."}
                   </p>
                   <button
                     onClick={handleReservar}
@@ -580,7 +598,7 @@ export function ReservaTickets() {
                     }`}
                   >
                     <CreditCard className="w-4 h-4" />
-                    Reservar
+                    {continuarLabel}
                   </button>
                 </div>
               </div>
