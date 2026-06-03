@@ -118,7 +118,7 @@ export function RecursosViaje() {
     <div className="min-h-full bg-slate-50">
       <PageHeader
         title="Recursos de Viaje"
-        subtitle="Asigna vehículo, contenedor y personal por viaje"
+        subtitle="Asigna vehículo, contenedor y personal a un viaje programado."
         actions={
           <button
             onClick={() => setShowModal(true)}
@@ -134,7 +134,7 @@ export function RecursosViaje() {
         {/* Panel institucional de herencia */}
         <div className="grid grid-cols-3 gap-6 mb-6">
           <div className="col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-sm font-semibold text-slate-900 mb-4">Datos de referencia del viaje</h3>
+            <h3 className="text-sm font-semibold text-slate-900 mb-4">Datos de entrada del viaje</h3>
             <div className="grid grid-cols-3 gap-4 text-sm">
               <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
                 <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Vehículo</p>

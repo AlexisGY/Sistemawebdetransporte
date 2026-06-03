@@ -105,6 +105,8 @@ export type OrdenPago = {
   id: string;
   codigo: string;
   reservaId: string;
+  origenTipo?: "Reserva" | "Cotizacion";
+  referenciaId?: string;
   metodo: "Tarjeta" | "Efectivo" | "Transferencia";
   monto: number;
   estado: "Pendiente" | "Pagado" | "Rechazado";
@@ -120,6 +122,7 @@ export type Ticket = {
   pasajeroDocumento: string;
   asiento: number;
   precio: number;
+  estado?: "Vendido";
   emitidoAt: string;
 };
 

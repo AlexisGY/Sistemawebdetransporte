@@ -50,14 +50,14 @@ export function OrdenPago() {
     <div className="min-h-full bg-slate-50">
       <PageHeader
         title="Orden de Pago"
-        subtitle="Registra el pago y valida la línea de crédito"
+        subtitle="Registra el método de pago y confirma el monto asociado a la venta."
       />
 
       <div className="p-8 max-w-4xl mx-auto">
         <div className="grid grid-cols-3 gap-6">
           {/* Payment Form */}
           <div className="col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-lg font-bold text-slate-900 mb-4">Método de Pago</h3>
+            <h3 className="text-lg font-bold text-slate-900 mb-4">Método de pago</h3>
 
             <div className="mb-6 grid grid-cols-2 gap-4">
               <div>
@@ -108,13 +108,16 @@ export function OrdenPago() {
                 )}
               </div>
               <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total a pagar</p>
+                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Monto pendiente</p>
                 <p className="mt-1 text-2xl font-bold text-slate-900">S/ {total.toFixed(2)}</p>
                 <p className="text-xs text-slate-600 mt-1">
                   {modo === "Reserva"
                     ? `${reserva?.codigo || "-"} — ${reserva?.tipoReserva || "-"}`
                     : `${cot?.servicioCodigo || "-"} — ${cot?.bienId || "-"}`}
                 </p>
+                <span className="mt-3 inline-flex rounded-full border border-amber-200 bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-800">
+                  Pendiente
+                </span>
               </div>
             </div>
 
@@ -221,7 +224,7 @@ export function OrdenPago() {
 
             {/* sin tipeo libre: todo como selección/simulación */}
             <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 text-sm">
-              <p className="text-xs font-semibold text-slate-500 uppercase mb-2">Simulación de Evidencia</p>
+              <p className="text-xs font-semibold text-slate-500 uppercase mb-2">Evidencia del pago</p>
               <div className="grid grid-cols-3 gap-3">
                 <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
                   <p className="text-xs text-slate-500">Medio</p>
@@ -247,6 +250,8 @@ export function OrdenPago() {
                   id: newId("op"),
                   codigo: `OP-2026-${String(ordenes.length + 142).padStart(4, "0")}`,
                   reservaId: modo === "Reserva" ? reserva!.id : cot!.id, // referencia (reserva real o cotización legacy)
+                  origenTipo: modo,
+                  referenciaId: modo === "Reserva" ? reserva!.id : cot!.id,
                   metodo: metodoPago === "Credito" ? "Transferencia" : metodoPago,
                   monto: total,
                   estado: "Pagado",
@@ -257,13 +262,13 @@ export function OrdenPago() {
                 setOrdenes(next);
                 if (modo === "Cotizacion" && cot) upsertCotizacion({ ...cot, estado: "Convertido" });
                 if (modo === "Reserva" && reserva) upsertReserva({ ...reserva, estado: "Pagada" });
-                navigate(`/operativo/reportes/comprobante-pago/${op.codigo}`);
+                navigate(`/operativo/emision-ticket?ordenId=${encodeURIComponent(op.id)}`);
               }}
               className="w-full mt-6 flex items-center justify-center gap-2 px-4 py-3 text-white bg-slate-700 rounded-lg font-semibold hover:bg-slate-800 transition-colors disabled:bg-slate-400"
               disabled={(modo === "Cotizacion" ? !cot : !reserva) || (metodoPago === "Credito" && (!creditoHabilitado || !creditoOk))}
             >
               <CheckCircle2 className="w-5 h-5" />
-              Confirmar Pago
+              Confirmar pago
             </button>
           </div>
 

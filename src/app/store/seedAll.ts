@@ -205,9 +205,11 @@ export function seedAllIfEmpty() {
       id: newId("op"),
       codigo: "OP-2026-0142",
       reservaId: res?.id || "",
+      origenTipo: "Reserva",
+      referenciaId: res?.id || "",
       metodo: "Tarjeta",
       monto: res?.total ?? 170,
-      estado: "Pendiente",
+      estado: "Pagado",
       createdAt: new Date().toISOString(),
     };
     setOrdenesPago([op]);
@@ -225,6 +227,7 @@ export function seedAllIfEmpty() {
       pasajeroDocumento: res?.pasajeroDocumento || "-",
       asiento,
       precio: (res?.total ?? 0) / Math.max(1, (res?.asientos?.length ?? 1)),
+      estado: "Vendido",
       emitidoAt: new Date().toISOString(),
     }));
     setTickets(t);

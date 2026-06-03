@@ -276,8 +276,8 @@ export function ReservaTickets() {
   return (
     <div className="min-h-full bg-slate-50">
       <PageHeader
-        title="Reserva Online (Pasajeros y Carga)"
-        subtitle="Reserva cupos en tiempo real: asientos (pasajeros) o espacios SP (carga), sin apertura batch."
+        title="Reserva de tickets / disponibilidad"
+        subtitle="Consulta disponibilidad del viaje y bloquea cupos disponibles para pasajeros o carga."
         actions={
           <button
             onClick={handleReservar}
@@ -295,7 +295,7 @@ export function ReservaTickets() {
       <div className="p-8 space-y-6">
         <div className="grid grid-cols-3 gap-6">
           <div className="col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-sm font-semibold text-slate-900 mb-4">Paso 1 — Selección (Invoca Catálogos)</h3>
+            <h3 className="text-sm font-semibold text-slate-900 mb-4">Paso 1 - Selección de viaje y cliente</h3>
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <label className="block text-xs font-semibold text-slate-600 uppercase mb-2">Viaje</label>
@@ -344,7 +344,7 @@ export function ReservaTickets() {
                     </option>
                   ))}
                 </select>
-                <p className="text-[11px] text-slate-500 mt-1">Online: el cliente elige, el sistema bloquea cupos al reservar.</p>
+                <p className="text-[11px] text-slate-500 mt-1">El sistema muestra cupos disponibles y los deja reservados al confirmar.</p>
               </div>
             </div>
 
@@ -379,7 +379,7 @@ export function ReservaTickets() {
 
               <div className="rounded-xl border border-slate-200 bg-white p-4">
                 <p className="text-xs font-semibold text-slate-900">
-                  Paso 2 — Selección de {form.tipoReserva === "Pasajeros" ? "asientos" : "carga"}
+                  Paso 2 - Selección de {form.tipoReserva === "Pasajeros" ? "asientos" : "carga"}
                 </p>
                 <p className="text-xs text-slate-600 mt-1">
                   {form.tipoReserva === "Pasajeros"
@@ -556,7 +556,7 @@ export function ReservaTickets() {
               </div>
 
               <div className={`rounded-xl border p-4 ${validacion.ok ? "bg-emerald-50 border-emerald-200" : "bg-rose-50 border-rose-200"}`}>
-                <p className="text-xs font-semibold text-slate-900">Validación (Autómata)</p>
+                <p className="text-xs font-semibold text-slate-900">Validación de disponibilidad</p>
                 <div className="mt-2 flex items-start gap-2">
                   {validacion.ok ? (
                     <CheckCircle2 className="w-4 h-4 text-emerald-700 mt-0.5" />
@@ -589,10 +589,10 @@ export function ReservaTickets() {
 
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <h3 className="text-sm font-semibold text-slate-900 mb-1">
-              {form.tipoReserva === "Pasajeros" ? "Mapa de Asientos (Online)" : "Mapa de Espacios de Bodega (SP) — Online"}
+              {form.tipoReserva === "Pasajeros" ? "Mapa de asientos" : "Mapa de espacios de bodega (SP)"}
             </h3>
             <p className="text-xs text-slate-600 mb-4">
-              {form.tipoReserva === "Pasajeros" ? "Se actualiza según ocupación real del viaje." : "Mapa SP (bodega): se actualiza según reservas de carga registradas."}
+              {form.tipoReserva === "Pasajeros" ? "Muestra cupos disponibles, reservados y seleccionados." : "Muestra espacios disponibles, reservados y seleccionados."}
             </p>
 
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
@@ -603,7 +603,7 @@ export function ReservaTickets() {
                 </span>
                 <span className="inline-flex items-center gap-2">
                   <span className="w-3 h-3 rounded border border-slate-200 bg-slate-100" />
-                  Ocupado
+                  Reservado
                 </span>
                 <span className="inline-flex items-center gap-2">
                   <span className="w-3 h-3 rounded border border-sky-200 bg-sky-50" />
@@ -619,7 +619,7 @@ export function ReservaTickets() {
                     const isOcc = occupiedAsientos.has(n);
                     const isSel = selectedAsientos.includes(n);
                     const cls = isOcc
-                      ? "bg-slate-100 border-slate-200 text-slate-500 cursor-not-allowed"
+                      ? "bg-amber-50 border-amber-200 text-amber-800 cursor-not-allowed"
                       : isSel
                         ? "bg-sky-50 border-sky-200 text-sky-800 hover:bg-sky-100"
                         : "bg-emerald-50 border-emerald-200 text-emerald-800 hover:bg-emerald-100";
@@ -629,10 +629,10 @@ export function ReservaTickets() {
                         onClick={() => toggleAsiento(n)}
                         disabled={isOcc}
                         className={`rounded-lg border px-2 py-2 text-xs font-semibold text-center transition-colors ${cls}`}
-                        title={isOcc ? "Ocupado" : "Disponible"}
+                        title={isOcc ? "Reservado" : "Disponible"}
                       >
                         <div>{`AS-${String(n).padStart(2, "0")}`}</div>
-                        <div className="text-[10px] mt-0.5 font-medium">{isOcc ? "Ocupado" : isSel ? "Elegido" : "Disponible"}</div>
+                        <div className="text-[10px] mt-0.5 font-medium">{isOcc ? "Reservado" : isSel ? "Elegido" : "Disponible"}</div>
                       </button>
                     );
                   })}
@@ -643,7 +643,7 @@ export function ReservaTickets() {
                     const isOcc = occupiedCarga.has(n);
                     const isSel = selectedEspacios.includes(n);
                     const cls = isOcc
-                      ? "bg-slate-100 border-slate-200 text-slate-500 cursor-not-allowed"
+                      ? "bg-amber-50 border-amber-200 text-amber-800 cursor-not-allowed"
                       : isSel
                         ? "bg-sky-50 border-sky-200 text-sky-800 hover:bg-sky-100"
                         : "bg-emerald-50 border-emerald-200 text-emerald-800 hover:bg-emerald-100";
@@ -653,10 +653,10 @@ export function ReservaTickets() {
                         onClick={() => toggleEspacio(n)}
                         disabled={isOcc}
                         className={`rounded-lg border px-2 py-2 text-xs font-semibold text-center transition-colors ${cls}`}
-                        title={isOcc ? "Ocupado" : "Disponible"}
+                        title={isOcc ? "Reservado" : "Disponible"}
                       >
                         <div>{`SP-${String(n).padStart(3, "0")}`}</div>
-                        <div className="text-[10px] mt-0.5 font-medium">{isOcc ? "Ocupado" : isSel ? "Elegido" : "Disponible"}</div>
+                        <div className="text-[10px] mt-0.5 font-medium">{isOcc ? "Reservado" : isSel ? "Elegido" : "Disponible"}</div>
                       </button>
                     );
                   })}

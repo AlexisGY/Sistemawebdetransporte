@@ -111,13 +111,13 @@ export function Cotizacion() {
     <div className="min-h-full bg-slate-50">
       <PageHeader
         title="Cotización"
-        subtitle="Registra la cotización con datos del viaje y la carga"
+        subtitle="Calcula el precio según viaje, cliente, servicio, bien/carga, tarifa y cantidad."
       />
 
       <div className="p-8 w-full max-w-[1480px] mx-auto space-y-6">
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
           <div className="xl:col-span-9 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-sm font-semibold text-slate-900 mb-4">Formulario de cotización</h3>
+            <h3 className="text-sm font-semibold text-slate-900 mb-4">Datos de entrada de la cotización</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               <div>
                 <label className="block text-xs font-semibold text-slate-600 uppercase mb-2">Viaje</label>
@@ -242,7 +242,7 @@ export function Cotizacion() {
             </div>
 
             <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm space-y-2">
-              <p className="font-semibold text-slate-900">Asignación sugerida</p>
+              <p className="font-semibold text-slate-900">Asignación evaluada</p>
               <p><span className="text-slate-500">Vehículo:</span> {selectedVehiculo ? `${selectedVehiculo.idTipoVehiculo} — ${selectedVehiculo.marca} ${selectedVehiculo.modelo}` : "-"}</p>
               <p><span className="text-slate-500">Contenedor:</span> {selectedContenedor ? `${selectedContenedor.idTipoContenedor} — ${selectedContenedor.claseContenedor}` : "-"}</p>
               <p><span className="text-slate-500">Temp. contenedor:</span> <span className="font-semibold">{Number.isFinite(contTempMin) ? `${contTempMin}°C` : "-"}</span></p>

@@ -126,7 +126,7 @@ const menuItems: MenuItem[] = [
             path: "/operativo/reserva-tickets",
           },
           {
-            title: "Cotizacion",
+            title: "Cotización",
             icon: <Calculator className="size-4" />,
             path: "/operativo/cotizacion",
           },
@@ -136,7 +136,7 @@ const menuItems: MenuItem[] = [
             path: "/operativo/orden-pago",
           },
           {
-            title: "Emision de ticket",
+            title: "Emisión de ticket",
             icon: <Ticket className="size-4" />,
             path: "/operativo/emision",
           },
