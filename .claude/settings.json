@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(git -C \"c:/Users/USER/Desktop/Coding/Projects/Sistemawebdetransporte\" diff --stat HEAD)",
+      "Bash(git -C \"c:/Users/USER/Desktop/Coding/Projects/Sistemawebdetransporte\" status --short)",
+      "Bash(git -C \"c:/Users/USER/Desktop/Coding/Projects/Sistemawebdetransporte\" log --oneline -5)"
+    ]
+  }
+}

@@ -127,7 +127,7 @@ export function ReservaTickets() {
     // Carga
     if (!selectedBien) return { ok: false, title: "Selecciona un bien", detail: "La carga debe invocar un tipo de bien del catálogo." };
     if (!selectedContenedor)
-      return { ok: false, title: "Viaje sin contenedor", detail: "Este viaje no tiene contenedor asignado (ver Recursos de viaje)." };
+      return { ok: false, title: "Viaje sin contenedor", detail: "Este viaje no tiene contenedor asignado (regularícelo en Ajuste operativo de viaje)." };
     const cantidad = Number(form.cantidad || 0);
     if (!Number.isFinite(cantidad) || cantidad <= 0) return { ok: false, title: "Cantidad inválida", detail: "La cantidad debe ser mayor a 0." };
     if (selectedEspacios.length === 0) {

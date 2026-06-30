@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router";
 import { Eye, EyeOff, QrCode, ShieldCheck } from "lucide-react";
 
 import { AuthShell } from "./AuthShell";
+import { getCurrentRole, ROLE_HOME } from "../../store/session";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
@@ -23,7 +24,7 @@ export function Login() {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    navigate("/seleccionar-rol");
+    navigate(ROLE_HOME[getCurrentRole()]);
   };
 
   return (
@@ -105,10 +106,10 @@ export function Login() {
                   </div>
 
                   <Link
-                    to="/recuperar"
+                    to="/acceso-alternativo"
                     className="text-sm font-semibold text-foreground transition-colors hover:text-primary/80"
                   >
-                    Recuperar acceso
+                    Acceso alternativo
                   </Link>
                 </div>
 

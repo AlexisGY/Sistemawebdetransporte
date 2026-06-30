@@ -42,7 +42,7 @@ const radarData = [
   { categoria: "Satisfacción", valor: 94, fullMark: 100 },
   { categoria: "Puntualidad", valor: 96, fullMark: 100 },
   { categoria: "Ocupación", valor: 78, fullMark: 100 },
-  { categoria: "Rentabilidad", valor: 85, fullMark: 100 },
+  { categoria: "Demanda", valor: 82, fullMark: 100 },
   { categoria: "Seguridad", valor: 98, fullMark: 100 },
   { categoria: "Eficiencia", valor: 88, fullMark: 100 },
 ];
@@ -60,19 +60,22 @@ export function IndicadoresKPI() {
               <option>Vista Trimestral</option>
               <option>Vista Anual</option>
             </select>
+            <button className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90">
+              Exportar
+            </button>
           </div>
         }
       />
 
       <div className="p-8 space-y-6">
-        {/* KPIs Financieros */}
+        {/* KPIs de Ingresos (sin utilidad/margen/rentabilidad: no hay costos modelados) */}
         <div>
-          <h3 className="mb-4 text-lg font-semibold text-foreground">KPIs Financieros</h3>
+          <h3 className="mb-4 text-lg font-semibold text-foreground">KPIs de Ingresos</h3>
           <div className="grid grid-cols-4 gap-6">
             <KPICard title="Ingresos Mensuales" value="S/ 165K" change={8.5} icon={DollarSign} variant="secondary" />
-            <KPICard title="Margen de Utilidad" value="41.2%" change={3.2} icon={TrendingUp} variant="secondary" />
+            <KPICard title="Ingresos por Carga" value="S/ 59.5K" change={3.2} icon={TrendingUp} variant="secondary" />
             <KPICard title="Ticket Promedio" value="S/ 85" change={5.1} icon={Target} variant="secondary" />
-            <KPICard title="ROI Mensual" value="22.5%" change={4.8} icon={Percent} variant="secondary" />
+            <KPICard title="Boletas Emitidas" value="918" change={4.8} icon={Percent} variant="secondary" />
           </div>
         </div>
 
@@ -245,6 +248,53 @@ export function IndicadoresKPI() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Tabla consolidada de indicadores */}
+        <div className="rounded-xl border border-border bg-card shadow-sm">
+          <div className="flex items-center justify-between border-b border-border px-6 py-4">
+            <h3 className="font-semibold text-foreground">Tabla consolidada de indicadores</h3>
+            <span className="text-xs text-muted-foreground">Última actualización: 30/06/2026 03:45</span>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/35 text-xs uppercase tracking-wide text-muted-foreground">
+                <tr>
+                  <th className="px-6 py-3 text-left font-semibold">Indicador</th>
+                  <th className="px-6 py-3 text-left font-semibold">Categoría</th>
+                  <th className="px-6 py-3 text-right font-semibold">Valor</th>
+                  <th className="px-6 py-3 text-right font-semibold">Objetivo</th>
+                  <th className="px-6 py-3 text-left font-semibold">Estado</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border/60">
+                {[
+                  { ind: "Ingresos mensuales", cat: "Ingresos", val: "S/ 165K", obj: "S/ 158K", ok: true },
+                  { ind: "Ocupación promedio", cat: "Demanda", val: "78%", obj: "75%", ok: true },
+                  { ind: "Puntualidad", cat: "Operación", val: "96%", obj: "97%", ok: false },
+                  { ind: "Satisfacción cliente", cat: "Calidad", val: "4.7/5", obj: "4.5/5", ok: true },
+                  { ind: "Tasa de incidencias", cat: "Incidencias", val: "0.6%", obj: "< 1%", ok: true },
+                  { ind: "Disponibilidad de flota", cat: "Recursos", val: "94%", obj: "92%", ok: true },
+                ].map((row) => (
+                  <tr key={row.ind}>
+                    <td className="px-6 py-3 font-medium text-foreground">{row.ind}</td>
+                    <td className="px-6 py-3 text-muted-foreground">{row.cat}</td>
+                    <td className="px-6 py-3 text-right text-foreground">{row.val}</td>
+                    <td className="px-6 py-3 text-right text-muted-foreground">{row.obj}</td>
+                    <td className="px-6 py-3">
+                      <span
+                        className={`rounded-full px-2 py-1 text-xs font-medium ${
+                          row.ok ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"
+                        }`}
+                      >
+                        {row.ok ? "En meta" : "Por debajo"}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

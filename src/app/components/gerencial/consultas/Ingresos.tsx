@@ -1,35 +1,49 @@
-import { PageHeader } from "../../shared/PageHeader";
-import { DollarSign, TrendingUp, CreditCard, PieChart as PieChartIcon } from "lucide-react";
+import { CreditCard, DollarSign, Receipt, TrendingUp } from "lucide-react";
 import {
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Legend,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  PieChart,
-  Pie,
-  Cell,
 } from "recharts";
 
-const ingresosData = [
-  { mes: "Ene", ingresos: 125000, gastos: 85000, utilidad: 40000 },
-  { mes: "Feb", ingresos: 135000, gastos: 88000, utilidad: 47000 },
-  { mes: "Mar", ingresos: 148000, gastos: 92000, utilidad: 56000 },
-  { mes: "Abr", ingresos: 142000, gastos: 90000, utilidad: 52000 },
-  { mes: "May", ingresos: 158000, gastos: 95000, utilidad: 63000 },
-  { mes: "Jun", ingresos: 165000, gastos: 97000, utilidad: 68000 },
+import { PageHeader } from "../../shared/PageHeader";
+import { KPICard } from "../../shared/KPICard";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+
+// GER-04 — Consulta de ingresos.
+// Nota (arquitectura §2.1.2.3): mientras no se modelen costos operativos, esta
+// consulta presenta SOLO ingresos. No muestra utilidad, margen ni rentabilidad.
+
+const ingresosMensuales = [
+  { mes: "Ene", ingresos: 125000 },
+  { mes: "Feb", ingresos: 135000 },
+  { mes: "Mar", ingresos: 148000 },
+  { mes: "Abr", ingresos: 142000 },
+  { mes: "May", ingresos: 158000 },
+  { mes: "Jun", ingresos: 165000 },
 ];
 
-const porRutaData = [
-  { name: "Lima-Arequipa", value: 32500, color: "var(--foreground)" },
-  { name: "Lima-Cusco", value: 28900, color: "#5f5f5f" },
-  { name: "Lima-Trujillo", value: 26000, color: "#8a8a8a" },
-  { name: "Otros", value: 77600, color: "#b0b0b0" },
+const ingresosPorRuta = [
+  { name: "Lima - Arequipa", value: 52500, color: "var(--foreground)" },
+  { name: "Lima - Cusco", value: 41900, color: "#5f5f5f" },
+  { name: "Lima - Trujillo", value: 36000, color: "#8a8a8a" },
+  { name: "Otros", value: 34600, color: "#b0b0b0" },
+];
+
+const ingresosPorServicio = [
+  { servicio: "Pasajeros", ingresos: 98000 },
+  { servicio: "Carga general", ingresos: 41000 },
+  { servicio: "Carga refrigerada", ingresos: 18500 },
+  { servicio: "Ejecutivo VIP", ingresos: 7500 },
 ];
 
 const metodoPagoData = [
@@ -38,238 +52,205 @@ const metodoPagoData = [
   { metodo: "Transferencia", monto: 24500, porcentaje: 15 },
 ];
 
+const tablaIngresos = [
+  { ruta: "Lima - Arequipa", servicio: "Pasajeros", boletas: 412, ingresos: 52500 },
+  { ruta: "Lima - Cusco", servicio: "Pasajeros", boletas: 318, ingresos: 41900 },
+  { ruta: "Lima - Trujillo", servicio: "Carga general", boletas: 96, ingresos: 36000 },
+  { ruta: "Lima - Piura", servicio: "Carga refrigerada", boletas: 54, ingresos: 18500 },
+  { ruta: "Arequipa - Cusco", servicio: "Ejecutivo VIP", boletas: 38, ingresos: 16100 },
+];
+
+const totalIngresos = tablaIngresos.reduce((sum, r) => sum + r.ingresos, 0);
+const totalBoletas = tablaIngresos.reduce((sum, r) => sum + r.boletas, 0);
+
+const selectClass =
+  "h-10 rounded-xl border border-input bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring";
+
+const tooltipStyle = {
+  backgroundColor: "var(--card)",
+  border: "1px solid var(--border)",
+  borderRadius: "10px",
+  color: "var(--foreground)",
+} as const;
+
 export function Ingresos() {
   return (
     <div className="min-h-full bg-background">
       <PageHeader
-        title="Análisis de Ingresos"
-        subtitle="Seguimiento financiero y rentabilidad"
+        title="Consulta de ingresos"
+        subtitle="Análisis de ingresos por ruta, servicio, horario o periodo. No incluye costos ni utilidad."
         actions={
-          <div className="flex items-center gap-3">
-            <select className="px-4 py-2 border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ring bg-background text-foreground">
-              <option>Este mes</option>
-              <option>Últimos 3 meses</option>
-              <option>Últimos 6 meses</option>
-              <option>Este año</option>
-            </select>
-            <button className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
-              Exportar Reporte
-            </button>
-          </div>
+          <button className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90">
+            Exportar reporte
+          </button>
         }
       />
 
-      <div className="p-8 space-y-6">
-        {/* KPIs */}
-        <div className="grid grid-cols-4 gap-6">
-          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-            <div className="flex items-center justify-between mb-4">
-              <DollarSign className="w-10 h-10 text-foreground" />
-              <span className="px-2 py-1 bg-muted text-foreground text-xs font-medium rounded-full border border-border">
-                +8.5%
-              </span>
-            </div>
-            <p className="text-3xl font-bold text-foreground mb-1">S/ 165,000</p>
-            <p className="text-sm text-muted-foreground">Ingresos del Mes</p>
-          </div>
+      <div className="space-y-6 p-6 lg:p-8">
+        {/* Filtros */}
+        <Card className="border-border/70 bg-card/90">
+          <CardContent className="flex flex-wrap items-end gap-4 p-5">
+            <FilterField label="Periodo">
+              <select className={selectClass} defaultValue="6m">
+                <option value="1m">Este mes</option>
+                <option value="3m">Últimos 3 meses</option>
+                <option value="6m">Últimos 6 meses</option>
+                <option value="1y">Este año</option>
+              </select>
+            </FilterField>
+            <FilterField label="Ruta">
+              <select className={selectClass} defaultValue="">
+                <option value="">Todas</option>
+                <option>Lima - Arequipa</option>
+                <option>Lima - Cusco</option>
+                <option>Lima - Trujillo</option>
+              </select>
+            </FilterField>
+            <FilterField label="Servicio">
+              <select className={selectClass} defaultValue="">
+                <option value="">Todos</option>
+                <option>Pasajeros</option>
+                <option>Carga general</option>
+                <option>Carga refrigerada</option>
+                <option>Ejecutivo VIP</option>
+              </select>
+            </FilterField>
+            <p className="ml-auto text-xs text-muted-foreground">Última actualización: 30/06/2026 03:45</p>
+          </CardContent>
+        </Card>
 
-          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-            <div className="flex items-center justify-between mb-4">
-              <TrendingUp className="w-10 h-10 text-foreground" />
-              <span className="px-2 py-1 bg-muted text-foreground text-xs font-medium rounded-full border border-border">
-                +12.1%
-              </span>
-            </div>
-            <p className="text-3xl font-bold text-foreground mb-1">S/ 68,000</p>
-            <p className="text-sm text-muted-foreground">Utilidad Neta</p>
-          </div>
-
-          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-            <div className="flex items-center justify-between mb-4">
-              <CreditCard className="w-10 h-10 text-foreground" />
-              <span className="px-2 py-1 bg-muted text-foreground text-xs font-medium rounded-full border border-border">
-                50%
-              </span>
-            </div>
-            <p className="text-3xl font-bold text-foreground mb-1">S/ 82,500</p>
-            <p className="text-sm text-muted-foreground">Ingresos por tarjeta</p>
-          </div>
-
-          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-            <div className="flex items-center justify-between mb-4">
-              <PieChartIcon className="w-10 h-10 text-foreground" />
-              <span className="px-2 py-1 bg-muted text-foreground text-xs font-medium rounded-full border border-border">
-                41%
-              </span>
-            </div>
-            <p className="text-3xl font-bold text-foreground mb-1">41.2%</p>
-            <p className="text-sm text-muted-foreground">Margen de Utilidad</p>
-          </div>
+        {/* KPIs (solo ingresos) */}
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          <KPICard title="Ingresos del mes" value="S/ 165,000" change={8.5} icon={DollarSign} />
+          <KPICard title="Ingresos por tarjeta" value="S/ 82,500" icon={CreditCard} variant="secondary" subtitle="50% del total" />
+          <KPICard title="Boletas emitidas" value={totalBoletas} icon={Receipt} variant="accent" subtitle="En el periodo" />
+          <KPICard title="Ingreso promedio / boleta" value={`S/ ${Math.round(totalIngresos / totalBoletas)}`} icon={TrendingUp} />
         </div>
 
-        {/* Charts Row 1 */}
-        <div className="grid grid-cols-2 gap-6">
-          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-            <h3 className="font-semibold text-foreground mb-4">Evolución de Ingresos y Utilidad</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={ingresosData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                <XAxis dataKey="mes" tick={{ fill: "var(--muted-foreground)" }} />
-                <YAxis tick={{ fill: "var(--muted-foreground)" }} />
-                <Tooltip
-                  labelStyle={{
-                    color: "var(--foreground)",
-                    fontWeight: 600,
-                  }}
-                  itemStyle={{
-                    color: "var(--foreground)",
-                    fontWeight: 500,
-                  }}
-                  contentStyle={{
-                    backgroundColor: "var(--card)",
-                    border: "1px solid var(--border)",
-                    borderRadius: "10px",
-                    boxShadow: "0 8px 24px rgba(15, 23, 42, 0.08)",
-                    color: "var(--foreground)",
-                  }}
-                />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="ingresos"
-                  stroke="var(--foreground)"
-                  strokeWidth={3}
-                  dot={{ fill: "var(--foreground)", r: 6 }}
-                  name="Ingresos"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="utilidad"
-                  stroke="var(--muted-foreground)"
-                  strokeWidth={3}
-                  dot={{ fill: "var(--muted-foreground)", r: 6 }}
-                  name="Utilidad"
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+        {/* Gráficas */}
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card className="border-border/70 bg-card/90">
+            <CardHeader className="border-b border-border/60">
+              <CardTitle className="text-base font-semibold">Evolución de ingresos</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={ingresosMensuales}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                  <XAxis dataKey="mes" tick={{ fill: "var(--muted-foreground)" }} />
+                  <YAxis tick={{ fill: "var(--muted-foreground)" }} />
+                  <Tooltip contentStyle={tooltipStyle} />
+                  <Line type="monotone" dataKey="ingresos" stroke="var(--foreground)" strokeWidth={3} dot={{ r: 5 }} name="Ingresos" />
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
 
-          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-            <h3 className="font-semibold text-foreground mb-4">Ingresos por Ruta</h3>
-            <div className="flex items-center justify-center">
+          <Card className="border-border/70 bg-card/90">
+            <CardHeader className="border-b border-border/60">
+              <CardTitle className="text-base font-semibold">Ingresos por ruta</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
-                  <Pie
-                    data={porRutaData}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={100}
-                    dataKey="value"
-                    labelLine={{ stroke: "var(--muted-foreground)" }}
-                    label={(props: any) => {
-                      const { cx, cy, midAngle, outerRadius, name, percent } = props;
-                      const RADIAN = Math.PI / 180;
-                      const radius = outerRadius + 18;
-                      const x = cx + radius * Math.cos(-midAngle * RADIAN);
-                      const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-                      return (
-                        <text
-                          x={x}
-                          y={y}
-                          fill="var(--foreground)"
-                          textAnchor={x > cx ? "start" : "end"}
-                          dominantBaseline="central"
-                          fontSize={14}
-                          fontWeight={500}
-                        >
-                          {`${name} ${(percent * 100).toFixed(0)}%`}
-                        </text>
-                      );
-                    }}
-                  >
-                    {porRutaData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
+                  <Pie data={ingresosPorRuta} cx="50%" cy="50%" outerRadius={100} dataKey="value" label={(p: any) => `${p.name} ${(p.percent * 100).toFixed(0)}%`}>
+                    {ingresosPorRuta.map((entry, index) => (
+                      <Cell key={index} fill={entry.color} />
                     ))}
                   </Pie>
-                  <Tooltip />
+                  <Tooltip contentStyle={tooltipStyle} />
                 </PieChart>
               </ResponsiveContainer>
-            </div>
-          </div>
-        </div>
+            </CardContent>
+          </Card>
 
-        {/* Charts Row 2 */}
-        <div className="grid grid-cols-2 gap-6">
-          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-            <h3 className="font-semibold text-foreground mb-4">Ingresos vs Gastos Mensuales</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={ingresosData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                <XAxis dataKey="mes" tick={{ fill: "var(--muted-foreground)" }} />
-                <YAxis tick={{ fill: "var(--muted-foreground)" }} />
-                <Tooltip
-                  labelStyle={{
-                    color: "var(--foreground)",
-                    fontWeight: 600,
-                  }}
-                  itemStyle={{
-                    color: "var(--foreground)",
-                    fontWeight: 500,
-                  }}
-                  contentStyle={{
-                    backgroundColor: "var(--card)",
-                    border: "1px solid var(--border)",
-                    borderRadius: "10px",
-                    boxShadow: "0 8px 24px rgba(15, 23, 42, 0.08)",
-                    color: "var(--foreground)",
-                  }}
-                />
-                <Legend />
-                <Bar dataKey="ingresos" fill="var(--foreground)" radius={[8, 8, 0, 0]} name="Ingresos" />
-                <Bar dataKey="gastos" fill="var(--muted-foreground)" radius={[8, 8, 0, 0]} name="Gastos" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+          <Card className="border-border/70 bg-card/90">
+            <CardHeader className="border-b border-border/60">
+              <CardTitle className="text-base font-semibold">Ingresos por servicio</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={ingresosPorServicio}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                  <XAxis dataKey="servicio" tick={{ fill: "var(--muted-foreground)" }} />
+                  <YAxis tick={{ fill: "var(--muted-foreground)" }} />
+                  <Tooltip contentStyle={tooltipStyle} />
+                  <Bar dataKey="ingresos" fill="var(--foreground)" radius={[8, 8, 0, 0]} name="Ingresos" />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
 
-          <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-            <h3 className="font-semibold text-foreground mb-4">Métodos de Pago</h3>
-            <div className="space-y-4">
-              {metodoPagoData.map((metodo, index) => (
-                <div key={index} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-foreground">{metodo.metodo}</span>
-                    <span className="text-sm font-bold text-foreground">
-                      S/ {metodo.monto.toLocaleString()}
-                    </span>
+          <Card className="border-border/70 bg-card/90">
+            <CardHeader className="border-b border-border/60">
+              <CardTitle className="text-base font-semibold">Ingresos por método de pago</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 p-6">
+              {metodoPagoData.map((m) => (
+                <div key={m.metodo} className="space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="font-medium text-foreground">{m.metodo}</span>
+                    <span className="font-bold text-foreground">S/ {m.monto.toLocaleString()}</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="flex-1 bg-muted rounded-full h-3">
-                      <div
-                        className="bg-foreground h-3 rounded-full transition-all"
-                        style={{ width: `${metodo.porcentaje}%` }}
-                      ></div>
+                    <div className="h-3 flex-1 rounded-full bg-muted">
+                      <div className="h-3 rounded-full bg-foreground" style={{ width: `${m.porcentaje}%` }} />
                     </div>
-                    <span className="text-sm font-medium text-muted-foreground w-12">{metodo.porcentaje}%</span>
+                    <span className="w-12 text-sm text-muted-foreground">{m.porcentaje}%</span>
                   </div>
                 </div>
               ))}
-            </div>
-
-            <div className="mt-6 pt-6 border-t border-border">
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-foreground">Total</span>
-                <span className="text-xl font-bold text-foreground">
-                  S/ {metodoPagoData.reduce((sum, m) => sum + m.monto, 0).toLocaleString()}
-                </span>
-              </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
+
+        {/* Tabla de resultados */}
+        <Card className="border-border/70 bg-card/90">
+          <CardHeader className="border-b border-border/60">
+            <CardTitle className="text-base font-semibold">Detalle de ingresos por ruta y servicio</CardTitle>
+          </CardHeader>
+          <CardContent className="p-0">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-muted/35 text-xs uppercase tracking-wide text-muted-foreground">
+                  <tr>
+                    <th className="px-6 py-3 text-left font-semibold">Ruta</th>
+                    <th className="px-6 py-3 text-left font-semibold">Servicio</th>
+                    <th className="px-6 py-3 text-right font-semibold">Boletas</th>
+                    <th className="px-6 py-3 text-right font-semibold">Ingresos (S/)</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border/60">
+                  {tablaIngresos.map((row) => (
+                    <tr key={`${row.ruta}-${row.servicio}`}>
+                      <td className="px-6 py-3 font-medium text-foreground">{row.ruta}</td>
+                      <td className="px-6 py-3 text-muted-foreground">{row.servicio}</td>
+                      <td className="px-6 py-3 text-right text-foreground">{row.boletas}</td>
+                      <td className="px-6 py-3 text-right font-semibold text-foreground">{row.ingresos.toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr className="border-t border-border/60 bg-muted/20">
+                    <td className="px-6 py-3 font-bold text-foreground" colSpan={2}>Total</td>
+                    <td className="px-6 py-3 text-right font-bold text-foreground">{totalBoletas}</td>
+                    <td className="px-6 py-3 text-right font-bold text-foreground">S/ {totalIngresos.toLocaleString()}</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
 }
 
-
-
+function FilterField({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</span>
+      {children}
+    </div>
+  );
+}

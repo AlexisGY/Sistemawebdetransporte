@@ -7,23 +7,30 @@ import {
   CheckSquare,
   ChevronDown,
   ChevronRight,
+  ClipboardEdit,
   CreditCard,
+  Database,
   DollarSign,
   FileText,
+  HardDriveDownload,
   LayoutDashboard,
   LogOut,
   PieChart,
+  Route,
+  RotateCcw,
+  ScanLine,
   Settings,
+  ShieldCheck,
   Target,
   Ticket,
   Truck,
   Users,
 } from "lucide-react";
 
-import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { cn } from "../ui/utils";
+import { type ModuleKey, ROLE_LABEL, useCurrentRole, canAccess } from "../../store/session";
 
 interface MenuItem {
   title: string;
@@ -32,126 +39,103 @@ interface MenuItem {
   children?: MenuItem[];
 }
 
-const menuItems: MenuItem[] = [
+interface MenuBlock extends MenuItem {
+  module: ModuleKey;
+}
+
+// Id de viaje de muestra para abrir reportes desde la navegación del prototipo.
+const DEMO_REPORTE_ID = "VJ-001";
+
+const menuBlocks: MenuBlock[] = [
   {
+    module: "seguridad",
+    title: "Seguridad",
+    icon: <ShieldCheck className="size-4" />,
+    children: [
+      { title: "Perfiles y permisos", icon: <Users className="size-4" />, path: "/seguridad/perfiles" },
+    ],
+  },
+  {
+    module: "gerencial",
     title: "Gerencial",
     icon: <BarChart3 className="size-4" />,
     children: [
-      {
-        title: "Dashboard",
-        icon: <LayoutDashboard className="size-4" />,
-        path: "/gerencial/dashboard",
-      },
+      { title: "Dashboard", icon: <LayoutDashboard className="size-4" />, path: "/gerencial/dashboard" },
       {
         title: "Mantenimiento parámetros",
         icon: <Settings className="size-4" />,
         children: [
-          { title: "Vehículos",          icon: <Truck className="size-4" />, path: "/gerencial/parametros/vehiculos" },
-          { title: "Operarios",          icon: <Users className="size-4" />, path: "/gerencial/parametros/operarios" },
-          { title: "Sedes",              icon: <FileText className="size-4" />, path: "/gerencial/parametros/sedes" },
-          { title: "Contenedores",       icon: <FileText className="size-4" />, path: "/gerencial/parametros/contenedores" },
-          { title: "Bienes",             icon: <FileText className="size-4" />, path: "/gerencial/parametros/bienes" },
+          { title: "Vehículos", icon: <Truck className="size-4" />, path: "/gerencial/parametros/vehiculos" },
+          { title: "Operarios", icon: <Users className="size-4" />, path: "/gerencial/parametros/operarios" },
+          { title: "Sedes", icon: <FileText className="size-4" />, path: "/gerencial/parametros/sedes" },
+          { title: "Contenedores", icon: <FileText className="size-4" />, path: "/gerencial/parametros/contenedores" },
+          { title: "Bienes", icon: <FileText className="size-4" />, path: "/gerencial/parametros/bienes" },
           { title: "Unidades de Medida", icon: <FileText className="size-4" />, path: "/gerencial/parametros/unidades" },
-          { title: "Clientes",           icon: <Users className="size-4" />, path: "/gerencial/parametros/clientes" },
-
-          { title: "Servicios",          icon: <FileText className="size-4" />, path: "/gerencial/parametros/servicios" },
-          { title: "Rutas y Coberturas", icon: <FileText className="size-4" />, path: "/gerencial/parametros/rutas" },
-          { title: "Horarios",           icon: <FileText className="size-4" />, path: "/gerencial/parametros/horarios" },
-          { title: "Tarifarios",         icon: <FileText className="size-4" />, path: "/gerencial/parametros/tarifarios" },
-
-          { title: "Políticas",          icon: <FileText className="size-4" />, path: "/gerencial/parametros/politicas" },
-          { title: "Reglas",             icon: <FileText className="size-4" />, path: "/gerencial/parametros/reglas" },
-          { title: "Protocolos",         icon: <FileText className="size-4" />, path: "/gerencial/parametros/protocolos" },
+          { title: "Clientes", icon: <Users className="size-4" />, path: "/gerencial/parametros/clientes" },
+          { title: "Servicios", icon: <FileText className="size-4" />, path: "/gerencial/parametros/servicios" },
+          { title: "Rutas y Coberturas", icon: <Route className="size-4" />, path: "/gerencial/parametros/rutas" },
+          { title: "Horarios", icon: <FileText className="size-4" />, path: "/gerencial/parametros/horarios" },
+          { title: "Tarifarios", icon: <DollarSign className="size-4" />, path: "/gerencial/parametros/tarifarios" },
+          { title: "Políticas", icon: <FileText className="size-4" />, path: "/gerencial/parametros/politicas" },
+          { title: "Reglas", icon: <FileText className="size-4" />, path: "/gerencial/parametros/reglas" },
+          { title: "Protocolos", icon: <FileText className="size-4" />, path: "/gerencial/parametros/protocolos" },
         ],
       },
       {
         title: "Consultas",
         icon: <BarChart3 className="size-4" />,
         children: [
-          {
-            title: "Desempeño operarios",
-            icon: <Users className="size-4" />,
-            path: "/gerencial/consultas/desempeno-operarios",
-          },
-          {
-            title: "Desempeño vehicular",
-            icon: <Truck className="size-4" />,
-            path: "/gerencial/consultas/desempeno-vehicular",
-          },
-          {
-            title: "Ingresos",
-            icon: <DollarSign className="size-4" />,
-            path: "/gerencial/consultas/ingresos",
-          },
-          {
-            title: "Incidencias",
-            icon: <AlertTriangle className="size-4" />,
-            path: "/gerencial/consultas/incidencias",
-          },
-          {
-            title: "Demanda y ocupación",
-            icon: <PieChart className="size-4" />,
-            path: "/gerencial/consultas/demanda-ocupacion",
-          },
-          {
-            title: "Indicadores KPI",
-            icon: <Target className="size-4" />,
-            path: "/gerencial/consultas/indicadores-kpi",
-          },
+          { title: "Desempeño operarios", icon: <Users className="size-4" />, path: "/gerencial/consultas/desempeno-operarios" },
+          { title: "Desempeño vehicular", icon: <Truck className="size-4" />, path: "/gerencial/consultas/desempeno-vehicular" },
+          { title: "Ingresos", icon: <DollarSign className="size-4" />, path: "/gerencial/consultas/ingresos" },
+          { title: "Incidencias", icon: <AlertTriangle className="size-4" />, path: "/gerencial/consultas/incidencias" },
+          { title: "Demanda y ocupación", icon: <PieChart className="size-4" />, path: "/gerencial/consultas/demanda-ocupacion" },
+          { title: "Indicadores KPI", icon: <Target className="size-4" />, path: "/gerencial/consultas/indicadores-kpi" },
         ],
       },
     ],
   },
   {
+    module: "operativo",
     title: "Operativo",
     icon: <Truck className="size-4" />,
     children: [
+      { title: "Dashboard", icon: <LayoutDashboard className="size-4" />, path: "/operativo/dashboard" },
       {
-        title: "Dashboard",
-        icon: <LayoutDashboard className="size-4" />,
-        path: "/operativo/dashboard",
-      },
-      {
-        title: "Transacciones",
+        title: "Flujo operativo",
         icon: <FileText className="size-4" />,
         children: [
-          {
-            title: "Recursos de viaje",
-            icon: <Truck className="size-4" />,
-            path: "/operativo/recursos",
-          },
-          {
-            title: "Reserva de tickets",
-            icon: <Ticket className="size-4" />,
-            path: "/operativo/reserva-tickets",
-          },
-          {
-            title: "Cotización",
-            icon: <Calculator className="size-4" />,
-            path: "/operativo/cotizacion",
-          },
-          {
-            title: "Orden de pago",
-            icon: <CreditCard className="size-4" />,
-            path: "/operativo/orden-pago",
-          },
-          {
-            title: "Emisión de ticket",
-            icon: <Ticket className="size-4" />,
-            path: "/operativo/emision",
-          },
-          {
-            title: "Check-in y embarque",
-            icon: <CheckSquare className="size-4" />,
-            path: "/operativo/check-in",
-          },
-          {
-            title: "Llegada y cierre",
-            icon: <LogOut className="size-4" />,
-            path: "/operativo/cierre",
-          },
+          { title: "Cotización", icon: <Calculator className="size-4" />, path: "/operativo/cotizacion" },
+          { title: "Reserva de tickets", icon: <Ticket className="size-4" />, path: "/operativo/reserva-tickets" },
+          { title: "Orden de pago", icon: <CreditCard className="size-4" />, path: "/operativo/orden-pago" },
+          { title: "Check-in y embarque", icon: <CheckSquare className="size-4" />, path: "/operativo/checkin-embarque" },
+          { title: "Llegada y cierre", icon: <LogOut className="size-4" />, path: "/operativo/llegada-cierre" },
         ],
       },
+      { title: "Ajuste operativo de viaje", icon: <ClipboardEdit className="size-4" />, path: "/operativo/ajuste-viaje" },
+    ],
+  },
+  {
+    module: "reportes",
+    title: "Reportes",
+    icon: <FileText className="size-4" />,
+    children: [
+      { title: "Ticket de viaje", icon: <Ticket className="size-4" />, path: `/operativo/reportes/ticket-viaje/${DEMO_REPORTE_ID}` },
+      { title: "Comprobante de pago", icon: <CreditCard className="size-4" />, path: `/operativo/reportes/comprobante-pago/${DEMO_REPORTE_ID}` },
+      { title: "Manifiesto de viaje", icon: <FileText className="size-4" />, path: `/operativo/reportes/manifiesto-viaje/${DEMO_REPORTE_ID}` },
+      { title: "Cierre de viaje", icon: <CheckSquare className="size-4" />, path: `/operativo/reportes/cierre-viaje/${DEMO_REPORTE_ID}` },
+      { title: "Seguimiento de viaje", icon: <Route className="size-4" />, path: `/operativo/reportes/seguimiento-viaje/${DEMO_REPORTE_ID}` },
+    ],
+  },
+  {
+    module: "tecnico",
+    title: "Técnico / Administrativo",
+    icon: <Database className="size-4" />,
+    children: [
+      { title: "Monitor Batch", icon: <BarChart3 className="size-4" />, path: "/tecnico/batch-monitor" },
+      { title: "Backup", icon: <HardDriveDownload className="size-4" />, path: "/tecnico/backup" },
+      { title: "Restore", icon: <RotateCcw className="size-4" />, path: "/tecnico/restore" },
+      { title: "Verificación de integridad", icon: <ScanLine className="size-4" />, path: "/tecnico/verificacion" },
     ],
   },
 ];
@@ -221,6 +205,9 @@ function MenuItemComponent({ item, level = 0 }: { item: MenuItem; level?: number
 }
 
 export function Sidebar() {
+  const role = useCurrentRole();
+  const visibleBlocks = menuBlocks.filter((block) => canAccess(block.module, role));
+
   return (
     <aside className="hidden w-[304px] border-r border-white/10 bg-[#101114] text-zinc-100 lg:flex lg:flex-col">
       <div className="p-4">
@@ -231,15 +218,15 @@ export function Sidebar() {
             </div>
             <div>
               <h1 className="text-base font-semibold text-white">Sistema de Transporte</h1>
-              <p className="text-xs text-zinc-500">Prototipado</p>
+              <p className="text-xs text-zinc-500">Perfil: {ROLE_LABEL[role]}</p>
             </div>
           </div>
         </div>
       </div>
 
       <nav className="scrollbar-modern flex-1 space-y-3 overflow-y-auto px-3 pb-4">
-        {menuItems.map((item) => (
-          <MenuItemComponent key={item.title} item={item} />
+        {visibleBlocks.map((block) => (
+          <MenuItemComponent key={block.title} item={block} />
         ))}
       </nav>
 
@@ -252,7 +239,7 @@ export function Sidebar() {
         >
           <Link to="/login">
             <LogOut className="size-4" />
-            Cerrar sesion
+            Cerrar sesión
           </Link>
         </Button>
       </div>

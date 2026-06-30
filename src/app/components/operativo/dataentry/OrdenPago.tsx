@@ -262,7 +262,7 @@ export function OrdenPago() {
                 setOrdenes(next);
                 if (modo === "Cotizacion" && cot) upsertCotizacion({ ...cot, estado: "Convertido" });
                 if (modo === "Reserva" && reserva) upsertReserva({ ...reserva, estado: "Pagada" });
-                navigate(`/operativo/emision-ticket?ordenId=${encodeURIComponent(op.id)}`);
+                navigate(`/operativo/reportes/comprobante-pago/${encodeURIComponent(op.id)}`);
               }}
               className="w-full mt-6 flex items-center justify-center gap-2 px-4 py-3 text-white bg-slate-700 rounded-lg font-semibold hover:bg-slate-800 transition-colors disabled:bg-slate-400"
               disabled={(modo === "Cotizacion" ? !cot : !reserva) || (metodoPago === "Credito" && (!creditoHabilitado || !creditoOk))}
