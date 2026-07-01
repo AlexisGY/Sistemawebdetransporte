@@ -52,7 +52,8 @@ const menuBlocks: MenuBlock[] = [
     title: "Seguridad",
     icon: <ShieldCheck className="size-4" />,
     children: [
-      { title: "Perfiles y permisos", icon: <Users className="size-4" />, path: "/seguridad/perfiles" },
+      { title: "Perfiles y permisos", icon: <ShieldCheck className="size-4" />, path: "/seguridad/perfiles" },
+      { title: "Gestión de usuarios", icon: <Users className="size-4" />, path: "/seguridad/usuarios" },
     ],
   },
   {

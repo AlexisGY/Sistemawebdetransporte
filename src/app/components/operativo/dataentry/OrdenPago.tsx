@@ -7,6 +7,7 @@ import {
   getCotizaciones,
   getOrdenesPago,
   getReservas,
+  getViajes,
   newId,
   setOrdenesPago,
   upsertCotizacion,
@@ -21,17 +22,26 @@ export function OrdenPago() {
   const location = useLocation();
   const search = new URLSearchParams(location.search);
   const reservaIdFromUrl = search.get("reservaId") || "";
+  const cotizacionIdFromUrl = search.get("cotizacionId") || "";
   const cotizaciones = useMemo(() => getCotizaciones(), []);
   const reservas = useMemo(() => getReservas(), []);
+  const viajes   = useMemo(() => getViajes(), []);
   const clientes = useMemo(() => getCatalog<any>("clientes", []), []);
   const [ordenes, setOrdenes] = useState<OrdenPagoTx[]>(() => getOrdenesPago());
-  const [modo, setModo] = useState<"Cotizacion" | "Reserva">(() => (reservaIdFromUrl ? "Reserva" : "Cotizacion"));
-  const [cotId, setCotId] = useState(cotizaciones[0]?.id || "");
+  // Siempre arranca en modo Reserva cuando viene del flujo normal
+  const [modo, setModo] = useState<"Cotizacion" | "Reserva">(() => (reservaIdFromUrl || cotizacionIdFromUrl ? "Reserva" : "Cotizacion"));
+  const [cotId, setCotId] = useState(cotizacionIdFromUrl || cotizaciones[0]?.id || "");
   const [resId, setResId] = useState(reservaIdFromUrl || reservas[0]?.id || "");
   const [metodoPago, setMetodoPago] = useState<"Tarjeta" | "Efectivo" | "Transferencia" | "Credito">("Tarjeta");
 
   const cot = cotizaciones.find((c) => c.id === cotId) as Cotizacion | undefined;
   const reserva = reservas.find((r) => r.id === resId) as Reserva | undefined;
+  // Cotización vinculada: viene de URL o se infiere de la lista
+  const cotVinculada = (cotizacionIdFromUrl
+    ? cotizaciones.find((c) => c.id === cotizacionIdFromUrl)
+    : modo === "Cotizacion" ? cot : undefined) as Cotizacion | undefined;
+  // Viaje de la reserva (para mostrar en resumen)
+  const viajeDeReserva = viajes.find((v) => v.id === reserva?.viajeId);
   const cliente = (() => {
     const id = modo === "Reserva" ? reserva?.clienteId : cot?.clienteId;
     if (id) return clientes.find((c) => c.idTipoCliente === id);
@@ -181,24 +191,50 @@ export function OrdenPago() {
                   <p className="text-xs text-slate-500 uppercase font-semibold">Cliente</p>
                   <p className="font-semibold">{cliente ? `${cliente.idTipoCliente} — ${cliente.razonSocial || cliente.doc}` : "-"}</p>
                 </div>
-                <div>
-                  <p className="text-xs text-slate-500 uppercase font-semibold">Cotización</p>
-                  <p className="font-semibold">{cot?.codigo || "-"}</p>
-                </div>
+                {modo === "Reserva" ? (
+                  <div>
+                    <p className="text-xs text-slate-500 uppercase font-semibold">Reserva</p>
+                    <p className="font-semibold">{reserva?.codigo || "-"}</p>
+                  </div>
+                ) : (
+                  <div>
+                    <p className="text-xs text-slate-500 uppercase font-semibold">Cotización</p>
+                    <p className="font-semibold">{cot?.codigo || "-"}</p>
+                  </div>
+                )}
               </div>
               <div className="mt-3 grid grid-cols-3 gap-3">
-                <div>
-                  <p className="text-xs text-slate-500 uppercase font-semibold">Servicio</p>
-                  <p className="font-semibold">{cot?.servicioCodigo || "-"}</p>
-                </div>
-                <div>
-                  <p className="text-xs text-slate-500 uppercase font-semibold">Bien</p>
-                  <p className="font-semibold">{cot?.bienId || "-"}</p>
-                </div>
-                <div>
-                  <p className="text-xs text-slate-500 uppercase font-semibold">Contenedor</p>
-                  <p className="font-semibold">{cot?.contenedorId || "-"}</p>
-                </div>
+                {modo === "Reserva" ? (
+                  <>
+                    <div>
+                      <p className="text-xs text-slate-500 uppercase font-semibold">Cotización</p>
+                      <p className="font-semibold">{cotVinculada?.codigo || "-"}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-500 uppercase font-semibold">Tipo</p>
+                      <p className="font-semibold">{reserva?.tipoReserva || "-"}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-500 uppercase font-semibold">Viaje</p>
+                      <p className="font-semibold">{viajeDeReserva?.codigo || reserva?.viajeId || "-"}</p>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <p className="text-xs text-slate-500 uppercase font-semibold">Servicio</p>
+                      <p className="font-semibold">{cot?.servicioCodigo || "-"}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-500 uppercase font-semibold">Bien</p>
+                      <p className="font-semibold">{cot?.bienId || "-"}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-500 uppercase font-semibold">Contenedor</p>
+                      <p className="font-semibold">{cot?.contenedorId || "-"}</p>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 
@@ -276,28 +312,68 @@ export function OrdenPago() {
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <h3 className="text-lg font-bold text-slate-900 mb-6">Resumen</h3>
             <div className="space-y-4">
-              <div className="bg-slate-50 rounded-lg p-4">
-                <p className="text-sm text-slate-600 mb-1">Cotización:</p>
-                <p className="font-semibold">{cot?.codigo || "-"}</p>
-              </div>
-              <div className="bg-slate-50 rounded-lg p-4">
-                <p className="text-sm text-slate-600 mb-1">Viaje:</p>
-                <p className="font-semibold">{cot?.viajeId ? "Viaje asociado (ver cotización)" : "-"}</p>
-                <p className="text-sm text-slate-600">{cot?.servicioCodigo} — {cot?.bienId}</p>
-              </div>
+              {modo === "Reserva" ? (
+                <>
+                  <div className="bg-slate-50 rounded-lg p-4">
+                    <p className="text-sm text-slate-600 mb-1">Reserva:</p>
+                    <p className="font-semibold">{reserva?.codigo || "-"}</p>
+                    <p className="text-xs text-slate-500 mt-1">{reserva?.tipoReserva || "-"}</p>
+                  </div>
+                  <div className="bg-slate-50 rounded-lg p-4">
+                    <p className="text-sm text-slate-600 mb-1">Cotización:</p>
+                    <p className="font-semibold">{cotVinculada?.codigo || "-"}</p>
+                  </div>
+                  <div className="bg-slate-50 rounded-lg p-4">
+                    <p className="text-sm text-slate-600 mb-1">Viaje:</p>
+                    <p className="font-semibold">{viajeDeReserva ? `${viajeDeReserva.codigo} — ${viajeDeReserva.ruta}` : "-"}</p>
+                    <p className="text-xs text-slate-500 mt-1">
+                      {reserva?.tipoReserva === "Pasajeros"
+                        ? `Asientos: ${(reserva.asientos || []).map((n: number) => `AS-${String(n).padStart(2, "0")}`).join(", ") || "-"}`
+                        : `SP: ${(reserva?.espaciosCarga || []).map((n: number) => `SP-${String(n).padStart(3, "0")}`).join(", ") || "-"}`}
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="bg-slate-50 rounded-lg p-4">
+                    <p className="text-sm text-slate-600 mb-1">Cotización:</p>
+                    <p className="font-semibold">{cot?.codigo || "-"}</p>
+                  </div>
+                  <div className="bg-slate-50 rounded-lg p-4">
+                    <p className="text-sm text-slate-600 mb-1">Viaje:</p>
+                    <p className="font-semibold">{cot?.viajeId ? "Viaje asociado (ver cotización)" : "-"}</p>
+                    <p className="text-sm text-slate-600">{cot?.servicioCodigo} — {cot?.bienId}</p>
+                  </div>
+                </>
+              )}
               <div className="bg-slate-50 rounded-lg p-4">
                 <p className="text-sm text-slate-600 mb-1">Condición:</p>
                 <p className="font-semibold">{creditoHabilitado ? "Cliente corporativo (crédito disponible)" : "Pago inmediato"}</p>
               </div>
               <div className="pt-4 border-t border-slate-200">
-                <div className="flex justify-between mb-2">
-                  <span className="text-slate-700">Subtotal:</span>
-                  <span className="font-medium">S/ {Number(cot?.subtotal ?? 0).toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between mb-2">
-                  <span className="text-slate-700">IGV:</span>
-                  <span className="font-medium">S/ {Number(cot?.igv ?? 0).toFixed(2)}</span>
-                </div>
+                {modo === "Reserva" ? (
+                  <>
+                    <div className="flex justify-between mb-2">
+                      <span className="text-slate-700">Subtotal:</span>
+                      <span className="font-medium">S/ {(total / 1.18).toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between mb-2">
+                      <span className="text-slate-700">IGV (18%):</span>
+                      <span className="font-medium">S/ {(total - total / 1.18).toFixed(2)}</span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex justify-between mb-2">
+                      <span className="text-slate-700">Subtotal:</span>
+                      <span className="font-medium">S/ {Number(cot?.subtotal ?? 0).toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between mb-2">
+                      <span className="text-slate-700">IGV:</span>
+                      <span className="font-medium">S/ {Number(cot?.igv ?? 0).toFixed(2)}</span>
+                    </div>
+                  </>
+                )}
                 <div className="flex justify-between pt-2 border-t border-slate-200">
                   <span className="font-bold text-slate-900">Total:</span>
                   <span className="text-2xl font-bold text-slate-700">S/ {total.toFixed(2)}</span>

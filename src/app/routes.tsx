@@ -3,6 +3,7 @@ import { MainLayout } from "./components/layout/MainLayout";
 import { Login } from "./components/auth/Login";
 import { MetodosAcceso } from "./components/auth/MetodosAcceso";
 import { PerfilesPermisos } from "./components/seguridad/PerfilesPermisos";
+import { GestionUsuarios } from "./components/seguridad/GestionUsuarios";
 import { DashboardGerencial } from "./components/gerencial/DashboardGerencial";
 import { DashboardOperativo } from "./components/operativo/DashboardOperativo";
 import { ParamsMaintenance } from "./components/gerencial/ParamsMaintenance";
@@ -47,6 +48,7 @@ export const router = createHashRouter([
 
       // --- Seguridad ---
       { path: "seguridad/perfiles", Component: PerfilesPermisos }, // SEG-03
+      { path: "seguridad/usuarios", Component: GestionUsuarios },  // SEG-04
 
       // --- Gerencial ---
       { path: "gerencial/dashboard", Component: DashboardGerencial }, // GER-01
