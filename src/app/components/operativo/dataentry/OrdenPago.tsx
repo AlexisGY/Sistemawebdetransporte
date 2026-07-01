@@ -1,264 +1,271 @@
 import { useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { PageHeader } from "../../shared/PageHeader";
-import { CheckCircle2, CreditCard, DollarSign, ShieldCheck, AlertTriangle } from "lucide-react";
+import { AlertTriangle, CheckCircle2, CreditCard, DollarSign, ShieldCheck } from "lucide-react";
 import {
   getCatalog,
   getCotizaciones,
   getOrdenesPago,
   getReservas,
+  getTickets,
   getViajes,
   newId,
   setOrdenesPago,
-  upsertCotizacion,
+  setTickets,
   upsertReserva,
   type Cotizacion,
   type OrdenPago as OrdenPagoTx,
   type Reserva,
+  type Ticket,
 } from "../../../store/localDb";
+
+function soles(value: number) {
+  return `S/ ${Number(value || 0).toFixed(2)}`;
+}
+
+function reservaTipo(reserva?: Reserva) {
+  return reserva?.tipoReserva || (reserva?.asientos?.length ? "Pasajeros" : "Carga");
+}
 
 export function OrdenPago() {
   const navigate = useNavigate();
   const location = useLocation();
   const search = new URLSearchParams(location.search);
   const reservaIdFromUrl = search.get("reservaId") || "";
-  const cotizacionIdFromUrl = search.get("cotizacionId") || "";
+
   const cotizaciones = useMemo(() => getCotizaciones(), []);
-  const reservas = useMemo(() => getReservas(), []);
-  const viajes   = useMemo(() => getViajes(), []);
+  const viajes = useMemo(() => getViajes(), []);
   const clientes = useMemo(() => getCatalog<any>("clientes", []), []);
+  const servicios = useMemo(() => getCatalog<any>("servicios", []), []);
+  const [reservas, setReservas] = useState<Reserva[]>(() => getReservas());
   const [ordenes, setOrdenes] = useState<OrdenPagoTx[]>(() => getOrdenesPago());
-  // Siempre arranca en modo Reserva cuando viene del flujo normal
-  const [modo, setModo] = useState<"Cotizacion" | "Reserva">(() => (reservaIdFromUrl || cotizacionIdFromUrl ? "Reserva" : "Cotizacion"));
-  const [cotId, setCotId] = useState(cotizacionIdFromUrl || cotizaciones[0]?.id || "");
-  const [resId, setResId] = useState(reservaIdFromUrl || reservas[0]?.id || "");
   const [metodoPago, setMetodoPago] = useState<"Tarjeta" | "Efectivo" | "Transferencia" | "Credito">("Tarjeta");
 
-  const cot = cotizaciones.find((c) => c.id === cotId) as Cotizacion | undefined;
-  const reserva = reservas.find((r) => r.id === resId) as Reserva | undefined;
-  // Cotización vinculada: viene de URL o se infiere de la lista
-  const cotVinculada = (cotizacionIdFromUrl
-    ? cotizaciones.find((c) => c.id === cotizacionIdFromUrl)
-    : modo === "Cotizacion" ? cot : undefined) as Cotizacion | undefined;
-  // Viaje de la reserva (para mostrar en resumen)
-  const viajeDeReserva = viajes.find((v) => v.id === reserva?.viajeId);
+  const reservasPendientes = reservas.filter((r) => r.estado === "Reservada");
+  const initialReservaId = reservasPendientes.some((r) => r.id === reservaIdFromUrl)
+    ? reservaIdFromUrl
+    : reservasPendientes[0]?.id || "";
+  const [resId, setResId] = useState(initialReservaId);
+
+  const reserva = reservasPendientes.find((r) => r.id === resId);
+  const viaje = viajes.find((v) => v.id === reserva?.viajeId);
+  const cotVinculada = (() => {
+    if (!reserva) return undefined;
+    return (
+      cotizaciones.find((c) => c.id === reserva.cotizacionId) ||
+      cotizaciones.find((c) => c.viajeId === reserva.viajeId && c.clienteId === reserva.clienteId) ||
+      cotizaciones.find((c) => c.viajeId === reserva.viajeId)
+    ) as Cotizacion | undefined;
+  })();
   const cliente = (() => {
-    const id = modo === "Reserva" ? reserva?.clienteId : cot?.clienteId;
-    if (id) return clientes.find((c) => c.idTipoCliente === id);
-    const doc = modo === "Reserva" ? reserva?.pasajeroDocumento : undefined;
+    if (reserva?.clienteId) return clientes.find((c) => c.idTipoCliente === reserva.clienteId);
+    if (cotVinculada?.clienteId) return clientes.find((c) => c.idTipoCliente === cotVinculada.clienteId);
+    const doc = reserva?.pasajeroDocumento;
     if (doc) return clientes.find((c) => String(c.doc || "").includes(String(doc).replace(/\s+/g, " ").trim()));
     return undefined;
   })();
+  const servicioCodigo = cotVinculada?.servicioCodigo || (reservaTipo(reserva) === "Pasajeros" ? "SRV-001" : "SRV-002");
+  const servicio = servicios.find((s: any) => s.codigo === servicioCodigo);
 
+  const total = Number(reserva?.total ?? cotVinculada?.total ?? 0);
+  const subtotal = Number(cotVinculada?.subtotal ?? total / 1.18);
+  const igv = Number(cotVinculada?.igv ?? total - subtotal);
+  const estadoPago = reserva?.estado === "Pagada" ? "Pagado" : "Pendiente";
   const esCorporativo = String(cliente?.categoriaPerfil || "").toLowerCase().includes("corporativo");
-  const creditoHabilitado = esCorporativo && String(cliente?.aplicaLineaCredito || "No") === "Sí";
+  const creditoHabilitado = esCorporativo && ["Si", "Sí", "SÃ­"].includes(String(cliente?.aplicaLineaCredito || "No"));
   const limite = Number(cliente?.limiteCreditoMax ?? 0);
-  const total = Number((modo === "Reserva" ? reserva?.total : cot?.total) ?? 0);
   const creditoOk = total <= limite;
+  const seleccionLabel = reserva
+    ? `${reserva.codigo} - ${reservaTipo(reserva)} - ${cotVinculada?.codigo || "Sin cotizacion"} - ${viaje?.codigo || reserva.viajeId}`
+    : "";
+  const cupos = reserva?.asientos?.length
+    ? `Asientos: ${reserva.asientos.map((n) => `AS-${String(n).padStart(2, "0")}`).join(", ")}`
+    : `Espacios: ${(reserva?.espaciosCarga || []).map((n) => `SP-${String(n).padStart(3, "0")}`).join(", ") || "-"}`;
+
+  const confirmarPago = () => {
+    if (!reserva) return;
+    if (metodoPago === "Credito" && (!creditoHabilitado || !creditoOk)) return;
+
+    const op: OrdenPagoTx = {
+      id: newId("op"),
+      codigo: `OP-2026-${String(ordenes.length + 142).padStart(4, "0")}`,
+      reservaId: reserva.id,
+      origenTipo: "Reserva",
+      referenciaId: reserva.id,
+      metodo: metodoPago === "Credito" ? "Transferencia" : metodoPago,
+      monto: total,
+      estado: "Pagado",
+      createdAt: new Date().toISOString(),
+    };
+
+    const ordenesNext = [...ordenes, op];
+    setOrdenesPago(ordenesNext);
+    setOrdenes(ordenesNext);
+
+    const reservasNext = upsertReserva({ ...reserva, estado: "Pagada" });
+    setReservas(reservasNext);
+
+    const existingTickets = getTickets();
+    const cuposTicket = reserva.asientos.length ? reserva.asientos : reserva.espaciosCarga || [];
+    const ticketsReserva = existingTickets.filter((t) => t.reservaId === reserva.id);
+    const nuevosTickets: Ticket[] =
+      ticketsReserva.length > 0
+        ? []
+        : cuposTicket.map((cupo, idx) => ({
+            id: newId("tkt"),
+            codigo: `TKT-2026-${String(existingTickets.length + idx + 1).padStart(4, "0")}`,
+            reservaId: reserva.id,
+            viajeId: reserva.viajeId,
+            pasajeroNombre: reserva.pasajeroNombre,
+            pasajeroDocumento: reserva.pasajeroDocumento,
+            asiento: cupo,
+            precio: total / Math.max(1, cuposTicket.length),
+            estado: "VE",
+            emitidoAt: new Date().toISOString(),
+          }));
+    const ticketsNext = [...existingTickets, ...nuevosTickets].map((t) =>
+      t.reservaId === reserva.id ? { ...t, estado: "VE" as const } : t,
+    );
+    setTickets(ticketsNext);
+
+    navigate(`/operativo/reportes/comprobante-pago/${encodeURIComponent(op.id)}`);
+  };
 
   return (
     <div className="min-h-full bg-slate-50">
       <PageHeader
         title="Orden de Pago"
-        subtitle="Registra el método de pago y confirma el monto asociado a la venta."
+        subtitle="Registra el metodo de pago y confirma el monto asociado a una reserva pendiente."
       />
 
       <div className="p-8 max-w-4xl mx-auto">
         <div className="grid grid-cols-3 gap-6">
-          {/* Payment Form */}
           <div className="col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-lg font-bold text-slate-900 mb-4">Método de pago</h3>
+            <h3 className="text-lg font-bold text-slate-900 mb-4">Metodo de pago</h3>
 
             <div className="mb-6 grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-600 uppercase mb-2">Origen</label>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setModo("Reserva")}
-                    className={`flex-1 px-3 py-2 rounded-lg text-sm font-semibold border ${
-                      modo === "Reserva" ? "bg-slate-900 text-white border-slate-900" : "bg-white text-slate-700 border-slate-200"
-                    }`}
-                  >
-                    Reserva
-                  </button>
-                  <button
-                    onClick={() => setModo("Cotizacion")}
-                    className={`flex-1 px-3 py-2 rounded-lg text-sm font-semibold border ${
-                      modo === "Cotizacion" ? "bg-slate-900 text-white border-slate-900" : "bg-white text-slate-700 border-slate-200"
-                    }`}
-                  >
-                    Cotización
-                  </button>
-                </div>
-
-                {modo === "Reserva" ? (
-                  <select
-                    value={resId}
-                    onChange={(e) => setResId(e.target.value)}
-                    className="mt-2 w-full px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-600"
-                  >
-                    {reservas.map((r) => (
-                      <option key={r.id} value={r.id}>
-                        {r.codigo} — {r.tipoReserva || (r.asientos?.length ? "Pasajeros" : "Carga")} — Total S/ {Number(r.total || 0).toFixed(2)}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <select
-                    value={cotId}
-                    onChange={(e) => setCotId(e.target.value)}
-                    className="mt-2 w-full px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-600"
-                  >
-                    {cotizaciones.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        {c.codigo} — {c.clienteId} — Total S/ {Number(c.total).toFixed(2)}
-                      </option>
-                    ))}
-                  </select>
+                <label className="block text-xs font-semibold text-slate-600 uppercase mb-2">Reserva pendiente de pago</label>
+                <select
+                  value={resId}
+                  onChange={(e) => setResId(e.target.value)}
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-600"
+                  disabled={reservasPendientes.length === 0}
+                >
+                  {reservasPendientes.length === 0 ? (
+                    <option value="">Sin reservas pendientes</option>
+                  ) : (
+                    reservasPendientes.map((r) => {
+                      const cot = cotizaciones.find((c) => c.id === r.cotizacionId) || cotizaciones.find((c) => c.viajeId === r.viajeId);
+                      const v = viajes.find((x) => x.id === r.viajeId);
+                      return (
+                        <option key={r.id} value={r.id}>
+                          {r.codigo} - {reservaTipo(r)} - {cot?.codigo || "Sin cotizacion"} - {v?.codigo || r.viajeId}
+                        </option>
+                      );
+                    })
+                  )}
+                </select>
+                {!reserva && (
+                  <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-medium text-amber-800">
+                    Seleccione una reserva pendiente para generar la orden de pago.
+                  </p>
                 )}
               </div>
               <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
                 <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Monto pendiente</p>
-                <p className="mt-1 text-2xl font-bold text-slate-900">S/ {total.toFixed(2)}</p>
-                <p className="text-xs text-slate-600 mt-1">
-                  {modo === "Reserva"
-                    ? `${reserva?.codigo || "-"} — ${reserva?.tipoReserva || "-"}`
-                    : `${cot?.servicioCodigo || "-"} — ${cot?.bienId || "-"}`}
-                </p>
+                <p className="mt-1 text-2xl font-bold text-slate-900">{soles(total)}</p>
+                <p className="text-xs text-slate-600 mt-1">{seleccionLabel || "-"}</p>
                 <span className="mt-3 inline-flex rounded-full border border-amber-200 bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-800">
-                  Pendiente
+                  {estadoPago}
                 </span>
               </div>
             </div>
 
-            {/* Payment Methods */}
             <div className={`grid gap-3 mb-6 ${creditoHabilitado ? "grid-cols-4" : "grid-cols-3"}`}>
-              <button
-                onClick={() => setMetodoPago("Tarjeta")}
-                className={`p-4 border-2 rounded-lg transition-all ${
-                  metodoPago === "Tarjeta"
-                    ? "border-slate-700 bg-slate-50"
-                    : "border-slate-200 hover:border-slate-300"
-                }`}
-              >
+              <button onClick={() => setMetodoPago("Tarjeta")} className={`p-4 border-2 rounded-lg transition-all ${metodoPago === "Tarjeta" ? "border-slate-700 bg-slate-50" : "border-slate-200 hover:border-slate-300"}`}>
                 <CreditCard className="w-6 h-6 mx-auto mb-2 text-slate-700" />
                 <p className="text-sm font-medium">Tarjeta</p>
               </button>
-              <button
-                onClick={() => setMetodoPago("Efectivo")}
-                className={`p-4 border-2 rounded-lg transition-all ${
-                  metodoPago === "Efectivo"
-                    ? "border-slate-700 bg-slate-50"
-                    : "border-slate-200 hover:border-slate-300"
-                }`}
-              >
+              <button onClick={() => setMetodoPago("Efectivo")} className={`p-4 border-2 rounded-lg transition-all ${metodoPago === "Efectivo" ? "border-slate-700 bg-slate-50" : "border-slate-200 hover:border-slate-300"}`}>
                 <DollarSign className="w-6 h-6 mx-auto mb-2 text-slate-700" />
                 <p className="text-sm font-medium">Efectivo</p>
               </button>
-              <button
-                onClick={() => setMetodoPago("Transferencia")}
-                className={`p-4 border-2 rounded-lg transition-all ${
-                  metodoPago === "Transferencia"
-                    ? "border-slate-700 bg-slate-50"
-                    : "border-slate-200 hover:border-slate-300"
-                }`}
-              >
+              <button onClick={() => setMetodoPago("Transferencia")} className={`p-4 border-2 rounded-lg transition-all ${metodoPago === "Transferencia" ? "border-slate-700 bg-slate-50" : "border-slate-200 hover:border-slate-300"}`}>
                 <svg className="w-6 h-6 mx-auto mb-2 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                 </svg>
                 <p className="text-sm font-medium">Transferencia</p>
               </button>
-
               {creditoHabilitado && (
-                <button
-                  onClick={() => setMetodoPago("Credito")}
-                  className={`p-4 border-2 rounded-lg transition-all ${
-                    metodoPago === "Credito"
-                      ? "border-slate-700 bg-slate-50"
-                      : "border-slate-200 hover:border-slate-300"
-                  }`}
-                >
+                <button onClick={() => setMetodoPago("Credito")} className={`p-4 border-2 rounded-lg transition-all ${metodoPago === "Credito" ? "border-slate-700 bg-slate-50" : "border-slate-200 hover:border-slate-300"}`}>
                   <ShieldCheck className="w-6 h-6 mx-auto mb-2 text-slate-700" />
-                  <p className="text-sm font-medium">A Crédito</p>
+                  <p className="text-sm font-medium">A Credito</p>
                 </button>
               )}
             </div>
 
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm">
-              <p className="font-semibold text-slate-900 mb-2">Resumen</p>
+              <p className="font-semibold text-slate-900 mb-2">Datos de la reserva</p>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <p className="text-xs text-slate-500 uppercase font-semibold">Cliente</p>
-                  <p className="font-semibold">{cliente ? `${cliente.idTipoCliente} — ${cliente.razonSocial || cliente.doc}` : "-"}</p>
+                  <p className="text-xs text-slate-500 uppercase font-semibold">COD_RESERVA</p>
+                  <p className="font-semibold">{reserva?.codigo || "-"}</p>
                 </div>
-                {modo === "Reserva" ? (
-                  <div>
-                    <p className="text-xs text-slate-500 uppercase font-semibold">Reserva</p>
-                    <p className="font-semibold">{reserva?.codigo || "-"}</p>
-                  </div>
-                ) : (
-                  <div>
-                    <p className="text-xs text-slate-500 uppercase font-semibold">Cotización</p>
-                    <p className="font-semibold">{cot?.codigo || "-"}</p>
-                  </div>
-                )}
-              </div>
-              <div className="mt-3 grid grid-cols-3 gap-3">
-                {modo === "Reserva" ? (
-                  <>
-                    <div>
-                      <p className="text-xs text-slate-500 uppercase font-semibold">Cotización</p>
-                      <p className="font-semibold">{cotVinculada?.codigo || "-"}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-500 uppercase font-semibold">Tipo</p>
-                      <p className="font-semibold">{reserva?.tipoReserva || "-"}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-500 uppercase font-semibold">Viaje</p>
-                      <p className="font-semibold">{viajeDeReserva?.codigo || reserva?.viajeId || "-"}</p>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div>
-                      <p className="text-xs text-slate-500 uppercase font-semibold">Servicio</p>
-                      <p className="font-semibold">{cot?.servicioCodigo || "-"}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-500 uppercase font-semibold">Bien</p>
-                      <p className="font-semibold">{cot?.bienId || "-"}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-500 uppercase font-semibold">Contenedor</p>
-                      <p className="font-semibold">{cot?.contenedorId || "-"}</p>
-                    </div>
-                  </>
-                )}
+                <div>
+                  <p className="text-xs text-slate-500 uppercase font-semibold">COD_COTIZACION</p>
+                  <p className="font-semibold">{cotVinculada?.codigo || "-"}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-500 uppercase font-semibold">Cliente</p>
+                  <p className="font-semibold">{cliente ? `${cliente.idTipoCliente} - ${cliente.razonSocial || cliente.doc}` : reserva?.pasajeroNombre || "-"}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-500 uppercase font-semibold">Viaje</p>
+                  <p className="font-semibold">{viaje ? `${viaje.codigo} - ${viaje.ruta}` : "-"}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-500 uppercase font-semibold">Servicio</p>
+                  <p className="font-semibold">{servicioCodigo} - {servicio?.descripcion || reservaTipo(reserva)}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-500 uppercase font-semibold">Tickets / espacios reservados</p>
+                  <p className="font-semibold">{reserva ? cupos : "-"}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-500 uppercase font-semibold">Subtotal</p>
+                  <p className="font-semibold">{soles(subtotal)}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-500 uppercase font-semibold">IGV</p>
+                  <p className="font-semibold">{soles(igv)}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-500 uppercase font-semibold">Total</p>
+                  <p className="font-semibold">{soles(total)}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-500 uppercase font-semibold">Estado de pago</p>
+                  <p className="font-semibold">{estadoPago}</p>
+                </div>
               </div>
             </div>
 
             {metodoPago === "Credito" && creditoHabilitado && (
               <div className={`mt-4 rounded-xl border p-4 ${creditoOk ? "bg-emerald-50 border-emerald-200" : "bg-rose-50 border-rose-200"}`}>
                 <div className="flex items-start gap-3">
-                  {creditoOk ? (
-                    <CheckCircle2 className="w-5 h-5 text-emerald-700 mt-0.5" />
-                  ) : (
-                    <AlertTriangle className="w-5 h-5 text-rose-700 mt-0.5" />
-                  )}
+                  {creditoOk ? <CheckCircle2 className="w-5 h-5 text-emerald-700 mt-0.5" /> : <AlertTriangle className="w-5 h-5 text-rose-700 mt-0.5" />}
                   <div>
-                    <p className={`font-semibold ${creditoOk ? "text-emerald-900" : "text-rose-900"}`}>Evaluación Automática de Crédito</p>
+                    <p className={`font-semibold ${creditoOk ? "text-emerald-900" : "text-rose-900"}`}>Evaluacion Automatica de Credito</p>
                     <p className={`text-sm mt-1 ${creditoOk ? "text-emerald-800" : "text-rose-800"}`}>
-                      Límite: S/ {limite.toLocaleString()} — Importe: S/ {total.toFixed(2)} —{" "}
-                      {creditoOk ? "APROBADO" : "RECHAZADO"}
+                      Limite: S/ {limite.toLocaleString()} - Importe: {soles(total)} - {creditoOk ? "APROBADO" : "RECHAZADO"}
                     </p>
-                    {!creditoOk && <p className="text-xs text-rose-700 mt-2 font-medium">Bloqueo: el total supera el límite de crédito del cliente.</p>}
+                    {!creditoOk && <p className="text-xs text-rose-700 mt-2 font-medium">Bloqueo: el total supera el limite de credito del cliente.</p>}
                   </div>
                 </div>
               </div>
             )}
 
-            {/* sin tipeo libre: todo como selección/simulación */}
             <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 text-sm">
               <p className="text-xs font-semibold text-slate-500 uppercase mb-2">Evidencia del pago</p>
               <div className="grid grid-cols-3 gap-3">
@@ -272,111 +279,54 @@ export function OrdenPago() {
                 </div>
                 <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
                   <p className="text-xs text-slate-500">Monto</p>
-                  <p className="font-semibold">S/ {total.toFixed(2)}</p>
+                  <p className="font-semibold">{soles(total)}</p>
                 </div>
               </div>
             </div>
 
             <button
-              onClick={() => {
-                if (modo === "Cotizacion" && !cot) return;
-                if (modo === "Reserva" && !reserva) return;
-                if (metodoPago === "Credito" && (!creditoHabilitado || !creditoOk)) return;
-                const op: OrdenPagoTx = {
-                  id: newId("op"),
-                  codigo: `OP-2026-${String(ordenes.length + 142).padStart(4, "0")}`,
-                  reservaId: modo === "Reserva" ? reserva!.id : cot!.id, // referencia (reserva real o cotización legacy)
-                  origenTipo: modo,
-                  referenciaId: modo === "Reserva" ? reserva!.id : cot!.id,
-                  metodo: metodoPago === "Credito" ? "Transferencia" : metodoPago,
-                  monto: total,
-                  estado: "Pagado",
-                  createdAt: new Date().toISOString(),
-                };
-                const next = [...ordenes, op];
-                setOrdenesPago(next);
-                setOrdenes(next);
-                if (modo === "Cotizacion" && cot) upsertCotizacion({ ...cot, estado: "Convertido" });
-                if (modo === "Reserva" && reserva) upsertReserva({ ...reserva, estado: "Pagada" });
-                navigate(`/operativo/reportes/comprobante-pago/${encodeURIComponent(op.id)}`);
-              }}
+              onClick={confirmarPago}
               className="w-full mt-6 flex items-center justify-center gap-2 px-4 py-3 text-white bg-slate-700 rounded-lg font-semibold hover:bg-slate-800 transition-colors disabled:bg-slate-400"
-              disabled={(modo === "Cotizacion" ? !cot : !reserva) || (metodoPago === "Credito" && (!creditoHabilitado || !creditoOk))}
+              disabled={!reserva || (metodoPago === "Credito" && (!creditoHabilitado || !creditoOk))}
             >
               <CheckCircle2 className="w-5 h-5" />
               Confirmar pago
             </button>
           </div>
 
-          {/* Summary */}
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <h3 className="text-lg font-bold text-slate-900 mb-6">Resumen</h3>
             <div className="space-y-4">
-              {modo === "Reserva" ? (
-                <>
-                  <div className="bg-slate-50 rounded-lg p-4">
-                    <p className="text-sm text-slate-600 mb-1">Reserva:</p>
-                    <p className="font-semibold">{reserva?.codigo || "-"}</p>
-                    <p className="text-xs text-slate-500 mt-1">{reserva?.tipoReserva || "-"}</p>
-                  </div>
-                  <div className="bg-slate-50 rounded-lg p-4">
-                    <p className="text-sm text-slate-600 mb-1">Cotización:</p>
-                    <p className="font-semibold">{cotVinculada?.codigo || "-"}</p>
-                  </div>
-                  <div className="bg-slate-50 rounded-lg p-4">
-                    <p className="text-sm text-slate-600 mb-1">Viaje:</p>
-                    <p className="font-semibold">{viajeDeReserva ? `${viajeDeReserva.codigo} — ${viajeDeReserva.ruta}` : "-"}</p>
-                    <p className="text-xs text-slate-500 mt-1">
-                      {reserva?.tipoReserva === "Pasajeros"
-                        ? `Asientos: ${(reserva.asientos || []).map((n: number) => `AS-${String(n).padStart(2, "0")}`).join(", ") || "-"}`
-                        : `SP: ${(reserva?.espaciosCarga || []).map((n: number) => `SP-${String(n).padStart(3, "0")}`).join(", ") || "-"}`}
-                    </p>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="bg-slate-50 rounded-lg p-4">
-                    <p className="text-sm text-slate-600 mb-1">Cotización:</p>
-                    <p className="font-semibold">{cot?.codigo || "-"}</p>
-                  </div>
-                  <div className="bg-slate-50 rounded-lg p-4">
-                    <p className="text-sm text-slate-600 mb-1">Viaje:</p>
-                    <p className="font-semibold">{cot?.viajeId ? "Viaje asociado (ver cotización)" : "-"}</p>
-                    <p className="text-sm text-slate-600">{cot?.servicioCodigo} — {cot?.bienId}</p>
-                  </div>
-                </>
-              )}
               <div className="bg-slate-50 rounded-lg p-4">
-                <p className="text-sm text-slate-600 mb-1">Condición:</p>
-                <p className="font-semibold">{creditoHabilitado ? "Cliente corporativo (crédito disponible)" : "Pago inmediato"}</p>
+                <p className="text-sm text-slate-600 mb-1">Reserva:</p>
+                <p className="font-semibold">{reserva?.codigo || "-"}</p>
+                <p className="text-xs text-slate-500 mt-1">{reservaTipo(reserva)}</p>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-4">
+                <p className="text-sm text-slate-600 mb-1">Cotizacion:</p>
+                <p className="font-semibold">{cotVinculada?.codigo || "-"}</p>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-4">
+                <p className="text-sm text-slate-600 mb-1">Viaje:</p>
+                <p className="font-semibold">{viaje ? `${viaje.codigo} - ${viaje.ruta}` : "-"}</p>
+                <p className="text-xs text-slate-500 mt-1">{reserva ? cupos : "-"}</p>
+              </div>
+              <div className="bg-slate-50 rounded-lg p-4">
+                <p className="text-sm text-slate-600 mb-1">Condicion:</p>
+                <p className="font-semibold">Pago inmediato</p>
               </div>
               <div className="pt-4 border-t border-slate-200">
-                {modo === "Reserva" ? (
-                  <>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-slate-700">Subtotal:</span>
-                      <span className="font-medium">S/ {(total / 1.18).toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-slate-700">IGV (18%):</span>
-                      <span className="font-medium">S/ {(total - total / 1.18).toFixed(2)}</span>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-slate-700">Subtotal:</span>
-                      <span className="font-medium">S/ {Number(cot?.subtotal ?? 0).toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-slate-700">IGV:</span>
-                      <span className="font-medium">S/ {Number(cot?.igv ?? 0).toFixed(2)}</span>
-                    </div>
-                  </>
-                )}
+                <div className="flex justify-between mb-2">
+                  <span className="text-slate-700">Subtotal:</span>
+                  <span className="font-medium">{soles(subtotal)}</span>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <span className="text-slate-700">IGV:</span>
+                  <span className="font-medium">{soles(igv)}</span>
+                </div>
                 <div className="flex justify-between pt-2 border-t border-slate-200">
                   <span className="font-bold text-slate-900">Total:</span>
-                  <span className="text-2xl font-bold text-slate-700">S/ {total.toFixed(2)}</span>
+                  <span className="text-2xl font-bold text-slate-700">{soles(total)}</span>
                 </div>
               </div>
             </div>

@@ -81,6 +81,7 @@ export type Reserva = {
   id: string;
   codigo: string;
   viajeId: string;
+  cotizacionId?: string;
   clienteId?: string; // idTipoCliente (vínculo a catálogo)
   pasajeroNombre: string;
   pasajeroDocumento: string;
@@ -122,7 +123,7 @@ export type Ticket = {
   pasajeroDocumento: string;
   asiento: number;
   precio: number;
-  estado?: "Vendido";
+  estado?: "RE" | "VE" | "Vendido";
   emitidoAt: string;
 };
 

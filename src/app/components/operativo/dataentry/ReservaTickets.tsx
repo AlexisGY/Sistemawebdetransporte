@@ -215,6 +215,7 @@ export function ReservaTickets() {
       id:                newId("reserva"),
       codigo:            nextCodigo,
       viajeId:           viaje.id,
+      cotizacionId:      cotizacionId || undefined,
       clienteId:         cliente.idTipoCliente,
       pasajeroNombre:    cliente.razonSocial || "Cliente",
       pasajeroDocumento: cliente.doc || "DNI/RUC",
