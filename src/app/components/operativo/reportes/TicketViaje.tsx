@@ -29,7 +29,7 @@ export function TicketViaje() {
           <div className="flex items-start justify-between">
             <div>
               <h1 className="text-3xl font-bold mb-2 print:text-black">TICKET DE VIAJE</h1>
-              <p className="text-lg print:text-black">TransporteSaaS - Sistema Empresarial</p>
+              <p className="text-lg print:text-black">Sistema de Transporte</p>
               <p className="text-sm mt-1 print:text-black">RUC: 20123456789</p>
             </div>
             <div className="text-right">

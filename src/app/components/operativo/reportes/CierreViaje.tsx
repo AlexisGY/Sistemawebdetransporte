@@ -28,7 +28,7 @@ export function CierreViaje() {
         <div className="bg-slate-900 text-white p-8 print:bg-transparent print:text-black print:border-b-4 print:border-black">
           <div className="text-center mb-4">
             <h1 className="text-3xl font-bold mb-2 print:text-black">REPORTE DE CIERRE DE VIAJE</h1>
-            <p className="text-lg print:text-black">TransporteSaaS - Sistema Empresarial</p>
+            <p className="text-lg print:text-black">Sistema de Transporte</p>
           </div>
           <div className="flex justify-between items-center border-t border-slate-700 pt-4 print:border-black">
             <div>
@@ -104,57 +104,6 @@ export function CierreViaje() {
             <div className="bg-slate-50 p-4 rounded-lg print:bg-transparent print:border print:border-slate-300">
               <p className="text-sm text-slate-600 mb-1">No Shows</p>
               <p className="text-3xl font-bold text-slate-700 print:text-black">2</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Financial Summary */}
-        <div className="p-8 border-b border-slate-200">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">RESUMEN FINANCIERO</h2>
-          <div className="grid grid-cols-2 gap-8">
-            <div>
-              <h3 className="font-semibold text-slate-700 mb-3">Ingresos</h3>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-slate-600">Tickets vendidos (18):</span>
-                  <span className="font-semibold">S/ 1,530.00</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-600">Equipaje extra:</span>
-                  <span className="font-semibold">S/ 45.00</span>
-                </div>
-                <div className="flex justify-between pt-2 border-t border-slate-300">
-                  <span className="font-bold">Total Ingresos:</span>
-                  <span className="font-bold text-slate-700 print:text-black">S/ 1,575.00</span>
-                </div>
-              </div>
-            </div>
-            <div>
-              <h3 className="font-semibold text-slate-700 mb-3">Gastos</h3>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-slate-600">Combustible:</span>
-                  <span className="font-semibold">S/ 380.00</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-600">Peajes:</span>
-                  <span className="font-semibold">S/ 85.00</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-600">Otros:</span>
-                  <span className="font-semibold">S/ 25.00</span>
-                </div>
-                <div className="flex justify-between pt-2 border-t border-slate-300">
-                  <span className="font-bold">Total Gastos:</span>
-                  <span className="font-bold text-slate-700 print:text-black">S/ 490.00</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="mt-6 p-4 bg-slate-50 border-2 border-slate-700 rounded-lg print:bg-transparent print:border-black">
-            <div className="flex justify-between items-center">
-              <span className="text-lg font-bold">UTILIDAD NETA:</span>
-              <span className="text-3xl font-bold text-slate-700 print:text-black">S/ 1,085.00</span>
             </div>
           </div>
         </div>
@@ -248,7 +197,7 @@ export function CierreViaje() {
 
         {/* Footer */}
         <div className="bg-slate-900 text-white p-4 text-center text-xs print:bg-transparent print:text-black print:border-t print:border-black">
-          <p>Documento generado automáticamente por TransporteSaaS</p>
+          <p>Documento generado automáticamente por el Sistema de Transporte</p>
           <p className="mt-1">Emitido: 15/04/2026 16:10 | Sistema Empresarial de Transporte</p>
         </div>
       </div>

@@ -192,7 +192,7 @@ export function CheckInEmbarque() {
                     {validation.type === "ok" ? (
                       <p className="text-xs text-emerald-700 mt-2 font-medium">Embarque autorizado.</p>
                     ) : (
-                      <p className="text-xs text-rose-700 mt-2 font-medium">Proceso bloqueado. Reasigne recursos en Recursos de viaje.</p>
+                      <p className="text-xs text-rose-700 mt-2 font-medium">Proceso bloqueado. Reasigne recursos en Ajuste operativo de viaje.</p>
                     )}
                     <div className="mt-3 grid grid-cols-3 gap-3 text-xs">
                       <div className="rounded-lg border border-slate-200 bg-white/60 p-3">

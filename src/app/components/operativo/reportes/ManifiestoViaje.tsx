@@ -36,7 +36,7 @@ export function ManifiestoViaje() {
         <div className="border-b-4 border-slate-900 p-8">
           <div className="text-center mb-6">
             <h1 className="text-3xl font-bold text-slate-900 mb-2">MANIFIESTO DE PASAJEROS</h1>
-            <p className="text-lg font-semibold">TransporteSaaS - Sistema Empresarial</p>
+            <p className="text-lg font-semibold">Sistema de Transporte</p>
             <p className="text-sm text-slate-600">RUC: 20123456789 | Registro MTC: 123456</p>
           </div>
           
@@ -173,7 +173,7 @@ export function ManifiestoViaje() {
         {/* Footer */}
         <div className="bg-slate-800 text-white p-4 text-center text-xs print:bg-transparent print:text-black print:border-t print:border-slate-300">
           <p>Este documento es de uso obligatorio según normativa MTC - Conservar durante el viaje</p>
-          <p className="mt-1">Emitido: 14/04/2026 10:30 | Sistema TransporteSaaS</p>
+          <p className="mt-1">Emitido: 14/04/2026 10:30 | Sistema de Transporte</p>
         </div>
       </div>
     </div>

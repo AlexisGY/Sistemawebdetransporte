@@ -28,7 +28,7 @@ export function ComprobantePago() {
         <div className="border-b-4 border-slate-700 p-8 print:border-black">
           <div className="flex justify-between items-start mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-slate-900 mb-2">TransporteSaaS</h1>
+              <h1 className="text-3xl font-bold text-slate-900 mb-2">Sistema de Transporte</h1>
               <p className="text-slate-600">Sistema Empresarial de Transporte</p>
               <p className="text-sm text-slate-500 mt-1">RUC: 20123456789</p>
               <p className="text-sm text-slate-500">Av. Principal 123, Lima, Perú</p>

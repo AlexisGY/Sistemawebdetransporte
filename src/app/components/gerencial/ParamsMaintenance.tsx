@@ -23,6 +23,9 @@ import {
   Save,
   Plus,
   Trash2,
+  Eye,
+  Pencil,
+  AlertTriangle,
 } from "lucide-react";
 
 const categories = [
@@ -316,23 +319,23 @@ const politicasData = [
 const reglasData = [
   { id: 1, codigoRegla: "RGL-001", nombre: "Descuento por Volumen",       evento: "Cierre de venta",    variable: "Total compra (S/)",    operador: "GT",  valorComparacion: "500",  accion: "Aplicar descuento",        valorAccion: "10%",    prioridad: 1, estado: "Activo"   },
   { id: 2, codigoRegla: "RGL-002", nombre: "Recargo Temporada Alta",      evento: "Reserva de ticket",  variable: "Fecha de viaje",       operador: "IN",  valorComparacion: "Jul, Dic, Ene", accion: "Aplicar recargo",   valorAccion: "15%",    prioridad: 2, estado: "Activo"   },
-  { id: 3, codigoRegla: "RGL-003", nombre: "Descuento Tercera Edad",      evento: "Emisión de ticket",  variable: "Edad del pasajero",    operador: "GTE", valorComparacion: "65",   accion: "Aplicar descuento",        valorAccion: "20%",    prioridad: 1, estado: "Activo"   },
-  { id: 4, codigoRegla: "RGL-004", nombre: "Alerta Baja Ocupación",       evento: "Programación viaje", variable: "% Ocupación",          operador: "LT",  valorComparacion: "30",   accion: "Generar alerta",           valorAccion: "Notif. gerencial", prioridad: 3, estado: "Activo"   },
-  { id: 5, codigoRegla: "RGL-005", nombre: "Bloqueo Sobrepeso",           evento: "Check-in embarque",  variable: "Peso equipaje (kg)",   operador: "GT",  valorComparacion: "30",   accion: "Bloquear embarque",        valorAccion: "Error + cobro extra", prioridad: 1, estado: "Activo" },
+  { id: 3, codigoRegla: "RGL-003", nombre: "Descuento Tercera Edad",      evento: "Reserva de ticket",  variable: "Edad del pasajero",    operador: "GTE", valorComparacion: "65",   accion: "Aplicar descuento",        valorAccion: "20%",    prioridad: 1, estado: "Activo"   },
+  { id: 4, codigoRegla: "RGL-004", nombre: "Alerta Baja Ocupación",       evento: "Cotización",         variable: "% Ocupación",          operador: "LT",  valorComparacion: "30",   accion: "Generar alerta",           valorAccion: "Notif. gerencial", prioridad: 3, estado: "Activo"   },
+  { id: 5, codigoRegla: "RGL-005", nombre: "Bloqueo Sobrepeso",           evento: "Check-in y embarque",  variable: "Peso equipaje (kg)", operador: "GT",  valorComparacion: "30",   accion: "Bloquear embarque",        valorAccion: "Error + cobro extra", prioridad: 1, estado: "Activo" },
   { id: 6, codigoRegla: "RGL-006", nombre: "Descuento Estudiante",        evento: "Reserva de ticket",  variable: "Tipo de pasajero",     operador: "EQ",  valorComparacion: "Estudiante", accion: "Aplicar descuento",   valorAccion: "10%",    prioridad: 2, estado: "Activo"   },
-  { id: 7, codigoRegla: "RGL-007", nombre: "Recargo Equipaje Extra",      evento: "Check-in embarque",  variable: "Peso equipaje (kg)",   operador: "GT",  valorComparacion: "20",   accion: "Cobrar recargo",           valorAccion: "S/10 por kg extra", prioridad: 1, estado: "Activo" },
+  { id: 7, codigoRegla: "RGL-007", nombre: "Recargo Equipaje Extra",      evento: "Check-in y embarque",  variable: "Peso equipaje (kg)", operador: "GT",  valorComparacion: "20",   accion: "Cobrar recargo",           valorAccion: "S/10 por kg extra", prioridad: 1, estado: "Activo" },
 ];
 
 const protocolosData = [
-  { id: 1, codigoProtocolo: "PRO-001", nombre: "Viaje Interprovincial Pasajeros", codigoServicio: "SRV-001", secuencia: 1, transaccion: "Reserva de Ticket",    descripcion: "Cliente selecciona fecha, ruta y asiento",             esObligatorio: "Sí", permiteSalto: "No",  estado: "Activo" },
-  { id: 2, codigoProtocolo: "PRO-002", nombre: "Viaje Interprovincial Pasajeros", codigoServicio: "SRV-001", secuencia: 2, transaccion: "Orden de Pago",         descripcion: "Se genera la orden y se confirma medio de pago",        esObligatorio: "Sí", permiteSalto: "No",  estado: "Activo" },
-  { id: 3, codigoProtocolo: "PRO-003", nombre: "Viaje Interprovincial Pasajeros", codigoServicio: "SRV-001", secuencia: 3, transaccion: "Emisión de Ticket",     descripcion: "Se emite el ticket físico o electrónico al pasajero",   esObligatorio: "Sí", permiteSalto: "No",  estado: "Activo" },
-  { id: 4, codigoProtocolo: "PRO-004", nombre: "Viaje Interprovincial Pasajeros", codigoServicio: "SRV-001", secuencia: 4, transaccion: "Check-in y Embarque",   descripcion: "Validación de ticket y abordaje al vehículo",           esObligatorio: "Sí", permiteSalto: "No",  estado: "Activo" },
-  { id: 5, codigoProtocolo: "PRO-005", nombre: "Viaje Interprovincial Pasajeros", codigoServicio: "SRV-001", secuencia: 5, transaccion: "Llegada y Cierre",      descripcion: "Confirmación de llegada y cierre del viaje",            esObligatorio: "Sí", permiteSalto: "No",  estado: "Activo" },
-  { id: 6, codigoProtocolo: "PRO-006", nombre: "Transporte de Carga General",     codigoServicio: "SRV-002", secuencia: 1, transaccion: "Cotización",            descripcion: "Cliente solicita cotización por peso/volumen",          esObligatorio: "Sí", permiteSalto: "No",  estado: "Activo" },
-  { id: 7, codigoProtocolo: "PRO-007", nombre: "Transporte de Carga General",     codigoServicio: "SRV-002", secuencia: 2, transaccion: "Recursos de Viaje",    descripcion: "Asignación de vehículo y conductores",                  esObligatorio: "Sí", permiteSalto: "No",  estado: "Activo" },
-  { id: 8, codigoProtocolo: "PRO-008", nombre: "Transporte de Carga General",     codigoServicio: "SRV-002", secuencia: 3, transaccion: "Orden de Pago",         descripcion: "Pago total o parcial según política",                   esObligatorio: "Sí", permiteSalto: "Sí",  estado: "Activo" },
-  { id: 9, codigoProtocolo: "PRO-009", nombre: "Transporte de Carga General",     codigoServicio: "SRV-002", secuencia: 4, transaccion: "Llegada y Cierre",      descripcion: "Confirmación de entrega y cierre del servicio",         esObligatorio: "Sí", permiteSalto: "No",  estado: "Activo" },
+  { id: 1, codigoProtocolo: "PRO-001", nombre: "Viaje Interprovincial Pasajeros", codigoServicio: "SRV-001", secuencia: 1, transaccion: "Cotización",          descripcion: "Evaluación de disponibilidad, tarifa y condiciones del servicio", esObligatorio: "No", permiteSalto: "Sí", estado: "Activo" },
+  { id: 2, codigoProtocolo: "PRO-002", nombre: "Viaje Interprovincial Pasajeros", codigoServicio: "SRV-001", secuencia: 2, transaccion: "Reserva de Ticket",    descripcion: "Cliente selecciona fecha, ruta y asiento disponible",        esObligatorio: "Sí", permiteSalto: "No",  estado: "Activo" },
+  { id: 3, codigoProtocolo: "PRO-003", nombre: "Viaje Interprovincial Pasajeros", codigoServicio: "SRV-001", secuencia: 3, transaccion: "Orden de Pago",         descripcion: "Se confirma comercialmente la reserva mediante el pago",      esObligatorio: "Sí", permiteSalto: "No",  estado: "Activo" },
+  { id: 4, codigoProtocolo: "PRO-004", nombre: "Viaje Interprovincial Pasajeros", codigoServicio: "SRV-001", secuencia: 4, transaccion: "Check-in y Embarque",   descripcion: "Validación de ticket y abordaje al vehículo",                 esObligatorio: "Sí", permiteSalto: "No",  estado: "Activo" },
+  { id: 5, codigoProtocolo: "PRO-005", nombre: "Viaje Interprovincial Pasajeros", codigoServicio: "SRV-001", secuencia: 5, transaccion: "Llegada y Cierre",      descripcion: "Confirmación de llegada y cierre del viaje",                  esObligatorio: "Sí", permiteSalto: "No",  estado: "Activo" },
+  { id: 6, codigoProtocolo: "PRO-006", nombre: "Transporte de Carga General",     codigoServicio: "SRV-002", secuencia: 1, transaccion: "Cotización",            descripcion: "Cliente solicita cotización por peso/volumen",               esObligatorio: "Sí", permiteSalto: "No",  estado: "Activo" },
+  { id: 7, codigoProtocolo: "PRO-007", nombre: "Transporte de Carga General",     codigoServicio: "SRV-002", secuencia: 2, transaccion: "Reserva de Ticket",     descripcion: "Se reserva el cupo de carga disponible del viaje",            esObligatorio: "Sí", permiteSalto: "No",  estado: "Activo" },
+  { id: 8, codigoProtocolo: "PRO-008", nombre: "Transporte de Carga General",     codigoServicio: "SRV-002", secuencia: 3, transaccion: "Orden de Pago",          descripcion: "Pago total o parcial según política",                        esObligatorio: "Sí", permiteSalto: "Sí",  estado: "Activo" },
+  { id: 9, codigoProtocolo: "PRO-009", nombre: "Transporte de Carga General",     codigoServicio: "SRV-002", secuencia: 4, transaccion: "Llegada y Cierre",       descripcion: "Confirmación de entrega y cierre del servicio",              esObligatorio: "Sí", permiteSalto: "No",  estado: "Activo" },
 ];
 
 
@@ -702,7 +705,7 @@ function getCategoryFormFields(cat: string): FormField[] {
       return [
         { key: "codigoRegla",     label: "Código de Regla",       type: "text",   placeholder: "Ej: RGL-008" },
         { key: "nombre",          label: "Nombre",                 type: "text",   placeholder: "Nombre descriptivo" },
-        { key: "evento",          label: "Evento",                 type: "select", options: ["Reserva de ticket","Emisión de ticket","Cierre de venta","Check-in embarque","Programación viaje","Llegada y cierre"] },
+        { key: "evento",          label: "Evento",                 type: "select", options: ["Cotización","Reserva de ticket","Orden de pago","Cierre de venta","Check-in y embarque","Llegada y cierre","Ajuste operativo de viaje"] },
         { key: "variable",        label: "Variable",               type: "text",   placeholder: "Ej: Total compra (S/)" },
         { key: "operador",        label: "Operador Lógico",        type: "select", options: ["GT (Mayor que)","GTE (Mayor o igual)","LT (Menor que)","LTE (Menor o igual)","EQ (Igual a)","NEQ (Distinto de)","IN (Contenido en)"] },
         { key: "valorComparacion",label: "Valor de Comparación",   type: "text",   placeholder: "Ej: 500" },
@@ -717,7 +720,7 @@ function getCategoryFormFields(cat: string): FormField[] {
         { key: "nombre",          label: "Nombre del Protocolo",      type: "text",   placeholder: "Ej: Viaje Interprovincial" },
         { key: "codigoServicio",  label: "Código de Servicio",        type: "select", options: ["-","SRV-001","SRV-002","SRV-003","SRV-004","SRV-005"], optional: true },
         { key: "secuencia",       label: "Secuencia (Orden)",         type: "number", placeholder: "Ej: 1" },
-        { key: "transaccion",     label: "Transacción / Etapa",       type: "select", options: ["Cotización","Reserva de Ticket","Recursos de Viaje","Orden de Pago","Emisión de Ticket","Check-in y Embarque","Llegada y Cierre"] },
+        { key: "transaccion",     label: "Transacción / Etapa",       type: "select", options: ["Cotización","Reserva de Ticket","Orden de Pago","Check-in y Embarque","Llegada y Cierre","Ajuste Operativo de Viaje"] },
         { key: "descripcion",     label: "Descripción",               type: "textarea",placeholder: "Descripción de la etapa" },
         { key: "esObligatorio",   label: "Es Obligatorio",            type: "select", options: ["Sí","No"] },
         { key: "permiteSalto",    label: "Permite Salto",             type: "select", options: ["No","Sí"] },
@@ -878,11 +881,115 @@ function EmptyState({ catName, onAdd }: { catName: string; onAdd: () => void }) 
 
 
 
+interface DetailProps {
+  category: string;
+  item: any;
+  onClose: () => void;
+  onEdit: () => void;
+}
+
+function CatalogDetailModal({ category, item, onClose, onEdit }: DetailProps) {
+  const fields = getCategoryFormFields(category);
+  const cat = categories.find((c) => c.id === category);
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+          <div>
+            <h3 className="text-lg font-bold text-slate-900">Detalle — {cat?.name}</h3>
+            <p className="text-sm text-slate-500">Vista de solo lectura del registro</p>
+          </div>
+          <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-lg transition-colors">
+            <X className="w-5 h-5 text-slate-500" />
+          </button>
+        </div>
+
+        <div className="scrollbar-modern overflow-y-auto px-6 py-4 flex-1">
+          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
+            {fields.map((field) => (
+              <div key={field.key} className="border-b border-slate-100 py-1">
+                <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">{field.label}</dt>
+                <dd className="text-sm text-slate-900 mt-0.5">
+                  {item[field.key] === "" || item[field.key] === undefined || item[field.key] === null
+                    ? "—"
+                    : String(item[field.key])}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-200">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
+          >
+            Cerrar
+          </button>
+          <button
+            onClick={onEdit}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-slate-600 rounded-lg hover:bg-slate-700 transition-colors"
+          >
+            <Pencil className="w-4 h-4" />
+            Editar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ConfirmDeleteModal({
+  catName,
+  onCancel,
+  onConfirm,
+}: {
+  catName: string;
+  onCancel: () => void;
+  onConfirm: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
+        <div className="flex items-start gap-4">
+          <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-rose-50">
+            <AlertTriangle className="size-5 text-rose-600" />
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-slate-900">Eliminar registro</h3>
+            <p className="mt-1 text-sm text-slate-600">
+              ¿Confirma eliminar este registro de {catName}? Esta acción no se puede deshacer.
+            </p>
+          </div>
+        </div>
+        <div className="mt-6 flex items-center justify-end gap-3">
+          <button
+            onClick={onCancel}
+            className="px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={onConfirm}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-rose-600 rounded-lg hover:bg-rose-700 transition-colors"
+          >
+            <Trash2 className="w-4 h-4" />
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function ParamsMaintenance() {
   const { category } = useParams();
   const [selectedCategory, setSelectedCategory] = useState("vehiculos");
   const [showModal, setShowModal] = useState(false);
   const [editingItem, setEditingItem] = useState<any>(null);
+  const [viewingItem, setViewingItem] = useState<any>(null);
+  const [deletingItem, setDeletingItem] = useState<any>(null);
   const [localData, setLocalData] = useState<Record<string, any[]>>({});
 
   useEffect(() => {
@@ -906,9 +1013,11 @@ export function ParamsMaintenance() {
   }, [category]);
 
   useEffect(() => {
+    // Lista unificada por catálogo: usa lo almacenado o, si está vacío, la data semilla.
     const next: Record<string, any[]> = {};
     categories.forEach((c) => {
-      next[c.id] = getCatalog(c.id as any, []);
+      const stored = getCatalog(c.id as any, []);
+      next[c.id] = stored.length ? stored : getCategoryData(c.id);
     });
     setLocalData(next);
   }, []);
@@ -918,11 +1027,7 @@ export function ParamsMaintenance() {
 
   const summaryCardClass = "bg-slate-50 text-slate-700 border-slate-200";
 
-  const getData = () => {
-    const base = getCategoryData(selectedCategory);
-    const extra = localData[selectedCategory] || [];
-    return [...base, ...extra];
-  };
+  const getData = () => localData[selectedCategory] || [];
 
   const handleAdd = () => {
     setEditingItem(null);
@@ -930,9 +1035,12 @@ export function ParamsMaintenance() {
   };
 
   const handleEdit = (item: any) => {
+    setViewingItem(null);
     setEditingItem(item);
     setShowModal(true);
   };
+
+  const handleView = (item: any) => setViewingItem(item);
 
   const handleSave = (data: any) => {
     setLocalData((prev) => {
@@ -947,9 +1055,52 @@ export function ParamsMaintenance() {
     setShowModal(false);
   };
 
-  const columns = getCategoryColumns(selectedCategory);
+  const confirmDelete = () => {
+    if (!deletingItem) return;
+    setLocalData((prev) => {
+      const existing = prev[selectedCategory] || [];
+      const nextItems = existing.filter((i) => i.id !== deletingItem.id);
+      setCatalog(selectedCategory as any, nextItems);
+      return { ...prev, [selectedCategory]: nextItems };
+    });
+    setDeletingItem(null);
+  };
+
+  const baseColumns = getCategoryColumns(selectedCategory);
   const data = getData();
   const hasForm = getCategoryFormFields(selectedCategory).length > 0;
+
+  const actionsColumn = {
+    key: "__acciones",
+    label: "Acciones",
+    render: (item: any) => (
+      <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+        <button
+          title="Ver detalle"
+          onClick={() => handleView(item)}
+          className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors"
+        >
+          <Eye className="size-4" />
+        </button>
+        <button
+          title="Editar"
+          onClick={() => handleEdit(item)}
+          className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors"
+        >
+          <Pencil className="size-4" />
+        </button>
+        <button
+          title="Eliminar"
+          onClick={() => setDeletingItem(item)}
+          className="rounded-lg p-1.5 text-slate-500 hover:bg-rose-50 hover:text-rose-600 transition-colors"
+        >
+          <Trash2 className="size-4" />
+        </button>
+      </div>
+    ),
+  };
+
+  const columns = hasForm ? [...baseColumns, actionsColumn] : baseColumns;
 
   return (
     <div className="min-h-full bg-background">
@@ -978,7 +1129,7 @@ export function ParamsMaintenance() {
             <DataTable
               columns={columns}
               data={data}
-              onRowClick={hasForm ? handleEdit : undefined}
+              onRowClick={hasForm ? handleView : undefined}
               onAdd={hasForm ? handleAdd : undefined}
               onExport={() => {}}
               searchPlaceholder={`Buscar en ${selectedCat.name}...`}
@@ -994,6 +1145,23 @@ export function ParamsMaintenance() {
           editingItem={editingItem}
           onClose={() => setShowModal(false)}
           onSave={handleSave}
+        />
+      )}
+
+      {viewingItem && (
+        <CatalogDetailModal
+          category={selectedCategory}
+          item={viewingItem}
+          onClose={() => setViewingItem(null)}
+          onEdit={() => handleEdit(viewingItem)}
+        />
+      )}
+
+      {deletingItem && (
+        <ConfirmDeleteModal
+          catName={selectedCat.name}
+          onCancel={() => setDeletingItem(null)}
+          onConfirm={confirmDelete}
         />
       )}
     </div>

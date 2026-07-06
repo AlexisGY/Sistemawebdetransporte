@@ -1,6 +1,20 @@
-import { PageHeader } from "../shared/PageHeader";
-import { Truck, Ticket, CreditCard, CheckSquare, Clock, AlertCircle, Users, MapPin } from "lucide-react";
 import { Link } from "react-router";
+import {
+  AlertCircle,
+  Calculator,
+  CheckSquare,
+  Clock,
+  CreditCard,
+  MapPin,
+  Ticket,
+  Truck,
+  Users,
+} from "lucide-react";
+
+import { PageHeader } from "../shared/PageHeader";
+import { KPICard } from "../shared/KPICard";
+import { Badge } from "../ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 const viajesHoy = [
   { id: "VJ-001", ruta: "Lima - Arequipa", hora: "08:00", conductor: "Carlos Mendoza", placa: "ABC-123", estado: "En Ruta", ocupacion: 18, capacidad: 20 },
@@ -10,204 +24,144 @@ const viajesHoy = [
 ];
 
 const accionesRapidas = [
-  { title: "Reservar Ticket", icon: Ticket, color: "slate", path: "/operativo/reserva-tickets" },
-  { title: "Emitir Ticket", icon: CheckSquare, color: "slate", path: "/operativo/emision-ticket" },
-  { title: "Cotización", icon: CreditCard, color: "slate", path: "/operativo/cotizacion" },
-  { title: "Check-in", icon: Users, color: "slate", path: "/operativo/checkin-embarque" },
+  { title: "Cotización", icon: Calculator, path: "/operativo/cotizacion" },
+  { title: "Reservar ticket", icon: Ticket, path: "/operativo/reserva-tickets" },
+  { title: "Orden de pago", icon: CreditCard, path: "/operativo/orden-pago" },
+  { title: "Check-in", icon: Users, path: "/operativo/checkin-embarque" },
 ];
 
 export function DashboardOperativo() {
   return (
-    <div className="min-h-full bg-slate-50">
-      <PageHeader
-        title="Panel operativo"
-        subtitle="Control de operaciones diarias"
-      />
+    <div className="min-h-full bg-background">
+      <PageHeader title="Panel operativo" subtitle="Control de operaciones diarias del servicio." />
 
-      <div className="p-8 space-y-6">
+      <div className="space-y-6 p-6 lg:p-8">
         {/* KPIs */}
-        <div className="grid grid-cols-4 gap-6">
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <Truck className="w-10 h-10 text-slate-600" />
-              <span className="px-2 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
-                Hoy
-              </span>
-            </div>
-            <p className="text-3xl font-bold text-slate-900 mb-1">12</p>
-            <p className="text-sm text-slate-600">Viajes Activos</p>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <Ticket className="w-10 h-10 text-slate-600" />
-              <span className="px-2 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
-                Vendidos
-              </span>
-            </div>
-            <p className="text-3xl font-bold text-slate-900 mb-1">87</p>
-            <p className="text-sm text-slate-600">Tickets del Día</p>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <CheckSquare className="w-10 h-10 text-slate-600" />
-              <span className="px-2 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
-                Proceso
-              </span>
-            </div>
-            <p className="text-3xl font-bold text-slate-900 mb-1">45</p>
-            <p className="text-sm text-slate-600">Check-ins Realizados</p>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <AlertCircle className="w-10 h-10 text-slate-600" />
-              <span className="px-2 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-full">
-                Alertas
-              </span>
-            </div>
-            <p className="text-3xl font-bold text-slate-900 mb-1">3</p>
-            <p className="text-sm text-slate-600">Pendientes de Atención</p>
-          </div>
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          <KPICard title="Viajes activos" value={12} icon={Truck} subtitle="Programados hoy" />
+          <KPICard title="Tickets del día" value={87} icon={Ticket} variant="secondary" subtitle="Vendidos / confirmados" />
+          <KPICard title="Check-ins realizados" value={45} icon={CheckSquare} variant="accent" subtitle="En proceso de embarque" />
+          <KPICard title="Pendientes de atención" value={3} icon={AlertCircle} variant="destructive" subtitle="Alertas operativas" />
         </div>
 
-        {/* Quick Actions */}
+        {/* Acciones rápidas */}
         <div>
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">Acciones Rápidas</h3>
-          <div className="grid grid-cols-4 gap-4">
-            {accionesRapidas.map((accion, index) => {
-              const Icon = accion.icon;
-              const colorClasses = {
-                slate: "bg-slate-700 hover:bg-slate-800",
-              };
-              return (
-                <Link
-                  key={index}
-                  to={accion.path}
-                  className={`${colorClasses[accion.color as keyof typeof colorClasses]} rounded-xl p-6 text-white shadow-sm transition-all hover:shadow-md group border border-slate-600`}
-                >
-                  <Icon className="w-10 h-10 mb-3 opacity-90 group-hover:scale-110 transition-transform" />
-                  <p className="font-semibold">{accion.title}</p>
-                </Link>
-              );
-            })}
+          <h3 className="mb-4 text-lg font-semibold text-foreground">Acciones rápidas (flujo operativo)</h3>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {accionesRapidas.map(({ title, icon: Icon, path }) => (
+              <Link
+                key={path}
+                to={path}
+                className="group rounded-2xl border border-border/70 bg-card/90 p-6 shadow-[0_18px_50px_rgba(15,23,42,0.06)] transition-all hover:-translate-y-0.5 hover:border-foreground/20"
+              >
+                <div className="flex size-11 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-sm transition-transform group-hover:scale-105">
+                  <Icon className="size-5" />
+                </div>
+                <p className="mt-4 font-semibold text-foreground">{title}</p>
+              </Link>
+            ))}
           </div>
         </div>
 
-        {/* Viajes de Hoy */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200">
-          <div className="p-6 border-b border-slate-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-semibold text-slate-900">Viajes Programados Hoy</h3>
-                <p className="text-sm text-slate-600">14 de Abril, 2026</p>
-              </div>
-              <Link
-                to="/operativo/recursos-viaje"
-                className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
-              >
-                Ver todos
-              </Link>
+        {/* Viajes de hoy */}
+        <Card className="border-border/70 bg-card/90">
+          <CardHeader className="flex flex-col gap-2 border-b border-border/60 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <CardTitle className="text-lg font-semibold">Viajes programados hoy</CardTitle>
+              <p className="text-sm text-muted-foreground">30 de junio, 2026</p>
             </div>
-          </div>
+            <Link
+              to={`/operativo/reportes/seguimiento-viaje/${viajesHoy[0].id}`}
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Ver seguimiento
+            </Link>
+          </CardHeader>
 
-          <div className="divide-y divide-slate-200">
+          <CardContent className="divide-y divide-border/60 p-0">
             {viajesHoy.map((viaje) => {
-              const ocupacionPorcentaje = (viaje.ocupacion / viaje.capacidad) * 100;
+              const pct = Math.round((viaje.ocupacion / viaje.capacidad) * 100);
               return (
-                <div key={viaje.id} className="p-6 hover:bg-slate-50 transition-colors">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-6 flex-1">
-                      <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
-                          <Truck className="w-6 h-6 text-slate-600" />
-                        </div>
-                        <div>
-                          <p className="font-semibold text-slate-900">{viaje.id}</p>
-                          <p className="text-sm text-slate-600">{viaje.placa}</p>
-                        </div>
+                <div key={viaje.id} className="flex flex-col gap-4 p-5 lg:flex-row lg:items-center lg:justify-between">
+                  <div className="flex flex-1 flex-wrap items-center gap-6">
+                    <div className="flex items-center gap-3">
+                      <div className="flex size-11 items-center justify-center rounded-xl border border-border/70 bg-muted/30">
+                        <Truck className="size-5 text-foreground" />
                       </div>
-
-                      <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-slate-400" />
-                        <span className="font-medium text-slate-900">{viaje.ruta}</span>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4 text-slate-400" />
-                        <span className="text-slate-700">{viaje.hora}</span>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <Users className="w-4 h-4 text-slate-400" />
-                        <span className="text-slate-700">{viaje.conductor}</span>
+                      <div>
+                        <p className="font-semibold text-foreground">{viaje.id}</p>
+                        <p className="text-sm text-muted-foreground">{viaje.placa}</p>
                       </div>
                     </div>
-
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <p className="text-sm font-medium text-slate-600">Ocupación</p>
-                        <p className="font-bold text-slate-900">
-                          {viaje.ocupacion}/{viaje.capacidad}
-                        </p>
-                      </div>
-                      <div className="w-32">
-                        <div className="bg-slate-200 rounded-full h-2 mb-1">
-                          <div
-                            className="h-2 rounded-full bg-slate-600"
-                            style={{ width: `${ocupacionPorcentaje}%` }}
-                          ></div>
-                        </div>
-                        <p className="text-xs text-slate-600 text-right">{ocupacionPorcentaje.toFixed(0)}%</p>
-                      </div>
-                      <span className="px-3 py-1 text-xs font-medium rounded-full bg-slate-100 text-slate-700">
-                        {viaje.estado}
-                      </span>
+                    <div className="flex items-center gap-2 text-sm">
+                      <MapPin className="size-4 text-muted-foreground" />
+                      <span className="font-medium text-foreground">{viaje.ruta}</span>
                     </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <Clock className="size-4 text-muted-foreground" />
+                      <span className="text-foreground">{viaje.hora}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <Users className="size-4 text-muted-foreground" />
+                      <span className="text-foreground">{viaje.conductor}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="text-right">
+                      <p className="text-sm font-medium text-muted-foreground">Ocupación</p>
+                      <p className="font-bold text-foreground">
+                        {viaje.ocupacion}/{viaje.capacidad}
+                      </p>
+                    </div>
+                    <div className="w-32">
+                      <div className="mb-1 h-2 rounded-full bg-muted">
+                        <div className="h-2 rounded-full bg-foreground" style={{ width: `${pct}%` }} />
+                      </div>
+                      <p className="text-right text-xs text-muted-foreground">{pct}%</p>
+                    </div>
+                    <Badge variant="secondary" className="rounded-full">{viaje.estado}</Badge>
                   </div>
                 </div>
               );
             })}
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
-        {/* Quick Stats */}
-        <div className="grid grid-cols-3 gap-6">
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
-                <Clock className="w-6 h-6 text-slate-600" />
-              </div>
-              <h4 className="font-semibold text-slate-900">Próxima salida</h4>
-            </div>
-            <p className="text-2xl font-bold text-slate-900 mb-1">08:00</p>
-            <p className="text-sm text-slate-600">Lima - Arequipa (VJ-001)</p>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
-                <CreditCard className="w-6 h-6 text-slate-600" />
-              </div>
-              <h4 className="font-semibold text-slate-900">Ingresos hoy</h4>
-            </div>
-            <p className="text-2xl font-bold text-slate-900 mb-1">S/ 7,395</p>
-            <p className="text-sm text-slate-600">87 tickets vendidos</p>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
-                <Truck className="w-6 h-6 text-slate-600" />
-              </div>
-              <h4 className="font-semibold text-slate-900">Flota disponible</h4>
-            </div>
-            <p className="text-2xl font-bold text-slate-900 mb-1">38</p>
-            <p className="text-sm text-slate-600">De 50 vehículos totales</p>
-          </div>
+        {/* Quick stats */}
+        <div className="grid gap-6 md:grid-cols-3">
+          <QuickStat icon={Clock} title="Próxima salida" value="08:00" detail="Lima - Arequipa (VJ-001)" />
+          <QuickStat icon={CreditCard} title="Ingresos hoy" value="S/ 7,395" detail="87 tickets vendidos" />
+          <QuickStat icon={Truck} title="Flota disponible" value="38" detail="De 50 vehículos totales" />
         </div>
       </div>
     </div>
+  );
+}
+
+function QuickStat({
+  icon: Icon,
+  title,
+  value,
+  detail,
+}: {
+  icon: typeof Clock;
+  title: string;
+  value: string;
+  detail: string;
+}) {
+  return (
+    <Card className="border-border/70 bg-card/90">
+      <CardContent className="p-6">
+        <div className="mb-4 flex items-center gap-4">
+          <div className="flex size-10 items-center justify-center rounded-lg border border-border/70 bg-muted/30">
+            <Icon className="size-5 text-foreground" />
+          </div>
+          <h4 className="font-semibold text-foreground">{title}</h4>
+        </div>
+        <p className="mb-1 text-2xl font-bold text-foreground">{value}</p>
+        <p className="text-sm text-muted-foreground">{detail}</p>
+      </CardContent>
+    </Card>
   );
 }

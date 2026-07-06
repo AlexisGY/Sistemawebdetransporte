@@ -209,34 +209,43 @@ export function DemandaOcupacion() {
           </div>
         </div>
 
-        {/* Demanda por Ruta */}
-        <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-          <h3 className="font-semibold text-foreground mb-4">Demanda por Ruta</h3>
-          <div className="space-y-4">
-            {demandaPorRutaData.map((ruta, index) => {
-              const porcentaje = (ruta.demanda / ruta.capacidad) * 100;
-              return (
-                <div key={index} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-foreground">{ruta.ruta}</span>
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm text-muted-foreground">
-                        {ruta.demanda} / {ruta.capacidad} asientos
-                      </span>
-                      <span className="text-sm font-bold text-foreground">
-                        {porcentaje.toFixed(0)}%
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex-1 bg-muted rounded-full h-3">
-                    <div
-                      className="h-3 rounded-full transition-all bg-foreground"
-                      style={{ width: `${porcentaje}%` }}
-                    ></div>
-                  </div>
-                </div>
-              );
-            })}
+        {/* Demanda por Ruta (tabla de resultados) */}
+        <div className="bg-card rounded-xl shadow-sm border border-border">
+          <div className="flex items-center justify-between border-b border-border px-6 py-4">
+            <h3 className="font-semibold text-foreground">Demanda por ruta</h3>
+            <span className="text-xs text-muted-foreground">Última actualización: 30/06/2026 03:45</span>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/35 text-xs uppercase tracking-wide text-muted-foreground">
+                <tr>
+                  <th className="px-6 py-3 text-left font-semibold">Ruta</th>
+                  <th className="px-6 py-3 text-right font-semibold">Demanda</th>
+                  <th className="px-6 py-3 text-right font-semibold">Capacidad</th>
+                  <th className="px-6 py-3 text-right font-semibold">Ocupación</th>
+                  <th className="px-6 py-3 text-left font-semibold">Nivel</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border/60">
+                {demandaPorRutaData.map((ruta) => {
+                  const pct = Math.round((ruta.demanda / ruta.capacidad) * 100);
+                  const nivel = pct >= 85 ? "Alta" : pct >= 70 ? "Media" : "Baja";
+                  return (
+                    <tr key={ruta.ruta}>
+                      <td className="px-6 py-3 font-medium text-foreground">{ruta.ruta}</td>
+                      <td className="px-6 py-3 text-right text-foreground">{ruta.demanda}</td>
+                      <td className="px-6 py-3 text-right text-muted-foreground">{ruta.capacidad}</td>
+                      <td className="px-6 py-3 text-right font-semibold text-foreground">{pct}%</td>
+                      <td className="px-6 py-3">
+                        <span className="rounded-full bg-muted px-2 py-1 text-xs font-medium text-foreground">
+                          {nivel}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
 

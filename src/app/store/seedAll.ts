@@ -187,6 +187,7 @@ export function seedAllIfEmpty() {
       id: newId("res"),
       codigo: "RES-2026-0142",
       viajeId: v?.id || "",
+      cotizacionId: getCotizaciones()[0]?.id,
       pasajeroNombre: "Juan Carlos Pérez García",
       pasajeroDocumento: "DNI 45879632",
       telefono: "+51 999 888 777",
