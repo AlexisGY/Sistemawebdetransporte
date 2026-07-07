@@ -219,9 +219,9 @@ const contenedoresData = [
 ];
 
 const bienesData = [
-  { id: 1, idTipoBien: "T-BI-001", claseBienNaturaleza: "Carga General", unidadMedidaBase: "KG", nivelPeligrosidad: "NULO", requiereCadenaFrio: "No", estadoCatalogo: "DISPONIBLE" },
-  { id: 2, idTipoBien: "T-BI-002", claseBienNaturaleza: "Perecible", unidadMedidaBase: "KG", nivelPeligrosidad: "NULO", requiereCadenaFrio: "Sí", estadoCatalogo: "DISPONIBLE" },
-  { id: 3, idTipoBien: "T-BI-003", claseBienNaturaleza: "Peligrosa", unidadMedidaBase: "UNIDAD", nivelPeligrosidad: "322-W", requiereCadenaFrio: "No", estadoCatalogo: "NO DISPONIBLE" },
+  { id: 1, idTipoBien: "T-BI-001", claseBienNaturaleza: "Carga General", unidadMedidaBase: "KG", nivelPeligrosidad: "NULO", requiereCadenaFrio: "No", tempMin: "", tempMax: "", estadoCatalogo: "DISPONIBLE" },
+  { id: 2, idTipoBien: "T-BI-002", claseBienNaturaleza: "Perecible", unidadMedidaBase: "KG", nivelPeligrosidad: "NULO", requiereCadenaFrio: "Sí", tempMin: -20, tempMax: -15, estadoCatalogo: "DISPONIBLE" },
+  { id: 3, idTipoBien: "T-BI-003", claseBienNaturaleza: "Peligrosa", unidadMedidaBase: "UNIDAD", nivelPeligrosidad: "322-W", requiereCadenaFrio: "No", tempMin: "", tempMax: "", estadoCatalogo: "NO DISPONIBLE" },
 ];
 
 const unidadesData = [
@@ -432,6 +432,7 @@ function getCategoryColumns(cat: string): any[] {
         { key: "unidadMedidaBase",  label: "UM Base" },
         { key: "nivelPeligrosidad", label: "Peligrosidad" },
         { key: "requiereCadenaFrio",label: "Cadena Frío", render: (i: any) => siNoBadge(i.requiereCadenaFrio) },
+        { key: "rangoTemp",         label: "Rango Temp.", render: (i: any) => (i.tempMin !== "" && i.tempMin !== undefined ? `${i.tempMin}°C a ${i.tempMax}°C` : "—") },
         { key: "estadoCatalogo",    label: "Estado", render: (i: any) => <span className="font-medium">{i.estadoCatalogo}</span> },
       ];
     case "unidades":
@@ -621,7 +622,9 @@ function getCategoryFormFields(cat: string): FormField[] {
         { key: "unidadMedidaBase",       label: "Unidad Medida Base",       type: "select", options: bienesSelects.unidadMedidaBase, allowCustom: true },
         { key: "nivelPeligrosidad",      label: "Nivel Peligrosidad",       type: "select", options: bienesSelects.nivelPeligrosidad, allowCustom: true },
         { key: "requiereCadenaFrio",     label: "Requiere Cadena Frío",     type: "select", options: ["Sí","No"] },
-        { key: "temperaturaExigida",     label: "Temperatura Exigida (°C)", type: "number", optional: true, placeholder: "Ej: -18" },
+        { key: "tempMin",                label: "Temperatura Mínima del rango (°C)", type: "number", optional: true, placeholder: "Ej: -20" },
+        { key: "tempMax",                label: "Temperatura Máxima del rango (°C)", type: "number", optional: true, placeholder: "Ej: -15" },
+        { key: "temperaturaExigida",     label: "Temperatura Exigida del bien real (°C)", type: "number", optional: true, placeholder: "Ej: -18" },
         { key: "esCargaValorada",        label: "Es Carga Valorada",        type: "select", options: ["Sí","No"] },
         { key: "requiereEstibaEspecial", label: "Requiere Estiba Especial", type: "select", options: ["Sí","No"] },
         { key: "aplicaSeguroObligatorio",label: "Aplica Seguro Obligatorio",type: "select", options: ["Sí","No"] },

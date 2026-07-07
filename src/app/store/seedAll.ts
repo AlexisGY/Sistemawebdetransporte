@@ -76,9 +76,9 @@ export function seedAllIfEmpty() {
 
   if (isEmptyCatalog("bienes")) {
     setCatalog("bienes", [
-      { id: 1, idTipoBien: "T-BI-004", claseBienNaturaleza: "Perecible", unidadMedidaBase: "KG", nivelPeligrosidad: "000-BIO", requiereCadenaFrio: "Sí", temperaturaExigida: -18, esCargaValorada: "Sí", requiereEstibaEspecial: "Sí", aplicaSeguroObligatorio: "Sí", estadoCatalogo: "DISPONIBLE", nombreComercial: "Vacunas Biológicas (Cadena de Frío)" },
-      { id: 2, idTipoBien: "T-BI-005", claseBienNaturaleza: "Carga General", unidadMedidaBase: "KG", nivelPeligrosidad: "NULO", requiereCadenaFrio: "No", temperaturaExigida: "", esCargaValorada: "No", requiereEstibaEspecial: "No", aplicaSeguroObligatorio: "No", estadoCatalogo: "DISPONIBLE", nombreComercial: "Repuestos Automotrices" },
-      { id: 3, idTipoBien: "T-BI-006", claseBienNaturaleza: "Peligrosa", unidadMedidaBase: "KG", nivelPeligrosidad: "322-W", requiereCadenaFrio: "No", temperaturaExigida: "", esCargaValorada: "No", requiereEstibaEspecial: "Sí", aplicaSeguroObligatorio: "Sí", estadoCatalogo: "DISPONIBLE", nombreComercial: "Pinturas Inflamables" },
+      { id: 1, idTipoBien: "T-BI-004", claseBienNaturaleza: "Perecible", unidadMedidaBase: "KG", nivelPeligrosidad: "000-BIO", requiereCadenaFrio: "Sí", tempMin: -20, tempMax: -15, temperaturaExigida: -18, esCargaValorada: "Sí", requiereEstibaEspecial: "Sí", aplicaSeguroObligatorio: "Sí", estadoCatalogo: "DISPONIBLE", nombreComercial: "Vacunas Biológicas (Cadena de Frío)" },
+      { id: 2, idTipoBien: "T-BI-005", claseBienNaturaleza: "Carga General", unidadMedidaBase: "KG", nivelPeligrosidad: "NULO", requiereCadenaFrio: "No", tempMin: "", tempMax: "", temperaturaExigida: "", esCargaValorada: "No", requiereEstibaEspecial: "No", aplicaSeguroObligatorio: "No", estadoCatalogo: "DISPONIBLE", nombreComercial: "Repuestos Automotrices" },
+      { id: 3, idTipoBien: "T-BI-006", claseBienNaturaleza: "Peligrosa", unidadMedidaBase: "KG", nivelPeligrosidad: "322-W", requiereCadenaFrio: "No", tempMin: "", tempMax: "", temperaturaExigida: "", esCargaValorada: "No", requiereEstibaEspecial: "Sí", aplicaSeguroObligatorio: "Sí", estadoCatalogo: "DISPONIBLE", nombreComercial: "Pinturas Inflamables" },
     ]);
   }
 

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router";
 import { PageHeader } from "../../shared/PageHeader";
 import { AlertTriangle, CheckCircle2, CreditCard, DollarSign, ShieldCheck } from "lucide-react";
 import {
+  addMovimientoTicket,
   getCatalog,
   getCotizaciones,
   getOrdenesPago,
@@ -105,10 +106,12 @@ export function OrdenPago() {
     const reservasNext = upsertReserva({ ...reserva, estado: "Pagada" });
     setReservas(reservasNext);
 
+    // La venta ocurre aquí: los tickets ya creados en la reserva (estado RE) pasan a VE.
+    // Si por alguna razón la reserva no tiene detalle de tickets (dato legado), se genera como respaldo.
     const existingTickets = getTickets();
     const cuposTicket = reserva.asientos.length ? reserva.asientos : reserva.espaciosCarga || [];
     const ticketsReserva = existingTickets.filter((t) => t.reservaId === reserva.id);
-    const nuevosTickets: Ticket[] =
+    const ticketsRespaldo: Ticket[] =
       ticketsReserva.length > 0
         ? []
         : cuposTicket.map((cupo, idx) => ({
@@ -120,13 +123,29 @@ export function OrdenPago() {
             pasajeroDocumento: reserva.pasajeroDocumento,
             asiento: cupo,
             precio: total / Math.max(1, cuposTicket.length),
-            estado: "VE",
+            estado: "RE",
             emitidoAt: new Date().toISOString(),
           }));
-    const ticketsNext = [...existingTickets, ...nuevosTickets].map((t) =>
+
+    const ticketsNext = [...existingTickets, ...ticketsRespaldo].map((t) =>
       t.reservaId === reserva.id ? { ...t, estado: "VE" as const } : t,
     );
     setTickets(ticketsNext);
+
+    // Registrar el movimiento de venta: RE → VE, por confirmación de pago.
+    ticketsNext
+      .filter((t) => t.reservaId === reserva.id)
+      .forEach((t) => {
+        addMovimientoTicket({
+          id: newId("mov"),
+          ticketId: t.id,
+          reservaId: reserva.id,
+          estadoAnterior: "RE",
+          estadoNuevo: "VE",
+          motivo: "Confirmación de pago",
+          createdAt: new Date().toISOString(),
+        });
+      });
 
     navigate(`/operativo/reportes/comprobante-pago/${encodeURIComponent(op.id)}`);
   };

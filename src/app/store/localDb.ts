@@ -123,8 +123,20 @@ export type Ticket = {
   pasajeroDocumento: string;
   asiento: number;
   precio: number;
-  estado?: "RE" | "VE" | "Vendido";
+  // DI: cupo disponible (no debería persistir como ticket) | RE: reservado (bloqueado) | VE: vendido (pago confirmado)
+  estado?: "DI" | "RE" | "VE" | "Vendido";
   emitidoAt: string;
+};
+
+// Traza de auditoría de cambios de estado de un ticket (DI -> RE -> VE).
+export type MovimientoTicket = {
+  id: string;
+  ticketId: string;
+  reservaId: string;
+  estadoAnterior: string;
+  estadoNuevo: string;
+  motivo: string; // e.g. "Asignación de cupo", "Confirmación de pago"
+  createdAt: string;
 };
 
 export type Cotizacion = {
@@ -220,6 +232,18 @@ export function setTickets(items: Ticket[]) {
 export function addTickets(newTickets: Ticket[]) {
   const next = [...getTickets(), ...newTickets];
   setTickets(next);
+  return next;
+}
+
+export function getMovimientosTicket(): MovimientoTicket[] {
+  return readJson<MovimientoTicket[]>(txKey("movimientosTicket"), []);
+}
+export function setMovimientosTicket(items: MovimientoTicket[]) {
+  writeJson(txKey("movimientosTicket"), items as unknown as Json);
+}
+export function addMovimientoTicket(m: MovimientoTicket) {
+  const next = [...getMovimientosTicket(), m];
+  setMovimientosTicket(next);
   return next;
 }
 

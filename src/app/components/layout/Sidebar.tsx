@@ -106,8 +106,8 @@ const menuBlocks: MenuBlock[] = [
         title: "Flujo operativo",
         icon: <FileText className="size-4" />,
         children: [
-          { title: "Cotización", icon: <Calculator className="size-4" />, path: "/operativo/cotizacion" },
-          { title: "Reserva de tickets", icon: <Ticket className="size-4" />, path: "/operativo/reserva-tickets" },
+          { title: "Disponibilidad y cotización", icon: <Calculator className="size-4" />, path: "/operativo/cotizacion" },
+          { title: "Asignación / reserva de tickets", icon: <Ticket className="size-4" />, path: "/operativo/reserva-tickets" },
           { title: "Orden de pago", icon: <CreditCard className="size-4" />, path: "/operativo/orden-pago" },
           { title: "Check-in y embarque", icon: <CheckSquare className="size-4" />, path: "/operativo/checkin-embarque" },
           { title: "Llegada y cierre", icon: <LogOut className="size-4" />, path: "/operativo/llegada-cierre" },
